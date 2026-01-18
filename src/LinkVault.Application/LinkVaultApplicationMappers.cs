@@ -3,6 +3,7 @@ using Volo.Abp.Mapperly;
 using LinkVault.Links;
 using LinkVault.Collections;
 using LinkVault.Tags;
+using LinkVault.Settings;
 
 namespace LinkVault;
 
@@ -31,4 +32,13 @@ public partial class TagToTagDtoMapper : MapperBase<Tag, TagDto>
     public override partial TagDto Map(Tag source);
 
     public override partial void Map(Tag source, TagDto destination);
+}
+
+/* UserEmailPreferences Mappers */
+[Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
+public partial class UserEmailPreferencesToEmailPreferencesDtoMapper : MapperBase<UserEmailPreferences, EmailPreferencesDto>
+{
+    public override partial EmailPreferencesDto Map(UserEmailPreferences source);
+
+    public override partial void Map(UserEmailPreferences source, EmailPreferencesDto destination);
 }

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -15,7 +16,7 @@ import { DashboardStatsDto } from '../../../proxy/dashboard/models';
 @Component({
     selector: 'app-dashboard',
     standalone: true,
-    imports: [CommonModule, FormsModule, SidebarComponent, StatsCardComponent, LinkCardComponent],
+    imports: [CommonModule, RouterModule, FormsModule, SidebarComponent, StatsCardComponent, LinkCardComponent],
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css']
 })

@@ -1,0 +1,35 @@
+<h3>Email Preferences</h3>
+<hr>
+
+<form [formGroup]="form" (ngSubmit)="onSubmit()" *ngIf="form">
+    <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" id="newsletter" formControlName="newsletter">
+        <label class="form-check-label" for="newsletter">Subscribe to Newsletter</label>
+        <div class="form-text">Receive news, updates, and announcements.</div>
+    </div>
+
+    <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" id="linkSharing" formControlName="linkSharing">
+        <label class="form-check-label" for="linkSharing">Link Sharing Notifications</label>
+        <div class="form-text">Get notified when your links are shared or accessed (if tracking enabled).</div>
+    </div>
+
+    <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" id="securityAlerts" formControlName="securityAlerts">
+        <label class="form-check-label" for="securityAlerts">Security Alerts</label>
+        <div class="form-text">Important security notifications about your account.</div>
+    </div>
+
+    <div class="form-check form-switch mb-3">
+        <input class="form-check-input" type="checkbox" id="weeklyDigest" formControlName="weeklyDigest">
+        <label class="form-check-label" for="weeklyDigest">Weekly Digest</label>
+        <div class="form-text">A weekly summary of your link analytics.</div>
+    </div>
+
+    <button type="submit" class="btn btn-primary" [disabled]="form.invalid || isLoading">
+        <i class="fa fa-save me-1"></i> Save Preferences
+    </button>
+    <a routerLink="/" class="btn btn-outline-secondary ms-2">
+        <i class="fas fa-arrow-left me-1"></i> Back
+    </a>
+</form>

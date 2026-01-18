@@ -199,7 +199,7 @@ public class EfCoreLinkRepository : EfCoreRepository<LinkVaultDbContext, Link, G
         
         // Get counts for these collections
         var linkCounts = await dbSet
-            .Where(l => collectionIds.Contains(l.CollectionId.Value) && l.CollectionId.HasValue && !l.IsDeleted)
+            .Where(l => l.CollectionId.HasValue && collectionIds.Contains(l.CollectionId.Value) && !l.IsDeleted)
             .GroupBy(l => l.CollectionId)
             .Select(g => new { CollectionId = g.Key, Count = g.Count() })
             .ToListAsync(cancellationToken);

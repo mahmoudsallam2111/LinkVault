@@ -1066,7 +1066,7 @@
                 "type": "LinkVault.Collections.CollectionDto",
                 "typeSimple": "LinkVault.Collections.CollectionDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Collections.ICollectionAppService"
             },
             "GetListAsyncByFilter": {
@@ -1103,7 +1103,7 @@
                 "type": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Collections.CollectionDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Collections.CollectionDto>"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Collections.ICollectionAppService"
             },
             "GetTreeAsync": {
@@ -1118,7 +1118,7 @@
                 "type": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Collections.CollectionDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Collections.CollectionDto>"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Collections.ICollectionAppService"
             },
             "CreateAsyncByInput": {
@@ -1155,7 +1155,7 @@
                 "type": "LinkVault.Collections.CollectionDto",
                 "typeSimple": "LinkVault.Collections.CollectionDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Collections.ICollectionAppService"
             },
             "UpdateAsyncByIdAndInput": {
@@ -1212,7 +1212,7 @@
                 "type": "LinkVault.Collections.CollectionDto",
                 "typeSimple": "LinkVault.Collections.CollectionDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Collections.ICollectionAppService"
             },
             "DeleteAsyncById": {
@@ -1249,7 +1249,7 @@
                 "type": "System.Void",
                 "typeSimple": "System.Void"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Collections.ICollectionAppService"
             },
             "MoveAsyncByIdAndNewParentId": {
@@ -1306,7 +1306,7 @@
                 "type": "LinkVault.Collections.CollectionDto",
                 "typeSimple": "LinkVault.Collections.CollectionDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Collections.ICollectionAppService"
             },
             "ReorderAsyncByItems": {
@@ -1343,7 +1343,7 @@
                 "type": "System.Void",
                 "typeSimple": "System.Void"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Collections.ICollectionAppService"
             }
           }
@@ -1418,7 +1418,7 @@
                 "type": "LinkVault.Dashboard.DashboardStatsDto",
                 "typeSimple": "LinkVault.Dashboard.DashboardStatsDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Dashboard.IDashboardAppService"
             },
             "GetMostVisitedAsyncByCount": {
@@ -1455,7 +1455,7 @@
                 "type": "System.Collections.Generic.List<LinkVault.Links.LinkDto>",
                 "typeSimple": "[LinkVault.Links.LinkDto]"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Dashboard.IDashboardAppService"
             },
             "GetRecentAsyncByCount": {
@@ -1492,7 +1492,7 @@
                 "type": "System.Collections.Generic.List<LinkVault.Links.LinkDto>",
                 "typeSimple": "[LinkVault.Links.LinkDto]"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Dashboard.IDashboardAppService"
             }
           }
@@ -1598,7 +1598,7 @@
                 "type": "LinkVault.Import.ImportResultDto",
                 "typeSimple": "LinkVault.Import.ImportResultDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Import.IImportAppService"
             },
             "ParseHtmlAsyncByHtmlContent": {
@@ -1635,7 +1635,7 @@
                 "type": "System.Collections.Generic.List<LinkVault.Import.ImportBookmarkDto>",
                 "typeSimple": "[LinkVault.Import.ImportBookmarkDto]"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Import.IImportAppService"
             },
             "ParseJsonAsyncByJsonContent": {
@@ -1672,7 +1672,7 @@
                 "type": "System.Collections.Generic.List<LinkVault.Import.ImportBookmarkDto>",
                 "typeSimple": "[LinkVault.Import.ImportBookmarkDto]"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Import.IImportAppService"
             }
           }
@@ -1916,6 +1916,14 @@
                     "type": "Volo.Abp.Application.Dtos.ListResultDto<System.String>",
                     "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<string>"
                   }
+                },
+                {
+                  "name": "GetAddedTodayAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Links.LinkDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Links.LinkDto>"
+                  }
                 }
               ]
             }
@@ -1955,7 +1963,7 @@
                 "type": "LinkVault.Links.LinkDto",
                 "typeSimple": "LinkVault.Links.LinkDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
             },
             "GetListAsyncByInput": {
@@ -2088,7 +2096,7 @@
                 "type": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.LinkDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.LinkDto>"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
             },
             "CreateAsyncByInput": {
@@ -2125,7 +2133,7 @@
                 "type": "LinkVault.Links.LinkDto",
                 "typeSimple": "LinkVault.Links.LinkDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
             },
             "CreateFromUrlAsyncByUrlAndCollectionId": {
@@ -2182,7 +2190,7 @@
                 "type": "LinkVault.Links.LinkDto",
                 "typeSimple": "LinkVault.Links.LinkDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
             },
             "UpdateAsyncByIdAndInput": {
@@ -2239,7 +2247,7 @@
                 "type": "LinkVault.Links.LinkDto",
                 "typeSimple": "LinkVault.Links.LinkDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
             },
             "DeleteAsyncById": {
@@ -2276,7 +2284,7 @@
                 "type": "System.Void",
                 "typeSimple": "System.Void"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
             },
             "RestoreAsyncById": {
@@ -2313,7 +2321,7 @@
                 "type": "System.Void",
                 "typeSimple": "System.Void"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
             },
             "HardDeleteAsyncById": {
@@ -2350,7 +2358,7 @@
                 "type": "System.Void",
                 "typeSimple": "System.Void"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
             },
             "ToggleFavoriteAsyncById": {
@@ -2387,7 +2395,7 @@
                 "type": "LinkVault.Links.LinkDto",
                 "typeSimple": "LinkVault.Links.LinkDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
             },
             "IncrementVisitAsyncById": {
@@ -2424,7 +2432,7 @@
                 "type": "LinkVault.Links.LinkDto",
                 "typeSimple": "LinkVault.Links.LinkDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
             },
             "GetTrashAsyncByInput": {
@@ -2485,7 +2493,7 @@
                 "type": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.LinkDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.LinkDto>"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
             },
             "FetchMetadataAsyncByUrl": {
@@ -2522,7 +2530,7 @@
                 "type": "LinkVault.Links.LinkMetadataDto",
                 "typeSimple": "LinkVault.Links.LinkMetadataDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
             },
             "GetDomainsAsync": {
@@ -2537,8 +2545,272 @@
                 "type": "Volo.Abp.Application.Dtos.ListResultDto<System.String>",
                 "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<string>"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
+            },
+            "GetAddedTodayAsync": {
+              "uniqueName": "GetAddedTodayAsync",
+              "name": "GetAddedTodayAsync",
+              "httpMethod": "GET",
+              "url": "api/app/link/added-today",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Links.LinkDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Links.LinkDto>"
+              },
+              "allowAnonymous": true,
+              "implementFrom": "LinkVault.Links.ILinkAppService"
+            }
+          }
+        },
+        "LinkVault.Settings.ProfileAppService": {
+          "controllerName": "Profile",
+          "controllerGroupName": "Profile",
+          "isRemoteService": true,
+          "isIntegrationService": false,
+          "apiVersion": null,
+          "type": "LinkVault.Settings.ProfileAppService",
+          "interfaces": [
+            {
+              "type": "LinkVault.Settings.IProfileAppService",
+              "name": "IProfileAppService",
+              "methods": [
+                {
+                  "name": "GetProfileAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "LinkVault.Settings.UpdateProfileDto",
+                    "typeSimple": "LinkVault.Settings.UpdateProfileDto"
+                  }
+                },
+                {
+                  "name": "UpdateProfileAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "LinkVault.Settings.UpdateProfileDto, LinkVault.Application.Contracts",
+                      "type": "LinkVault.Settings.UpdateProfileDto",
+                      "typeSimple": "LinkVault.Settings.UpdateProfileDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
+                  "name": "GetEmailPreferencesAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "LinkVault.Settings.EmailPreferencesDto",
+                    "typeSimple": "LinkVault.Settings.EmailPreferencesDto"
+                  }
+                },
+                {
+                  "name": "UpdateEmailPreferencesAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "LinkVault.Settings.EmailPreferencesDto, LinkVault.Application.Contracts",
+                      "type": "LinkVault.Settings.EmailPreferencesDto",
+                      "typeSimple": "LinkVault.Settings.EmailPreferencesDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
+                  "name": "ChangePasswordAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "input",
+                      "typeAsString": "LinkVault.Settings.ChangePasswordDto, LinkVault.Application.Contracts",
+                      "type": "LinkVault.Settings.ChangePasswordDto",
+                      "typeSimple": "LinkVault.Settings.ChangePasswordDto",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
+                  "name": "DeleteAccountAsync",
+                  "parametersOnMethod": [],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                }
+              ]
+            }
+          ],
+          "actions": {
+            "GetProfileAsync": {
+              "uniqueName": "GetProfileAsync",
+              "name": "GetProfileAsync",
+              "httpMethod": "GET",
+              "url": "api/app/profile/profile",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "LinkVault.Settings.UpdateProfileDto",
+                "typeSimple": "LinkVault.Settings.UpdateProfileDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "LinkVault.Settings.IProfileAppService"
+            },
+            "UpdateProfileAsyncByInput": {
+              "uniqueName": "UpdateProfileAsyncByInput",
+              "name": "UpdateProfileAsync",
+              "httpMethod": "PUT",
+              "url": "api/app/profile/profile",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "LinkVault.Settings.UpdateProfileDto, LinkVault.Application.Contracts",
+                  "type": "LinkVault.Settings.UpdateProfileDto",
+                  "typeSimple": "LinkVault.Settings.UpdateProfileDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "LinkVault.Settings.UpdateProfileDto",
+                  "typeSimple": "LinkVault.Settings.UpdateProfileDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "LinkVault.Settings.IProfileAppService"
+            },
+            "GetEmailPreferencesAsync": {
+              "uniqueName": "GetEmailPreferencesAsync",
+              "name": "GetEmailPreferencesAsync",
+              "httpMethod": "GET",
+              "url": "api/app/profile/email-preferences",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "LinkVault.Settings.EmailPreferencesDto",
+                "typeSimple": "LinkVault.Settings.EmailPreferencesDto"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "LinkVault.Settings.IProfileAppService"
+            },
+            "UpdateEmailPreferencesAsyncByInput": {
+              "uniqueName": "UpdateEmailPreferencesAsyncByInput",
+              "name": "UpdateEmailPreferencesAsync",
+              "httpMethod": "PUT",
+              "url": "api/app/profile/email-preferences",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "LinkVault.Settings.EmailPreferencesDto, LinkVault.Application.Contracts",
+                  "type": "LinkVault.Settings.EmailPreferencesDto",
+                  "typeSimple": "LinkVault.Settings.EmailPreferencesDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "LinkVault.Settings.EmailPreferencesDto",
+                  "typeSimple": "LinkVault.Settings.EmailPreferencesDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "LinkVault.Settings.IProfileAppService"
+            },
+            "ChangePasswordAsyncByInput": {
+              "uniqueName": "ChangePasswordAsyncByInput",
+              "name": "ChangePasswordAsync",
+              "httpMethod": "POST",
+              "url": "api/app/profile/change-password",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "input",
+                  "typeAsString": "LinkVault.Settings.ChangePasswordDto, LinkVault.Application.Contracts",
+                  "type": "LinkVault.Settings.ChangePasswordDto",
+                  "typeSimple": "LinkVault.Settings.ChangePasswordDto",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "input",
+                  "name": "input",
+                  "jsonName": null,
+                  "type": "LinkVault.Settings.ChangePasswordDto",
+                  "typeSimple": "LinkVault.Settings.ChangePasswordDto",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "Body",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "LinkVault.Settings.IProfileAppService"
+            },
+            "DeleteAccountAsync": {
+              "uniqueName": "DeleteAccountAsync",
+              "name": "DeleteAccountAsync",
+              "httpMethod": "DELETE",
+              "url": "api/app/profile/account",
+              "supportedVersions": [],
+              "parametersOnMethod": [],
+              "parameters": [],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": false,
+              "implementFrom": "LinkVault.Settings.IProfileAppService"
             }
           }
         },
@@ -2685,7 +2957,7 @@
                 "type": "LinkVault.Tags.TagDto",
                 "typeSimple": "LinkVault.Tags.TagDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Tags.ITagAppService"
             },
             "GetListAsyncByFilter": {
@@ -2722,7 +2994,7 @@
                 "type": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Tags.TagDto>",
                 "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Tags.TagDto>"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Tags.ITagAppService"
             },
             "CreateAsyncByInput": {
@@ -2759,7 +3031,7 @@
                 "type": "LinkVault.Tags.TagDto",
                 "typeSimple": "LinkVault.Tags.TagDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Tags.ITagAppService"
             },
             "UpdateAsyncByIdAndInput": {
@@ -2816,7 +3088,7 @@
                 "type": "LinkVault.Tags.TagDto",
                 "typeSimple": "LinkVault.Tags.TagDto"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Tags.ITagAppService"
             },
             "DeleteAsyncById": {
@@ -2853,7 +3125,7 @@
                 "type": "System.Void",
                 "typeSimple": "System.Void"
               },
-              "allowAnonymous": false,
+              "allowAnonymous": true,
               "implementFrom": "LinkVault.Tags.ITagAppService"
             }
           }
@@ -6450,6 +6722,165 @@
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "LinkVault.Settings.ChangePasswordDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "CurrentPassword",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": true,
+          "minLength": 0,
+          "maxLength": 128,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "NewPassword",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": true,
+          "minLength": 0,
+          "maxLength": 128,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "NewPasswordConfirm",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": true,
+          "minLength": 0,
+          "maxLength": 128,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "LinkVault.Settings.EmailPreferencesDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Newsletter",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LinkSharing",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "SecurityAlerts",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "WeeklyDigest",
+          "jsonName": null,
+          "type": "System.Boolean",
+          "typeSimple": "boolean",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "LinkVault.Settings.UpdateProfileDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "UserName",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": true,
+          "minLength": 0,
+          "maxLength": 256,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": 0,
+          "maxLength": 64,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Surname",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": 0,
+          "maxLength": 64,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Email",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": true,
+          "minLength": 0,
+          "maxLength": 256,
           "minimum": null,
           "maximum": null,
           "regex": null

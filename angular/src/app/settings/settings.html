@@ -1,0 +1,27 @@
+<div class="row mt-4">
+    <div class="col-md-3">
+        <div class="list-group">
+            <a routerLink="profile" routerLinkActive="active" class="list-group-item list-group-item-action">
+                <i class="fa fa-user me-2"></i> Profile
+            </a>
+            <a routerLink="email" routerLinkActive="active" class="list-group-item list-group-item-action">
+                <i class="fa fa-envelope me-2"></i> Email Preferences
+            </a>
+            <a routerLink="password" routerLinkActive="active" class="list-group-item list-group-item-action">
+                <i class="fa fa-lock me-2"></i> Password
+            </a>
+            <hr>
+            <a routerLink="deletion" routerLinkActive="active"
+                class="list-group-item list-group-item-action text-danger">
+                <i class="fa fa-trash me-2"></i> Delete Account
+            </a>
+        </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card">
+            <div class="card-body">
+                <router-outlet></router-outlet>
+            </div>
+        </div>
+    </div>
+</div>

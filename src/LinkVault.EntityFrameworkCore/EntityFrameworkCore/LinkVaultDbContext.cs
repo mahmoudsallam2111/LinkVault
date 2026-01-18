@@ -15,6 +15,8 @@ using Volo.Abp.TenantManagement;
 using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using LinkVault.Links;
 using LinkVault.Collections;
+using LinkVault.Settings;
+using Volo.Abp.EntityFrameworkCore.Modeling;
 using LinkVault.Tags;
 
 namespace LinkVault.EntityFrameworkCore;
@@ -32,6 +34,7 @@ public class LinkVaultDbContext :
     public DbSet<LinkTag> LinkTags { get; set; }
     public DbSet<Collection> Collections { get; set; }
     public DbSet<Tag> Tags { get; set; }
+    public DbSet<LinkVault.Settings.UserEmailPreferences> UserEmailPreferences { get; set; }
 
     #region Entities from the modules
 
@@ -86,5 +89,13 @@ public class LinkVaultDbContext :
         
         /* Configure LinkVault entities */
         builder.ConfigureLinkVault();
+        
+        builder.Entity<LinkVault.Settings.UserEmailPreferences>(b =>
+        {
+            b.ToTable(LinkVaultConsts.DbTablePrefix + "UserEmailPreferences", LinkVaultConsts.DbSchema);
+            b.ConfigureByConvention();
+            b.Property(x => x.UserId).IsRequired();
+            b.HasIndex(x => x.UserId);
+        });
     }
 }

@@ -1,0 +1,23 @@
+<Solution>
+    <Configurations>
+        <Platform Name="Any CPU" />
+    </Configurations>
+    <Folder Name="/src/">
+        <Project Path="src/LinkVault.Domain/LinkVault.Domain.csproj" />
+        <Project Path="src/LinkVault.Application/LinkVault.Application.csproj" />
+        <Project Path="src/LinkVault.EntityFrameworkCore/LinkVault.EntityFrameworkCore.csproj" />
+        <Project Path="src/LinkVault.Domain.Shared/LinkVault.Domain.Shared.csproj" />
+        <Project Path="src/LinkVault.Application.Contracts/LinkVault.Application.Contracts.csproj" />
+        <Project Path="src/LinkVault.HttpApi/LinkVault.HttpApi.csproj" />
+        <Project Path="src/LinkVault.HttpApi.Client/LinkVault.HttpApi.Client.csproj" />
+        <Project Path="src/LinkVault.DbMigrator/LinkVault.DbMigrator.csproj" />
+        <Project Path="src/LinkVault.HttpApi.Host/LinkVault.HttpApi.Host.csproj" />
+    </Folder>
+    <Folder Name="/test/">
+        <Project Path="test/LinkVault.Application.Tests/LinkVault.Application.Tests.csproj" />
+        <Project Path="test/LinkVault.EntityFrameworkCore.Tests/LinkVault.EntityFrameworkCore.Tests.csproj" />
+        <Project Path="test/LinkVault.TestBase/LinkVault.TestBase.csproj" />
+        <Project Path="test/LinkVault.Domain.Tests/LinkVault.Domain.Tests.csproj" />
+        <Project Path="test/LinkVault.HttpApi.Client.ConsoleTestApp/LinkVault.HttpApi.Client.ConsoleTestApp.csproj" />
+    </Folder>
+</Solution>

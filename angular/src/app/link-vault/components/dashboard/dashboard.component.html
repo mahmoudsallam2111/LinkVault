@@ -1,0 +1,100 @@
+<div class="app-container p-4 h-100 min-vh-100">
+    <!-- Top Header -->
+    <div class="card border-0 shadow-sm mb-4 rounded-3">
+        <div class="card-body d-flex justify-content-between align-items-center px-4 py-3">
+            <div class="d-flex align-items-center text-primary brand-logo">
+                <div
+                    class="icon-box bg-primary text-white rounded me-2 d-flex align-items-center justify-content-center">
+                    <i class="fas fa-link"></i>
+                </div>
+                <h4 class="fw-bold mb-0 tracking-tight">LinkVault</h4>
+            </div>
+            <div class="d-flex gap-3">
+                <button class="btn btn-light text-muted fw-medium px-3">
+                    <i class="fas fa-cog me-2"></i> Settings
+                </button>
+                <button class="btn btn-primary px-4 fw-medium shadow-sm transition-hover" (click)="addLink()">
+                    <i class="fas fa-plus me-2"></i> Add Link
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="row g-4 mobile-row">
+        <!-- Sidebar -->
+        <div class="col-12 col-lg-3 d-none d-lg-block">
+            <app-sidebar class="d-block h-100 rounded-3 overflow-hidden"></app-sidebar>
+        </div>
+
+        <!-- Main Content -->
+        <div class="col-12 col-lg-9">
+            <div class="card border-0 shadow-sm h-100 rounded-3">
+                <div class="card-body p-4">
+                    <h2 class="fw-bold mb-4 text-dark">All Links</h2>
+
+                    <!-- Stats Row -->
+                    <div class="row g-3 mb-4" *ngIf="stats">
+                        <div class="col-md-3">
+                            <app-stats-card title="Total Links" [value]="stats.totalLinks" bgClass="bg-primary"
+                                bgStyle="linear-gradient(135deg, #696cff 0%, #4338ca 100%)"></app-stats-card>
+                        </div>
+                        <div class="col-md-3">
+                            <app-stats-card title="Collections" [value]="stats.collectionCount" bgClass="bg-danger"
+                                bgStyle="linear-gradient(135deg, #ff6384 0%, #c13584 100%)"></app-stats-card>
+                        </div>
+                        <div class="col-md-3">
+                            <app-stats-card title="Added This Week" [value]="stats.linksAddedThisWeek" bgClass="bg-info"
+                                bgStyle="linear-gradient(135deg, #03c3ec 0%, #0284c7 100%)"></app-stats-card>
+                        </div>
+                        <div class="col-md-3">
+                            <app-stats-card title="Total Clicks" [value]="stats.totalClicks" bgClass="bg-success"
+                                bgStyle="linear-gradient(135deg, #2ecc71 0%, #05c46b 100%)"></app-stats-card>
+                        </div>
+                    </div>
+
+                    <!-- Search Toolbar -->
+                    <div class="d-flex justify-content-between mb-4 flex-wrap gap-3">
+                        <div class="input-group search-bar">
+                            <span class="input-group-text bg-light border-0 ps-3"><i
+                                    class="fas fa-search text-muted"></i></span>
+                            <input type="text" class="form-control bg-light border-0 py-2"
+                                placeholder="Search links, tags, or descriptions..." [(ngModel)]="searchTerm"
+                                (input)="onSearch($event)">
+                        </div>
+                        <div class="d-flex gap-2">
+                            <button class="btn btn-outline-light text-dark border fw-medium px-3"
+                                [class.active]="filter.isFavorite" (click)="filterByFavorites()">
+                                <i class="fas fa-star me-2" [class.text-warning]="filter.isFavorite"></i>
+                                Favorites
+                            </button>
+                            <select class="form-select border fw-medium" style="width: auto;" [(ngModel)]="selectedSort"
+                                (change)="onSortChange()">
+                                <option *ngFor="let opt of sortOptions" [value]="opt.value">
+                                    {{ opt.label }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Links Grid -->
+                    <div class="row g-3">
+                        <div class="col-12 col-md-6 col-lg-4" *ngFor="let link of links">
+                            <app-link-card [link]="link" (favorite)="toggleFavorite($event)"
+                                (delete)="deleteLink($event)" (edit)="editLink($event)" (visit)="visitLink($event)">
+                            </app-link-card>
+                        </div>
+
+                        <!-- Empty State -->
+                        <div class="col-12 text-center py-5" *ngIf="links.length === 0 && !loading">
+                            <div class="mb-3 text-muted opacity-50">
+                                <i class="fas fa-inbox fa-3x"></i>
+                            </div>
+                            <h5 class="text-muted">No links found</h5>
+                            <button class="btn btn-primary btn-sm mt-2" (click)="addLink()">Add your first link</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

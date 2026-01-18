@@ -1,0 +1,20 @@
+import { RoutesService, eLayoutType, ConfigStateService } from '@abp/ng.core';
+import { inject, provideAppInitializer } from '@angular/core';
+
+export const APP_ROUTE_PROVIDER = [
+  provideAppInitializer(() => {
+    // inject() must be called directly in the initialization context, not in a nested function
+    const routes = inject(RoutesService);
+    const configState = inject(ConfigStateService);
+    routes.add([
+      {
+        path: '/',
+        name: '::Menu:Home',
+        iconClass: 'fas fa-home',
+        order: 1,
+        layout: eLayoutType.application,
+        invisible: !configState.getOne('currentUser')?.roles?.includes('admin'),
+      },
+    ]);
+  }),
+];

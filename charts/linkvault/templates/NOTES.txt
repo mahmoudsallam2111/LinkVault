@@ -1,0 +1,59 @@
+🎉 LinkVault has been deployed successfully!
+
+=============================================================================
+DEPLOYMENT SUMMARY
+=============================================================================
+
+Namespace: {{ .Values.namespace }}
+
+Components:
+  ✓ Backend:    {{ .Values.backend.name }}
+  ✓ Frontend:   {{ .Values.frontend.name }}
+  ✓ PostgreSQL: {{ .Values.postgresql.name }}
+
+=============================================================================
+ACCESSING THE APPLICATION
+=============================================================================
+
+{{- if .Values.ingress.enabled }}
+
+1. Get your Minikube IP:
+   minikube ip
+
+2. Add entry to your hosts file (C:\Windows\System32\drivers\etc\hosts):
+   <minikube-ip> {{ (index .Values.ingress.hosts 0).host }}
+
+3. Open your browser:
+   http://{{ (index .Values.ingress.hosts 0).host }}
+
+{{- else }}
+
+Use port-forwarding to access the services:
+
+  # Frontend
+  kubectl port-forward -n {{ .Values.namespace }} svc/{{ .Values.frontend.name }} 4200:{{ .Values.frontend.service.port }}
+  
+  # Backend API
+  kubectl port-forward -n {{ .Values.namespace }} svc/{{ .Values.backend.name }} 5000:{{ .Values.backend.service.port }}
+
+Then open http://localhost:4200
+
+{{- end }}
+
+=============================================================================
+USEFUL COMMANDS
+=============================================================================
+
+# Check pod status
+kubectl get pods -n {{ .Values.namespace }}
+
+# View logs
+kubectl logs -n {{ .Values.namespace }} -l app.kubernetes.io/name={{ .Values.backend.name }}
+kubectl logs -n {{ .Values.namespace }} -l app.kubernetes.io/name={{ .Values.frontend.name }}
+kubectl logs -n {{ .Values.namespace }} -l app.kubernetes.io/name={{ .Values.postgresql.name }}
+
+# Upgrade the release
+helm upgrade {{ .Release.Name }} ./charts/linkvault -n {{ .Values.namespace }}
+
+# Uninstall
+helm uninstall {{ .Release.Name }} -n {{ .Values.namespace }}

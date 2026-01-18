@@ -1,0 +1,18 @@
+FROM mcr.microsoft.com/dotnet/sdk:10.0  AS base
+USER $APP_UID
+EXPOSE 8080
+EXPOSE 8081
+
+COPY bin/Release/net10.0/publish/ app/
+WORKDIR /app
+
+FROM mcr.microsoft.com/dotnet/sdk:10.0 AS build
+WORKDIR /src
+RUN dotnet dev-certs https -v -ep openiddict.pfx -p dd49efed-d8c4-477b-9804-a16273f6d3f4
+RUN chmod 644 openiddict.pfx
+
+FROM base AS final
+WORKDIR /app
+COPY --from=build /src .
+
+ENTRYPOINT ["dotnet", "LinkVault.HttpApi.Host.dll"]

@@ -1,0 +1,74 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Values.backend.name }}-config
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "linkvault.backend.labels" . | nindent 4 }}
+data:
+  App__SelfUrl: {{ .Values.backend.app.selfUrl | quote }}
+  App__AngularUrl: "http://{{ .Values.frontend.name }}:{{ .Values.frontend.service.port }}"
+  App__CorsOrigins: {{ .Values.backend.app.corsOrigins | quote }}
+  App__DisablePII: {{ .Values.backend.app.disablePII | quote }}
+  # Backend Config (Unused but kept for reference)
+  backend-config: |
+    {
+      "App": {
+        "SelfUrl": {{ .Values.backend.selfUrl | quote }},
+        "CorsOrigins": {{ .Values.backend.corsOrigins | quote }},
+        "DisablePII": {{ .Values.backend.disablePII | quote }}
+      }
+    }
+  # Frontend Config (getEnvConfig)
+  frontend-config: |
+    {
+      "production": true,
+      "application": {
+        "baseUrl": "http://linkvault.local",
+        "name": "LinkVault"
+      },
+      "oAuthConfig": {
+        "issuer": "http://linkvault.local/",
+        "redirectUri": "http://linkvault.local",
+        "clientId": "LinkVault_App",
+        "responseType": "code",
+        "scope": "offline_access LinkVault",
+        "requireHttps": false
+      },
+      "apis": {
+        "default": {
+          "url": "http://linkvault.local",
+          "rootNamespace": "LinkVault"
+        },
+        "AbpAccountPublic": {
+          "url": "http://linkvault.local",
+          "rootNamespace": "AbpAccountPublic"
+        }
+      }
+    }
+  # Nginx Config to disable caching for getEnvConfig
+  nginx.conf: |
+    server {
+        listen       80;
+        server_name  localhost;
+        root   /usr/share/nginx/html;
+        index  index.html index.htm;
+
+        location / {
+            try_files $uri $uri/ /index.html;
+        }
+
+        location = /getEnvConfig {
+            add_header Cache-Control "no-store, no-cache, must-revalidate, proxy-revalidate, max-age=0" always;
+            alias /usr/share/nginx/html/dynamic-env.json;
+            default_type application/json;
+        }
+
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   /usr/share/nginx/html;
+        }
+    }
+  App__HealthCheckUrl: {{ .Values.backend.healthCheck.path | quote }}
+  AuthServer__Authority: {{ .Values.backend.app.selfUrl | quote }}
+  AuthServer__RequireHttpsMetadata: "false"

@@ -1,0 +1,13 @@
+apiVersion: v2
+name: linkvault
+description: LinkVault - A full-stack link management application with .NET backend, Angular frontend, and PostgreSQL database
+type: application
+version: 1.0.0
+appVersion: "1.0.0"
+keywords:
+  - linkvault
+  - angular
+  - dotnet
+  - postgresql
+maintainers:
+  - name: LinkVault Team

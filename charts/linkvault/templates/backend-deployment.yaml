@@ -1,0 +1,78 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ .Values.backend.name }}
+  namespace: {{ .Values.namespace }}
+  labels:
+    {{- include "linkvault.backend.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.backend.replicaCount }}
+  selector:
+    matchLabels:
+      {{- include "linkvault.backend.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      labels:
+        {{- include "linkvault.backend.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.global.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      containers:
+        - name: {{ .Values.backend.name }}
+          image: "{{ .Values.backend.image.repository }}:{{ .Values.backend.image.tag }}"
+          imagePullPolicy: {{ .Values.backend.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.backend.service.targetPort }}
+              protocol: TCP
+          envFrom:
+            - configMapRef:
+                name: {{ .Values.backend.name }}-config
+          env:
+            - name: ASPNETCORE_URLS
+              value: "http://+:{{ .Values.backend.service.targetPort }}"
+            - name: ASPNETCORE_ENVIRONMENT
+              value: "Production"
+            - name: ConnectionStrings__Default
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "linkvault.fullname" . }}-secrets
+                  key: connection-string
+            - name: StringEncryption__DefaultPassPhrase
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "linkvault.fullname" . }}-secrets
+                  key: string-encryption-passphrase
+            - name: AuthServer__CertificatePassPhrase
+              valueFrom:
+                secretKeyRef:
+                  name: {{ include "linkvault.fullname" . }}-secrets
+                  key: certificate-passphrase
+          livenessProbe:
+            httpGet:
+              path: {{ .Values.backend.healthCheck.path }}
+              port: http
+            initialDelaySeconds: {{ .Values.backend.healthCheck.initialDelaySeconds }}
+            periodSeconds: {{ .Values.backend.healthCheck.periodSeconds }}
+          readinessProbe:
+            httpGet:
+              path: {{ .Values.backend.healthCheck.path }}
+              port: http
+            initialDelaySeconds: {{ .Values.backend.healthCheck.initialDelaySeconds }}
+            periodSeconds: {{ .Values.backend.healthCheck.periodSeconds }}
+          volumeMounts:
+            - name: cert-volume
+              mountPath: /app/openiddict.pfx
+              subPath: openiddict.pfx
+              readOnly: true
+          resources:
+            {{- toYaml .Values.backend.resources | nindent 12 }}
+      volumes:
+        - name: cert-volume
+          secret:
+            secretName: {{ include "linkvault.fullname" . }}-secrets
+            items:
+              - key: openiddict.pfx
+                path: openiddict.pfx

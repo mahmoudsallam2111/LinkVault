@@ -1,0 +1,85 @@
+.sidebar {
+  border-right: 1px solid rgba(0, 0, 0, 0.05);
+  font-family: 'Inter', system-ui, -apple-system, sans-serif;
+  height: 100%;
+}
+
+.nav-link {
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.nav-link:hover {
+  background-color: #f8f9fa;
+  transform: translateX(4px);
+}
+
+.nav-link i {
+  width: 20px;
+  text-align: center;
+  transition: color 0.2s ease;
+}
+
+.active-link {
+  background-color: rgba(var(--bs-primary-rgb), 0.1) !important;
+  color: var(--bs-primary) !important;
+  font-weight: 600;
+}
+
+.active-link i {
+  color: var(--bs-primary) !important;
+}
+
+.active-link .badge {
+  background-color: var(--bs-primary) !important;
+  color: white !important;
+}
+
+.badge {
+  transition: all 0.2s ease;
+}
+
+.hover-shadow:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e9ecef;
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ced4da;
+}
+
+/* Collection action buttons */
+.collection-action {
+  opacity: 0;
+  transition: opacity 0.2s ease;
+  font-size: 0.75rem;
+}
+
+.collection-item:hover .collection-action {
+  opacity: 1;
+}
+
+.collection-action:hover {
+  color: #696cff !important;
+}
+
+.collection-action:last-child:hover {
+  color: #ff3e1d !important;
+}

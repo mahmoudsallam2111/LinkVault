@@ -1,0 +1,143 @@
+# LinkVault Helm Chart Values
+# Override these values for your environment
+
+# Namespace for all resources
+namespace: linkvault
+
+# =============================================================================
+# Backend Configuration (.NET API)
+# =============================================================================
+backend:
+  name: backend
+  replicaCount: 1
+
+  image:
+    repository: mahmoudali2111/linkvault-backend
+    tag: latest
+    pullPolicy: Always # Always  # Force pull on every pod start
+
+  service:
+    type: ClusterIP
+    port: 5000
+    targetPort: 8080
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+  # Health check endpoints
+  healthCheck:
+    path: /health-status
+    initialDelaySeconds: 30
+    periodSeconds: 10
+
+  # Application settings
+  app:
+    selfUrl: "http://linkvault.local"
+    corsOrigins: "http://linkvault.local,http://localhost:4200"
+    disablePII: "false"
+
+# =============================================================================
+# Frontend Configuration (Angular)
+# =============================================================================
+frontend:
+  name: frontend
+  replicaCount: 1
+
+  image:
+    repository: linkvault/frontend
+    tag: latest
+    pullPolicy: Never
+
+  service:
+    type: ClusterIP
+    port: 80
+    targetPort: 80
+
+  resources:
+    limits:
+      cpu: 200m
+      memory: 128Mi
+    requests:
+      cpu: 50m
+      memory: 64Mi
+
+# =============================================================================
+# PostgreSQL Configuration
+# =============================================================================
+postgresql:
+  name: postgresql
+
+  image:
+    repository: postgres
+    tag: "16-alpine"
+    pullPolicy: IfNotPresent
+
+  service:
+    type: ClusterIP
+    port: 5432
+
+  # Database credentials (override in production!)
+  auth:
+    database: LinkVault
+    username: linkvault
+    password: LinkVault@2024!
+
+  # Persistent storage
+  persistence:
+    enabled: true
+    size: 5Gi
+    storageClass: "" # Use default storage class
+    accessMode: ReadWriteOnce
+
+  resources:
+    limits:
+      cpu: 500m
+      memory: 512Mi
+    requests:
+      cpu: 100m
+      memory: 256Mi
+
+# =============================================================================
+# Secrets Configuration
+# =============================================================================
+secrets:
+  # String encryption passphrase for ABP Framework
+  stringEncryptionPassPhrase: "axMLXXnRAV6qTMEL"
+  # Auth server certificate passphrase
+  certificatePassPhrase: "dd49efed-d8c4-477b-9804-a16273f6d3f4"
+
+# =============================================================================
+# Ingress Configuration
+# =============================================================================
+ingress:
+  enabled: true
+  className: nginx
+
+  # Hosts configuration
+  hosts:
+    - host: linkvault.local
+      paths:
+        - path: /api
+          pathType: Prefix
+          service: backend
+        - path: /
+          pathType: Prefix
+          service: frontend
+
+  # TLS configuration (optional)
+  tls: []
+  # - secretName: linkvault-tls
+  #   hosts:
+  #     - linkvault.local
+
+# =============================================================================
+# Global Settings
+# =============================================================================
+global:
+  # Image pull secrets if using private registry
+  imagePullSecrets: []

@@ -1,0 +1,58 @@
+.color-swatch {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+}
+
+.color-swatch:hover {
+    transform: scale(1.1);
+}
+
+.color-swatch.selected {
+    border-color: #333;
+    box-shadow: 0 0 0 2px rgba(0, 0, 0, 0.1);
+}
+
+.icon-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    border: 2px solid #e9ecef;
+    background: #f8f9fa;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    color: #6c757d;
+}
+
+.icon-swatch:hover {
+    border-color: #696cff;
+    color: #696cff;
+}
+
+.icon-swatch.selected {
+    border-color: #696cff;
+    background: rgba(105, 108, 255, 0.1);
+    color: #696cff;
+}
+
+.preview-box {
+    background: #f8f9fa;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #696cff 0%, #4338ca 100%);
+    border: none;
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #5a5ee0 0%, #3730a3 100%);
+}

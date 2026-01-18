@@ -1,0 +1,76 @@
+<div class="modal-header border-0 pb-0">
+    <h4 class="modal-title fw-bold text-dark">
+        <i class="fas fa-folder text-primary me-2"></i>
+        {{ mode === 'create' ? 'New Collection' : 'Edit Collection' }}
+    </h4>
+    <button type="button" class="btn-close" aria-label="Close" (click)="cancel()"></button>
+</div>
+
+<div class="modal-body pt-3">
+    <!-- Error Alert -->
+    <div class="alert alert-danger alert-dismissible fade show" role="alert" *ngIf="error">
+        <i class="fas fa-exclamation-circle me-2"></i>{{ error }}
+        <button type="button" class="btn-close" (click)="error = ''"></button>
+    </div>
+
+    <!-- Name -->
+    <div class="mb-4">
+        <label class="form-label fw-medium">Name <span class="text-danger">*</span></label>
+        <input type="text" class="form-control" [(ngModel)]="form.name" placeholder="Collection name"
+            [disabled]="loading">
+    </div>
+
+    <!-- Color Picker -->
+    <div class="mb-4">
+        <label class="form-label fw-medium">Color</label>
+        <div class="d-flex flex-wrap gap-2">
+            <button *ngFor="let color of colorOptions" type="button" class="color-swatch"
+                [style.background-color]="color" [class.selected]="form.color === color" (click)="selectColor(color)"
+                [disabled]="loading">
+                <i class="fas fa-check text-white" *ngIf="form.color === color"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Icon Selector -->
+    <div class="mb-4">
+        <label class="form-label fw-medium">Icon</label>
+        <div class="d-flex flex-wrap gap-2">
+            <button *ngFor="let icon of iconOptions" type="button" class="icon-swatch"
+                [class.selected]="form.icon === icon" (click)="selectIcon(icon)" [disabled]="loading">
+                <i [class]="'fas fa-' + icon"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Parent Collection -->
+    <div class="mb-3">
+        <label class="form-label fw-medium">Parent Collection</label>
+        <select class="form-select" [(ngModel)]="form.parentId" [disabled]="loading">
+            <option [ngValue]="undefined">-- None (Top Level) --</option>
+            <option *ngFor="let c of collections" [ngValue]="c.id">
+                {{ c.name }}
+            </option>
+        </select>
+        <small class="text-muted">Optionally nest this collection under another</small>
+    </div>
+
+    <!-- Preview -->
+    <div class="mb-3">
+        <label class="form-label fw-medium">Preview</label>
+        <div class="preview-box p-3 rounded border d-flex align-items-center gap-2">
+            <i [class]="'fas fa-' + form.icon" [style.color]="form.color"></i>
+            <span class="fw-medium">{{ form.name || 'Collection Name' }}</span>
+        </div>
+    </div>
+</div>
+
+<div class="modal-footer border-0 pt-0">
+    <button type="button" class="btn btn-light px-4" (click)="cancel()" [disabled]="loading">
+        Cancel
+    </button>
+    <button type="button" class="btn btn-primary px-4" (click)="save()" [disabled]="loading">
+        <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
+        {{ loading ? 'Saving...' : (mode === 'create' ? 'Create' : 'Save Changes') }}
+    </button>
+</div>

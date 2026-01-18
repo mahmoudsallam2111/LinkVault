@@ -1,0 +1,109 @@
+{
+  "template": "app",
+  "imports": {
+    "Volo.Abp.LeptonXLiteTheme": {
+      "version": "5.0.1",
+      "isInstalled": true,
+      "creationTime": "01/10/2026 14:02:31 +00:00"
+    },
+    "Volo.Abp.Account": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "01/10/2026 14:02:31 +00:00"
+    },
+    "Volo.Abp.OpenIddict": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "01/10/2026 14:02:31 +00:00"
+    },
+    "Volo.Abp.Identity": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "01/10/2026 14:02:31 +00:00"
+    },
+    "Volo.Abp.TenantManagement": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "01/10/2026 14:02:31 +00:00"
+    },
+    "Volo.Abp.SettingManagement": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "01/10/2026 14:02:31 +00:00"
+    },
+    "Volo.Abp.PermissionManagement": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "01/10/2026 14:02:31 +00:00"
+    },
+    "Volo.Abp.FeatureManagement": {
+      "version": "10.0.1",
+      "isInstalled": true,
+      "creationTime": "01/10/2026 14:02:31 +00:00"
+    }
+  },
+  "folders": {
+    "items": {
+      "src": {},
+      "test": {}
+    }
+  },
+  "packages": {
+    "LinkVault.Application": {
+      "path": "src/LinkVault.Application/LinkVault.Application.abppkg",
+      "folder": "src"
+    },
+    "LinkVault.Application.Tests": {
+      "path": "test/LinkVault.Application.Tests/LinkVault.Application.Tests.abppkg",
+      "folder": "test"
+    },
+    "LinkVault.Domain.Shared": {
+      "path": "src/LinkVault.Domain.Shared/LinkVault.Domain.Shared.abppkg",
+      "folder": "src"
+    },
+    "LinkVault.Application.Contracts": {
+      "path": "src/LinkVault.Application.Contracts/LinkVault.Application.Contracts.abppkg",
+      "folder": "src"
+    },
+    "LinkVault.HttpApi": {
+      "path": "src/LinkVault.HttpApi/LinkVault.HttpApi.abppkg",
+      "folder": "src"
+    },
+    "LinkVault.HttpApi.Client": {
+      "path": "src/LinkVault.HttpApi.Client/LinkVault.HttpApi.Client.abppkg",
+      "folder": "src"
+    },
+    "LinkVault.EntityFrameworkCore.Tests": {
+      "path": "test/LinkVault.EntityFrameworkCore.Tests/LinkVault.EntityFrameworkCore.Tests.abppkg",
+      "folder": "test"
+    },
+    "LinkVault.EntityFrameworkCore": {
+      "path": "src/LinkVault.EntityFrameworkCore/LinkVault.EntityFrameworkCore.abppkg",
+      "folder": "src"
+    },
+    "LinkVault.TestBase": {
+      "path": "test/LinkVault.TestBase/LinkVault.TestBase.abppkg",
+      "folder": "test"
+    },
+    "LinkVault.Domain.Tests": {
+      "path": "test/LinkVault.Domain.Tests/LinkVault.Domain.Tests.abppkg",
+      "folder": "test"
+    },
+    "LinkVault.HttpApi.Client.ConsoleTestApp": {
+      "path": "test/LinkVault.HttpApi.Client.ConsoleTestApp/LinkVault.HttpApi.Client.ConsoleTestApp.abppkg",
+      "folder": "test"
+    },
+    "LinkVault.DbMigrator": {
+      "path": "src/LinkVault.DbMigrator/LinkVault.DbMigrator.abppkg",
+      "folder": "src"
+    },
+    "LinkVault.HttpApi.Host": {
+      "path": "src/LinkVault.HttpApi.Host/LinkVault.HttpApi.Host.abppkg",
+      "folder": "src"
+    },
+    "LinkVault.Domain": {
+      "path": "src/LinkVault.Domain/LinkVault.Domain.abppkg",
+      "folder": "src"
+    }
+  }
+}

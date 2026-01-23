@@ -1,0 +1,27 @@
+.public-collection-container {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+}
+
+.icon-box {
+    flex-shrink: 0;
+}
+
+.link-item {
+    transition: all 0.2s ease;
+}
+
+.link-item:hover {
+    background-color: #f8f9fa;
+    transform: translateX(4px);
+}
+
+.favicon-img {
+    border-radius: 4px;
+    background: #fff;
+    padding: 2px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.list-group-item:last-child {
+    border-bottom: 0 !important;
+}

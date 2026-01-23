@@ -155,6 +155,63 @@ public class CollectionAppService : ApplicationService, ICollectionAppService
         }
     }
 
+    public async Task<CollectionDto> GenerateShareTokenAsync(Guid id)
+    {
+        var collection = await _collectionRepository.GetAsync(id);
+        CheckOwnership(collection);
+
+        // Generate new token if not already shared
+        if (string.IsNullOrEmpty(collection.PublicShareToken))
+        {
+            collection.GenerateShareToken();
+            await _collectionRepository.UpdateAsync(collection, autoSave: true);
+        }
+
+        var linkCounts = await _collectionRepository.GetLinkCountsAsync(collection.UserId);
+        return MapToDto(collection, linkCounts);
+    }
+
+    public async Task RevokeShareTokenAsync(Guid id)
+    {
+        var collection = await _collectionRepository.GetAsync(id);
+        CheckOwnership(collection);
+
+        collection.RevokeShareToken();
+        await _collectionRepository.UpdateAsync(collection, autoSave: true);
+    }
+
+    [AllowAnonymous]
+    public async Task<PublicCollectionDto?> GetByShareTokenAsync(string token)
+    {
+        if (string.IsNullOrEmpty(token))
+        {
+            return null;
+        }
+
+        var collection = await _collectionRepository.FindByShareTokenAsync(token);
+        if (collection == null)
+        {
+            return null;
+        }
+
+        return new PublicCollectionDto
+        {
+            Id = collection.Id,
+            Name = collection.Name,
+            Color = collection.Color,
+            Icon = collection.Icon,
+            LinkCount = collection.Links?.Count ?? 0,
+            Links = collection.Links?.Select(l => new PublicLinkDto
+            {
+                Id = l.Id,
+                Title = l.Title,
+                Url = l.Url,
+                Description = l.Description,
+                FaviconUrl = l.Favicon
+            }).ToList() ?? new List<PublicLinkDto>()
+        };
+    }
+
     private async Task<bool> WouldCreateCircularReference(Guid collectionId, Guid newParentId)
     {
         if (collectionId == newParentId) return true;
@@ -190,6 +247,7 @@ public class CollectionAppService : ApplicationService, ICollectionAppService
             Icon = collection.Icon,
             Order = collection.Order,
             LinkCount = linkCounts.GetValueOrDefault(collection.Id, 0),
+            PublicShareToken = collection.PublicShareToken,
             CreationTime = collection.CreationTime,
             LastModificationTime = collection.LastModificationTime
         };

@@ -1,20 +1,24 @@
 <div class="app-container p-4 h-100 min-vh-100">
     <!-- Top Header -->
+    <!-- Top Header -->
     <div class="card border-0 shadow-sm mb-4 rounded-3">
-        <div class="card-body d-flex justify-content-between align-items-center px-4 py-3">
+        <div class="card-body d-flex flex-wrap justify-content-between align-items-center px-3 px-md-4 py-3 gap-3">
             <div class="d-flex align-items-center text-primary brand-logo">
+                <button class="btn btn-link p-0 me-3 d-lg-none text-primary" (click)="openMobileSidebar()">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
                 <div
                     class="icon-box bg-primary text-white rounded me-2 d-flex align-items-center justify-content-center">
                     <i class="fas fa-link"></i>
                 </div>
-                <h4 class="fw-bold mb-0 tracking-tight">LinkVault</h4>
+                <h4 class="fw-bold mb-0 tracking-tight d-none d-lg-block">LinkVault</h4>
             </div>
-            <div class="d-flex gap-3">
+            <div class="d-flex gap-2 gap-md-3">
                 <button class="btn btn-light text-muted fw-medium px-3" (click)="goBack()">
-                    <i class="fas fa-arrow-left me-2"></i> Back to Dashboard
+                    <i class="fas fa-arrow-left"></i> <span class="d-none d-md-inline ms-2">Back</span>
                 </button>
-                <button class="btn btn-primary px-4 fw-medium shadow-sm transition-hover" (click)="addLink()">
-                    <i class="fas fa-plus me-2"></i> Add Link
+                <button class="btn btn-primary px-3 px-md-4 fw-medium shadow-sm transition-hover" (click)="addLink()">
+                    <i class="fas fa-plus"></i> <span class="d-none d-md-inline ms-2">Add Link</span>
                 </button>
             </div>
         </div>
@@ -71,33 +75,92 @@
                         </div>
                     </div>
 
-                    <!-- Links Grid -->
-                    <div class="row g-3">
-                        <div class="col-12 col-md-6 col-lg-4" *ngFor="let link of links">
-                            <app-link-card [link]="link" (favorite)="toggleFavorite($event)"
-                                (delete)="deleteLink($event)" (edit)="editLink($event)" (visit)="visitLink($event)">
-                            </app-link-card>
-                        </div>
 
-                        <!-- Empty State -->
-                        <div class="col-12 text-center py-5" *ngIf="links.length === 0 && !loading && collection">
-                            <div class="mb-3 text-muted opacity-50">
-                                <i [class]="'fas fa-' + (collection.icon || 'folder') + ' fa-3x'"></i>
-                            </div>
-                            <h5 class="text-muted">No links in this collection</h5>
-                            <p class="text-muted small">Add links to "{{ collection.name }}" to see them here.</p>
-                            <button class="btn btn-primary btn-sm mt-2" (click)="addLink()">
-                                <i class="fas fa-plus me-2"></i> Add Link
-                            </button>
-                        </div>
+                    <!-- Links Datatable -->
+                    <ngx-datatable class="material" [rows]="links" [columnMode]="'force'" [headerHeight]="50"
+                        [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [scrollbarH]="true">
 
-                        <!-- Loading State -->
-                        <div class="col-12 text-center py-5" *ngIf="loading">
-                            <div class="spinner-border text-primary" role="status">
-                                <span class="visually-hidden">Loading...</span>
-                            </div>
-                            <p class="text-muted mt-3">Loading links...</p>
+                        <ngx-datatable-column name="Title" prop="title" [flexGrow]="2">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <div class="d-flex align-items-center">
+                                    <img [src]="row.favicon || 'assets/images/default-favicon.png'" alt="favicon"
+                                        class="me-2" style="width: 20px; height: 20px; object-fit: contain;">
+                                    <a [href]="row.url" target="_blank"
+                                        class="text-decoration-none text-dark fw-medium">
+                                        {{ row.title }}
+                                    </a>
+                                </div>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Tags" [flexGrow]="1">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngFor="let tag of row.tags?.slice(0, 2)" class="badge bg-primary me-1">
+                                    {{ tag.name }}
+                                </span>
+                                <span *ngIf="row.tags?.length > 2" class="badge bg-secondary">
+                                    +{{ row.tags.length - 2 }}
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Visits" prop="visitCount" [flexGrow]="0.5">
+                            <ng-template let-value="value" ngx-datatable-cell-template>
+                                <span class="badge bg-info">{{ value || 0 }}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Favorite" [flexGrow]="0.5">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <button class="btn btn-sm btn-link p-0" (click)="toggleFavorite(row)">
+                                    <i class="fas fa-star" [class.text-warning]="row.isFavorite"
+                                        [class.text-muted]="!row.isFavorite"></i>
+                                </button>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Actions" [flexGrow]="1" [sortable]="false">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <div ngbDropdown container="body">
+                                    <button class="btn btn-sm btn-outline-primary" id="actionsDropdown"
+                                        ngbDropdownToggle>
+                                        Actions
+                                    </button>
+                                    <div ngbDropdownMenu aria-labelledby="actionsDropdown">
+                                        <button ngbDropdownItem (click)="visitLink(row)">
+                                            <i class="fas fa-external-link-alt me-2 text-primary"></i> Visit
+                                        </button>
+                                        <button ngbDropdownItem (click)="editLink(row)">
+                                            <i class="fas fa-edit me-2 text-secondary"></i> Edit
+                                        </button>
+                                        <div class="dropdown-divider"></div>
+                                        <button ngbDropdownItem class="text-danger" (click)="deleteLink(row)">
+                                            <i class="fas fa-trash me-2"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+
+                    <!-- Empty State -->
+                    <div class="text-center py-5" *ngIf="links.length === 0 && !loading && collection">
+                        <div class="mb-3 text-muted opacity-50">
+                            <i [class]="'fas fa-' + (collection.icon || 'folder') + ' fa-3x'"></i>
                         </div>
+                        <h5 class="text-muted">No links in this collection</h5>
+                        <p class="text-muted small">Add links to "{{ collection.name }}" to see them here.</p>
+                        <button class="btn btn-primary btn-sm mt-2" (click)="addLink()">
+                            <i class="fas fa-plus me-2"></i> Add Link
+                        </button>
+                    </div>
+
+                    <!-- Loading State -->
+                    <div class="text-center py-5" *ngIf="loading">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">Loading...</span>
+                        </div>
+                        <p class="text-muted mt-3">Loading links...</p>
                     </div>
                 </div>
             </div>

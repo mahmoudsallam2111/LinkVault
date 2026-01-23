@@ -9,8 +9,11 @@
         <div class="col-12 col-lg-9">
             <div class="card border-0 shadow-sm h-100 rounded-3">
                 <div class="card-body p-4">
-                    <div class="d-flex justify-content-between align-items-center mb-4">
+                    <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
                         <div class="d-flex align-items-center">
+                            <button class="btn btn-link p-0 me-3 d-lg-none text-primary" (click)="openMobileSidebar()">
+                                <i class="fas fa-bars fa-lg"></i>
+                            </button>
                             <div class="icon-box bg-warning text-white rounded me-3 d-flex align-items-center justify-content-center"
                                 style="width: 48px; height: 48px;">
                                 <i class="fas fa-star fa-lg"></i>
@@ -21,7 +24,7 @@
                             </div>
                         </div>
 
-                        <div class="input-group search-bar" style="max-width: 300px;">
+                        <div class="input-group search-bar w-auto flex-grow-1 flex-md-grow-0" style="min-width: 200px;">
                             <span class="input-group-text bg-light border-0 ps-3">
                                 <i class="fas fa-search text-muted"></i>
                             </span>
@@ -31,21 +34,81 @@
                         </div>
                     </div>
 
-                    <div class="row g-3">
-                        <div class="col-12 col-md-6 col-lg-4" *ngFor="let link of links">
-                            <app-link-card [link]="link" (favorite)="toggleFavorite($event)"
-                                (delete)="deleteLink($event)" (edit)="editLink($event)" (visit)="visitLink($event)">
-                            </app-link-card>
-                        </div>
 
-                        <!-- Empty State -->
-                        <div class="col-12 text-center py-5" *ngIf="links.length === 0 && !loading">
-                            <div class="mb-3 text-muted opacity-50">
-                                <i class="fas fa-star fa-3x"></i>
-                            </div>
-                            <h5 class="text-muted">No favorites yet</h5>
-                            <p class="text-muted small">Mark links as favorite to see them here.</p>
+                    <ngx-datatable class="material" [rows]="links" [columnMode]="'force'" [headerHeight]="50"
+                        [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [scrollbarH]="true">
+
+                        <ngx-datatable-column name="Title" prop="title" [flexGrow]="2">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <div class="d-flex align-items-center">
+                                    <img [src]="row.favicon || 'assets/images/default-favicon.png'" alt="favicon"
+                                        class="me-2" style="width: 20px; height: 20px; object-fit: contain;">
+                                    <a [href]="row.url" target="_blank"
+                                        class="text-decoration-none text-dark fw-medium">
+                                        {{ row.title }}
+                                    </a>
+                                </div>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Collection" [flexGrow]="1">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngIf="row.collection" class="badge bg-light text-dark">
+                                    <i [class]="'fas fa-' + (row.collection.icon || 'folder') + ' me-1'"
+                                        [style.color]="row.collection.color"></i>
+                                    {{ row.collection.name }}
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Tags" [flexGrow]="1">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <span *ngFor="let tag of row.tags?.slice(0, 2)" class="badge bg-primary me-1">
+                                    {{ tag.name }}
+                                </span>
+                                <span *ngIf="row.tags?.length > 2" class="badge bg-secondary">
+                                    +{{ row.tags.length - 2 }}
+                                </span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Visits" prop="visitCount" [flexGrow]="0.5">
+                            <ng-template let-value="value" ngx-datatable-cell-template>
+                                <span class="badge bg-info">{{ value || 0 }}</span>
+                            </ng-template>
+                        </ngx-datatable-column>
+
+                        <ngx-datatable-column name="Actions" [flexGrow]="1" [sortable]="false">
+                            <ng-template let-row="row" ngx-datatable-cell-template>
+                                <div ngbDropdown container="body">
+                                    <button class="btn btn-sm btn-outline-primary" id="actionsDropdown"
+                                        ngbDropdownToggle>
+                                        Actions
+                                    </button>
+                                    <div ngbDropdownMenu aria-labelledby="actionsDropdown">
+                                        <button ngbDropdownItem (click)="visitLink(row)">
+                                            <i class="fas fa-external-link-alt me-2 text-primary"></i> Visit
+                                        </button>
+                                        <button ngbDropdownItem (click)="editLink(row)">
+                                            <i class="fas fa-edit me-2 text-secondary"></i> Edit
+                                        </button>
+                                        <div class="dropdown-divider"></div>
+                                        <button ngbDropdownItem class="text-danger" (click)="deleteLink(row)">
+                                            <i class="fas fa-trash me-2"></i> Delete
+                                        </button>
+                                    </div>
+                                </div>
+                            </ng-template>
+                        </ngx-datatable-column>
+                    </ngx-datatable>
+
+                    <!-- Empty State -->
+                    <div class="text-center py-5" *ngIf="links.length === 0 && !loading">
+                        <div class="mb-3 text-muted opacity-50">
+                            <i class="fas fa-star fa-3x"></i>
                         </div>
+                        <h5 class="text-muted">No favorites yet</h5>
+                        <p class="text-muted small">Mark links as favorite to see them here.</p>
                     </div>
                 </div>
             </div>

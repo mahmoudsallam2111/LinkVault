@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbDropdownModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { LocalizationService } from '@abp/ng.core';
 import { LinkCardComponent } from '../dashboard/link-card/link-card.component';
 import { LinkModalComponent } from '../dashboard/link-modal/link-modal.component';
-import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
+import { ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { LinkService } from '../../../proxy/links/link.service';
 import { LinkDto, LinkFilterDto } from '../../../proxy/links/models';
 
@@ -13,7 +15,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 @Component({
     selector: 'app-favorites',
     standalone: true,
-    imports: [CommonModule, FormsModule, LinkCardComponent, SidebarComponent],
+    imports: [CommonModule, FormsModule, NgxDatatableModule, NgbDropdownModule, SidebarComponent],
     templateUrl: './favorites.component.html',
     styleUrls: ['./favorites.component.css']
 })
@@ -31,7 +33,11 @@ export class FavoritesComponent implements OnInit {
 
     constructor(
         private linkService: LinkService,
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private offcanvasService: NgbOffcanvas,
+        private confirmation: ConfirmationService,
+        private toaster: ToasterService,
+        public localization: LocalizationService
     ) { }
 
     ngOnInit(): void {
@@ -65,21 +71,22 @@ export class FavoritesComponent implements OnInit {
     }
 
     deleteLink(link: LinkDto) {
-        const modalRef = this.modalService.open(ConfirmDialogComponent, {
-            centered: true
-        });
-        modalRef.componentInstance.title = 'Delete Link';
-        modalRef.componentInstance.message = `Are you sure you want to delete "${link.title}"?`;
-        modalRef.componentInstance.confirmText = 'Delete';
-        modalRef.componentInstance.iconClass = 'fas fa-trash-alt text-danger';
-
-        modalRef.result.then((confirmed) => {
-            if (confirmed) {
-                this.linkService.delete(link.id).subscribe(() => {
-                    this.links = this.links.filter(l => l.id !== link.id);
-                });
-            }
-        }, () => { });
+        this.confirmation
+            .warn(`Are you sure you want to delete "${link.title}"?`, 'Delete Link')
+            .subscribe((status) => {
+                if (status === 'confirm') {
+                    this.linkService.delete(link.id).subscribe({
+                        next: () => {
+                            this.links = this.links.filter(l => l.id !== link.id);
+                            this.toaster.success('Link deleted successfully');
+                        },
+                        error: (err) => {
+                            console.error('Failed to delete link', err);
+                            this.toaster.error('Failed to delete link');
+                        }
+                    });
+                }
+            });
     }
 
     editLink(link: LinkDto) {
@@ -107,5 +114,12 @@ export class FavoritesComponent implements OnInit {
     visitLink(link: LinkDto) {
         this.linkService.incrementVisit(link.id).subscribe();
         window.open(link.url, '_blank');
+    }
+
+    openMobileSidebar() {
+        this.offcanvasService.open(SidebarComponent, {
+            position: 'start',
+            panelClass: 'sidebar-offcanvas'
+        });
     }
 }

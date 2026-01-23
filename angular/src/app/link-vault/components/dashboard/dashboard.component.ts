@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbDropdownModule, NgbDatepickerModule, NgbDateStruct, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { LocalizationService } from '@abp/ng.core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { StatsCardComponent } from './stats-card/stats-card.component';
 import { LinkCardComponent } from './link-card/link-card.component';
 import { LinkModalComponent } from './link-modal/link-modal.component';
-import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
+import { ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { LinkService } from '../../../proxy/links/link.service';
 import { DashboardService } from '../../../proxy/dashboard/dashboard.service';
 import { CollectionService } from '../../../proxy/collections/collection.service';
@@ -18,7 +20,7 @@ import { CollectionDto } from '../../../proxy/collections/models';
 @Component({
     selector: 'app-dashboard',
     standalone: true,
-    imports: [CommonModule, RouterModule, FormsModule, SidebarComponent, StatsCardComponent, LinkCardComponent],
+    imports: [CommonModule, RouterModule, FormsModule, NgxDatatableModule, NgbDropdownModule, NgbDatepickerModule, SidebarComponent, StatsCardComponent],
     templateUrl: './dashboard.component.html',
     styleUrls: ['./dashboard.component.css']
 })
@@ -46,11 +48,18 @@ export class DashboardComponent implements OnInit {
     ];
     selectedSort = 'creationTime desc';
 
+    fromDate: NgbDateStruct | null = null;
+    toDate: NgbDateStruct | null = null;
+
     constructor(
         private linkService: LinkService,
         private dashboardService: DashboardService,
         private collectionService: CollectionService,
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private offcanvasService: NgbOffcanvas,
+        private confirmation: ConfirmationService,
+        private toaster: ToasterService,
+        public localization: LocalizationService
     ) { }
 
     ngOnInit(): void {
@@ -164,31 +173,59 @@ export class DashboardComponent implements OnInit {
         );
     }
 
-    deleteLink(link: LinkDto) {
-        const modalRef = this.modalService.open(ConfirmDialogComponent, {
-            centered: true
-        });
-        modalRef.componentInstance.title = 'Delete Link';
-        modalRef.componentInstance.message = `Are you sure you want to delete "${link.title}"? This action cannot be undone.`;
-        modalRef.componentInstance.confirmText = 'Delete';
-        modalRef.componentInstance.iconClass = 'fas fa-trash-alt text-danger';
+    onDateSelect() {
+        if (!this.fromDate && !this.toDate) {
+            this.loadData();
+            return;
+        }
 
-        modalRef.result.then(
-            (confirmed) => {
-                if (confirmed) {
+        // Client-side filtering for date range since API might not support it directly yet
+        // Ideally this should be passed to the API
+        this.loading = true;
+        this.linkService.getList(this.filter).subscribe({
+            next: (res) => {
+                let filteredItems = res.items;
+
+                if (this.fromDate) {
+                    const from = new Date(this.fromDate.year, this.fromDate.month - 1, this.fromDate.day);
+                    filteredItems = filteredItems.filter(item => new Date(item.creationTime!) >= from);
+                }
+
+                if (this.toDate) {
+                    const to = new Date(this.toDate.year, this.toDate.month - 1, this.toDate.day);
+                    // Set to end of day
+                    to.setHours(23, 59, 59, 999);
+                    filteredItems = filteredItems.filter(item => new Date(item.creationTime!) <= to);
+                }
+
+                this.links = filteredItems;
+                this.loading = false;
+            },
+            error: (err) => {
+                console.error('Failed to load links', err);
+                this.loading = false;
+            }
+        });
+    }
+
+    deleteLink(link: LinkDto) {
+        this.confirmation
+            .warn(`Are you sure you want to delete "${link.title}"? This action cannot be undone.`, 'Delete Link')
+            .subscribe((status) => {
+                if (status === 'confirm') {
                     this.linkService.delete(link.id).subscribe({
                         next: () => {
                             this.links = this.links.filter(l => l.id !== link.id);
-                            this.loadData(); // Refresh stats
+                            this.loadData();
+                            this.toaster.success('Link deleted successfully');
                         },
                         error: (err) => {
                             console.error('Failed to delete link', err);
+                            this.toaster.error('Failed to delete link');
                         }
                     });
                 }
-            },
-            () => { /* Modal dismissed */ }
-        );
+            });
     }
 
     toggleFavorite(link: LinkDto) {
@@ -211,6 +248,13 @@ export class DashboardComponent implements OnInit {
             }
         });
         window.open(link.url, '_blank');
+    }
+
+    openMobileSidebar() {
+        const offcanvasRef = this.offcanvasService.open(SidebarComponent, {
+            position: 'start',
+            panelClass: 'sidebar-offcanvas'
+        });
     }
 }
 

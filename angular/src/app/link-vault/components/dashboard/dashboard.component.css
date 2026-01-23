@@ -1,42 +1,150 @@
-.app-container {
-    background-color: #696cff;
-    background-image: linear-gradient(135deg, #696cff 0%, #605ae6 100%);
-    min-height: 100vh;
+.bg-gradient-primary {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
 }
 
-.brand-logo .icon-box {
-    width: 36px;
-    height: 36px;
-    font-size: 1.2rem;
+.hover-shadow {
+  transition: box-shadow 0.3s ease;
 }
 
-.tracking-tight {
-    letter-spacing: -0.5px;
+.hover-shadow:hover {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
 }
 
-.search-bar {
-    max-width: 500px;
-    width: 100%;
+.transition {
+  transition: all 0.3s ease;
 }
 
-.search-bar .input-group-text {
-    background-color: #f8f9fa !important;
+.min-w-0 {
+  min-width: 0;
 }
 
-.search-bar .form-control {
-    background-color: #f8f9fa !important;
+/* Mobile Sidebar Overlay */
+.mobile-sidebar-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 1030;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 }
 
-.search-bar .form-control:focus {
-    box-shadow: none;
-    background-color: #fff !important;
+.mobile-sidebar-overlay.show {
+  opacity: 1;
+  visibility: visible;
 }
 
-.transition-hover {
-    transition: all 0.2s ease;
+.mobile-sidebar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 280px;
+  max-width: 85vw;
+  height: 100%;
+  background: white;
+  transform: translateX(-100%);
+  transition: transform 0.3s ease;
+  overflow-y: auto;
 }
 
-.transition-hover:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(105, 108, 255, 0.4) !important;
+.mobile-sidebar-overlay.show .mobile-sidebar {
+  transform: translateX(0);
+}
+
+.sidebar-content {
+  padding: 1rem;
+}
+
+/* Header responsive fixes */
+@media (max-width: 575.98px) {
+  .sticky-top {
+    position: sticky !important;
+    top: 0 !important;
+  }
+
+  .card-body {
+    padding: 0.75rem !important;
+  }
+}
+
+/* Smooth scrolling for sticky header */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Improve datatable styling */
+.ngx-datatable.material {
+  box-shadow: none;
+}
+
+.ngx-datatable.material .datatable-header {
+  background-color: #f8f9fa;
+  font-weight: 600;
+}
+
+.ngx-datatable.material .datatable-body-row:hover {
+  background-color: #f8f9fa;
+}
+
+/* Better badge styling */
+.badge {
+  font-weight: 500;
+  padding: 0.35em 0.65em;
+}
+
+/* Responsive utilities */
+@media (max-width: 991.98px) {
+  .sticky-top {
+    position: relative !important;
+    top: 0 !important;
+  }
+}
+
+/* Fix for ng-bootstrap subtle colors if not available */
+.bg-primary-subtle {
+  background-color: rgba(13, 110, 253, 0.1) !important;
+}
+
+.bg-info-subtle {
+  background-color: rgba(13, 202, 240, 0.1) !important;
+}
+
+.bg-secondary-subtle {
+  background-color: rgba(108, 117, 125, 0.1) !important;
+}
+
+.text-primary {
+  color: #0d6efd !important;
+}
+
+.text-info {
+  color: #0dcaf0 !important;
+}
+
+.text-secondary {
+  color: #6c757d !important;
+}
+
+/* Button responsive fixes */
+@media (max-width: 575.98px) {
+  .btn {
+    white-space: nowrap;
+  }
+
+  .icon-box {
+    width: 32px !important;
+    height: 32px !important;
+    min-width: 32px !important;
+  }
+
+  .icon-box i {
+    font-size: 0.9rem;
+  }
 }

@@ -9,11 +9,8 @@
     <h6 class="text-uppercase text-muted small fw-bold mb-3">Quick Access</h6>
     <ul class="nav flex-column gap-2">
       <li class="nav-item" *ngFor="let item of quickAccess">
-        <a
-          [routerLink]="item.route"
-          routerLinkActive="active-link"
-          class="nav-link d-flex align-items-center justify-content-between rounded px-3 py-2 text-dark"
-        >
+        <a [routerLink]="item.route" routerLinkActive="active-link"
+          class="nav-link d-flex align-items-center justify-content-between rounded px-3 py-2 text-dark">
           <div class="d-flex align-items-center">
             <i [class]="item.icon + ' me-3 text-muted'"></i>
             <span>{{ item.label }}</span>
@@ -28,43 +25,30 @@
     <h6 class="text-uppercase text-muted small fw-bold mb-3">Collections</h6>
     <ul class="nav flex-column gap-2">
       <li class="nav-item collection-item" *ngFor="let collection of collections">
-        <div
-          class="nav-link d-flex align-items-center justify-content-between rounded px-3 py-2 text-dark"
-        >
+        <a [routerLink]="['/collection', collection.id]" routerLinkActive="active-link"
+          class="nav-link d-flex align-items-center justify-content-between rounded px-3 py-2 text-dark cursor-pointer">
           <div class="d-flex align-items-center flex-grow-1">
-            <i
-              [class]="'fas fa-' + (collection.icon || 'folder') + ' me-3'"
-              [style.color]="collection.color || '#6c757d'"
-            ></i>
+            <i [class]="'fas fa-' + (collection.icon || 'folder') + ' me-3'"
+              [style.color]="collection.color || '#6c757d'"></i>
             <span>{{ collection.name }}</span>
           </div>
           <div class="d-flex align-items-center gap-1">
             <span class="badge rounded-pill bg-light text-dark me-1">{{
               collection.linkCount
-            }}</span>
-            <button
-              class="btn btn-sm btn-link p-0 text-muted collection-action"
-              (click)="editCollection(collection, $event)"
-              title="Edit"
-            >
+              }}</span>
+            <button class="btn btn-sm btn-link p-0 text-muted collection-action"
+              (click)="editCollection(collection, $event)" title="Edit">
               <i class="fas fa-pencil-alt"></i>
             </button>
-            <button
-              class="btn btn-sm btn-link p-0 text-muted collection-action"
-              (click)="deleteCollection(collection, $event)"
-              title="Delete"
-            >
+            <button class="btn btn-sm btn-link p-0 text-muted collection-action"
+              (click)="deleteCollection(collection, $event)" title="Delete">
               <i class="fas fa-trash-alt"></i>
             </button>
           </div>
-        </div>
+        </a>
       </li>
       <li class="nav-item mt-2">
-        <a
-          href="javascript:void(0)"
-          class="nav-link text-primary px-3 py-1 small"
-          (click)="addCollection()"
-        >
+        <a href="javascript:void(0)" class="nav-link text-primary px-3 py-1 small" (click)="addCollection()">
           <i class="fas fa-plus me-2"></i> New Collection
         </a>
       </li>
@@ -74,10 +58,8 @@
   <div class="mb-4">
     <h6 class="text-uppercase text-muted small fw-bold mb-3">Tags</h6>
     <div class="d-flex flex-wrap gap-2">
-      <span
-        *ngFor="let tag of tags"
-        class="badge bg-light text-primary border fw-normal px-3 py-2 cursor-pointer hover-shadow"
-      >
+      <span *ngFor="let tag of tags"
+        class="badge bg-light text-primary border fw-normal px-3 py-2 cursor-pointer hover-shadow">
         {{ tag.name }}
       </span>
     </div>

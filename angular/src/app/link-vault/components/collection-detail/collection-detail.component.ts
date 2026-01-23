@@ -1,34 +1,30 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { SidebarComponent } from '../sidebar/sidebar.component';
-import { StatsCardComponent } from './stats-card/stats-card.component';
-import { LinkCardComponent } from './link-card/link-card.component';
-import { LinkModalComponent } from './link-modal/link-modal.component';
+import { LinkCardComponent } from '../dashboard/link-card/link-card.component';
+import { LinkModalComponent } from '../dashboard/link-modal/link-modal.component';
 import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
+import { SidebarComponent } from '../sidebar/sidebar.component';
 import { LinkService } from '../../../proxy/links/link.service';
-import { DashboardService } from '../../../proxy/dashboard/dashboard.service';
 import { CollectionService } from '../../../proxy/collections/collection.service';
 import { LinkDto, LinkFilterDto } from '../../../proxy/links/models';
-import { DashboardStatsDto } from '../../../proxy/dashboard/models';
 import { CollectionDto } from '../../../proxy/collections/models';
 
 @Component({
-    selector: 'app-dashboard',
+    selector: 'app-collection-detail',
     standalone: true,
-    imports: [CommonModule, RouterModule, FormsModule, SidebarComponent, StatsCardComponent, LinkCardComponent],
-    templateUrl: './dashboard.component.html',
-    styleUrls: ['./dashboard.component.css']
+    imports: [CommonModule, FormsModule, RouterModule, LinkCardComponent, SidebarComponent],
+    templateUrl: './collection-detail.component.html',
+    styleUrls: ['./collection-detail.component.css']
 })
-export class DashboardComponent implements OnInit {
+export class CollectionDetailComponent implements OnInit {
+    collection: CollectionDto | null = null;
     links: LinkDto[] = [];
-    stats: DashboardStatsDto | null = null;
-    collections: CollectionDto[] = [];
     loading = false;
     searchTerm = '';
-    selectedCollectionId: string | undefined = '';
+    collectionId: string = '';
 
     filter: LinkFilterDto = {
         skipCount: 0,
@@ -47,31 +43,39 @@ export class DashboardComponent implements OnInit {
     selectedSort = 'creationTime desc';
 
     constructor(
+        private route: ActivatedRoute,
+        private router: Router,
         private linkService: LinkService,
-        private dashboardService: DashboardService,
         private collectionService: CollectionService,
         private modalService: NgbModal
     ) { }
 
     ngOnInit(): void {
-        this.loadData();
-        this.loadCollections();
-    }
-
-    loadData() {
-        this.loading = true;
-
-        // Load Stats
-        this.dashboardService.getStats().subscribe({
-            next: (res) => {
-                this.stats = res;
-            },
-            error: (err) => {
-                console.error('Failed to load stats', err);
+        this.route.params.subscribe(params => {
+            this.collectionId = params['id'];
+            if (this.collectionId) {
+                this.filter.collectionId = this.collectionId;
+                this.loadCollection();
+                this.loadLinks();
             }
         });
+    }
 
-        // Load Links
+    loadCollection() {
+        this.collectionService.get(this.collectionId).subscribe({
+            next: (res) => {
+                this.collection = res;
+            },
+            error: (err) => {
+                console.error('Failed to load collection', err);
+                // Navigate back to dashboard if collection not found
+                this.router.navigate(['/']);
+            }
+        });
+    }
+
+    loadLinks() {
+        this.loading = true;
         this.filter.sorting = this.selectedSort;
         this.linkService.getList(this.filter).subscribe({
             next: (res) => {
@@ -89,42 +93,19 @@ export class DashboardComponent implements OnInit {
         const target = event.target as HTMLInputElement;
         this.searchTerm = target.value;
         this.filter.filter = this.searchTerm;
-        this.loadData();
+        this.loadLinks();
     }
 
     onSortChange() {
         this.filter.sorting = this.selectedSort;
-        this.loadData();
+        this.loadLinks();
     }
 
-    loadCollections() {
-        this.collectionService.getList().subscribe({
-            next: (res) => {
-                this.collections = res.items;
-            },
-            error: (err) => {
-                console.error('Failed to load collections', err);
-            }
-        });
+    goBack() {
+        this.router.navigate(['/']);
     }
 
-    onCollectionFilterChange() {
-        // Convert empty string to undefined so it's not sent in the request
-        this.filter.collectionId = this.selectedCollectionId === '' ? undefined : this.selectedCollectionId;
-        this.loadData();
-    }
-
-    filterByCollection(collectionId: string | undefined) {
-        this.filter.collectionId = collectionId;
-        this.loadData();
-    }
-
-    filterByFavorites() {
-        this.filter.isFavorite = this.filter.isFavorite ? undefined : true;
-        this.loadData();
-    }
-
-    // Modal Actions
+    // Link Actions
     addLink() {
         const modalRef = this.modalService.open(LinkModalComponent, {
             size: 'lg',
@@ -132,12 +113,14 @@ export class DashboardComponent implements OnInit {
             backdrop: 'static'
         });
         modalRef.componentInstance.mode = 'create';
+        // Pre-select this collection when adding new link
+        modalRef.componentInstance.preselectedCollectionId = this.collectionId;
 
         modalRef.result.then(
             (result) => {
                 if (result) {
-                    // Link created successfully, reload data
-                    this.loadData();
+                    this.loadLinks();
+                    this.loadCollection(); // Refresh link count
                 }
             },
             () => { /* Modal dismissed */ }
@@ -156,8 +139,13 @@ export class DashboardComponent implements OnInit {
         modalRef.result.then(
             (result) => {
                 if (result) {
-                    // Link updated, reload data
-                    this.loadData();
+                    // If collection changed, remove from list
+                    if (result.collectionId !== this.collectionId) {
+                        this.links = this.links.filter(l => l.id !== link.id);
+                        this.loadCollection(); // Refresh link count
+                    } else {
+                        this.loadLinks();
+                    }
                 }
             },
             () => { /* Modal dismissed */ }
@@ -169,7 +157,7 @@ export class DashboardComponent implements OnInit {
             centered: true
         });
         modalRef.componentInstance.title = 'Delete Link';
-        modalRef.componentInstance.message = `Are you sure you want to delete "${link.title}"? This action cannot be undone.`;
+        modalRef.componentInstance.message = `Are you sure you want to delete "${link.title}"?`;
         modalRef.componentInstance.confirmText = 'Delete';
         modalRef.componentInstance.iconClass = 'fas fa-trash-alt text-danger';
 
@@ -179,7 +167,7 @@ export class DashboardComponent implements OnInit {
                     this.linkService.delete(link.id).subscribe({
                         next: () => {
                             this.links = this.links.filter(l => l.id !== link.id);
-                            this.loadData(); // Refresh stats
+                            this.loadCollection(); // Refresh link count
                         },
                         error: (err) => {
                             console.error('Failed to delete link', err);
@@ -195,8 +183,6 @@ export class DashboardComponent implements OnInit {
         this.linkService.toggleFavorite(link.id).subscribe({
             next: (updatedLink) => {
                 link.isFavorite = updatedLink.isFavorite;
-                // Refresh stats to update favorite count
-                this.dashboardService.getStats().subscribe(stats => this.stats = stats);
             },
             error: (err) => {
                 console.error('Failed to toggle favorite', err);
@@ -213,4 +199,3 @@ export class DashboardComponent implements OnInit {
         window.open(link.url, '_blank');
     }
 }
-

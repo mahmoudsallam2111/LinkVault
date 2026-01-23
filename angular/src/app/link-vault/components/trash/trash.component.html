@@ -19,8 +19,9 @@
                                 <i class="fas fa-trash fa-lg"></i>
                             </div>
                             <div>
-                                <h2 class="fw-bold mb-0 text-dark">Trash</h2>
-                                <p class="text-muted mb-0 small">{{ links.length }} items</p>
+                                <h2 class="fw-bold mb-0 text-dark">{{ 'LinkVault::Trash' | abpLocalization }}</h2>
+                                <p class="text-muted mb-0 small">{{ links.length }} {{ 'LinkVault::Items' |
+                                    abpLocalization }}</p>
                             </div>
                         </div>
 
@@ -28,22 +29,23 @@
                             <span class="input-group-text bg-light border-0 ps-3">
                                 <i class="fas fa-search text-muted"></i>
                             </span>
-                            <input type="text" class="form-control bg-light border-0 py-2" placeholder="Filter trash..."
-                                [(ngModel)]="searchTerm" (input)="onSearch(searchTerm)">
+                            <input type="text" class="form-control bg-light border-0 py-2"
+                                [placeholder]="'LinkVault::FilterList' | abpLocalization" [(ngModel)]="searchTerm"
+                                (input)="onSearch(searchTerm)">
                         </div>
                     </div>
 
                     <div
                         class="alert alert-warning border-0 bg-warning-subtle text-warning-emphasis mb-4 rounded-3 d-flex align-items-center">
                         <i class="fas fa-info-circle me-2"></i>
-                        <span>Deleted items are here. Restore them or delete them forever.</span>
+                        <span>{{ 'LinkVault::DeletedLinksAppearHere' | abpLocalization }}</span>
                     </div>
 
 
                     <ngx-datatable class="material" [rows]="links" [columnMode]="'force'" [headerHeight]="50"
                         [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [scrollbarH]="true">
 
-                        <ngx-datatable-column name="Title" prop="title" [flexGrow]="2">
+                        <ngx-datatable-column [name]="'LinkVault::Title' | abpLocalization" prop="title" [flexGrow]="2">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <div class="d-flex align-items-center">
                                     <img [src]="row.favicon || 'assets/images/default-favicon.png'" alt="favicon"
@@ -53,33 +55,36 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="URL" prop="url" [flexGrow]="2">
+                        <ngx-datatable-column [name]="'LinkVault::URL' | abpLocalization" prop="url" [flexGrow]="2">
                             <ng-template let-value="value" ngx-datatable-cell-template>
                                 <small class="text-muted text-truncate d-block" style="max-width: 200px;">{{ value
                                     }}</small>
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="Deleted" [flexGrow]="1">
+                        <ngx-datatable-column [name]="'LinkVault::Deleted' | abpLocalization" [flexGrow]="1">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <small class="text-muted">{{ row.deletionTime | date:'short' }}</small>
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="Actions" [flexGrow]="1" [sortable]="false">
+                        <ngx-datatable-column [name]="'LinkVault::Actions' | abpLocalization" [flexGrow]="1"
+                            [sortable]="false">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <div ngbDropdown container="body">
                                     <button class="btn btn-sm btn-outline-primary" id="actionsDropdown"
                                         ngbDropdownToggle>
-                                        Actions
+                                        {{ 'LinkVault::Actions' | abpLocalization }}
                                     </button>
                                     <div ngbDropdownMenu aria-labelledby="actionsDropdown">
                                         <button ngbDropdownItem class="text-success" (click)="restoreLink(row)">
-                                            <i class="fas fa-undo me-2"></i> Restore
+                                            <i class="fas fa-undo me-2"></i> {{ 'LinkVault::Restore' | abpLocalization
+                                            }}
                                         </button>
                                         <div class="dropdown-divider"></div>
                                         <button ngbDropdownItem class="text-danger" (click)="hardDeleteLink(row)">
-                                            <i class="fas fa-trash-alt me-2"></i> Delete Forever
+                                            <i class="fas fa-trash-alt me-2"></i> {{ 'LinkVault::DeletePermanently' |
+                                            abpLocalization }}
                                         </button>
                                     </div>
                                 </div>
@@ -92,8 +97,8 @@
                         <div class="mb-3 text-muted opacity-50">
                             <i class="fas fa-trash-alt fa-3x"></i>
                         </div>
-                        <h5 class="text-muted">Trash is empty</h5>
-                        <p class="text-muted small">Items you delete will show up here.</p>
+                        <h5 class="text-muted">{{ 'LinkVault::TrashIsEmpty' | abpLocalization }}</h5>
+                        <p class="text-muted small">{{ 'LinkVault::DeletedLinksAppearHere' | abpLocalization }}</p>
                     </div>
                 </div>
             </div>

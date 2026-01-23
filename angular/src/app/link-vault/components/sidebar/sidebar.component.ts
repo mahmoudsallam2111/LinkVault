@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
-import { PermissionService } from '@abp/ng.core';
+import { LocalizationModule, PermissionService } from '@abp/ng.core';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { CollectionService } from '../../../proxy/collections/collection.service';
 import { TagService } from '../../../proxy/tags/tag.service';
@@ -10,11 +10,12 @@ import { CollectionDto } from '../../../proxy/collections/models';
 import { TagDto } from '../../../proxy/tags/models';
 import { CollectionModalComponent } from './collection-modal/collection-modal.component';
 import { ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
+import { ThemeService } from '../../services/theme.service';
 
 @Component({
     selector: 'app-sidebar',
     standalone: true,
-    imports: [CommonModule, RouterModule],
+    imports: [CommonModule, RouterModule, LocalizationModule],
     templateUrl: './sidebar.component.html',
     styleUrls: ['./sidebar.component.css']
 })
@@ -23,10 +24,10 @@ export class SidebarComponent implements OnInit {
     tags: TagDto[] = [];
 
     quickAccess = [
-        { label: 'All Links', icon: 'fas fa-thumbtack', route: '/', count: 0, activeClass: 'text-primary bg-primary-subtle' },
-        { label: 'Favorites', icon: 'fas fa-star', route: '/favorites', count: 0, activeClass: 'text-warning bg-warning-subtle' },
-        { label: 'Recent', icon: 'fas fa-clock', route: '/recent', count: 0, activeClass: 'text-info bg-info-subtle' },
-        { label: 'Trash', icon: 'fas fa-trash', route: '/trash', count: 0, activeClass: 'text-danger bg-danger-subtle' }
+        { labelKey: 'LinkVault::AllLinks', icon: 'fas fa-thumbtack', route: '/', count: 0, activeClass: 'text-primary bg-primary-subtle' },
+        { labelKey: 'LinkVault::Favorites', icon: 'fas fa-star', route: '/favorites', count: 0, activeClass: 'text-warning bg-warning-subtle' },
+        { labelKey: 'LinkVault::Recent', icon: 'fas fa-clock', route: '/recent', count: 0, activeClass: 'text-info bg-info-subtle' },
+        { labelKey: 'LinkVault::Trash', icon: 'fas fa-trash', route: '/trash', count: 0, activeClass: 'text-danger bg-danger-subtle' }
     ];
 
     adminLinks = [
@@ -44,7 +45,8 @@ export class SidebarComponent implements OnInit {
         private permissionService: PermissionService,
         private modalService: NgbModal,
         private confirmation: ConfirmationService,
-        private toaster: ToasterService
+        private toaster: ToasterService,
+        public themeService: ThemeService
     ) { }
 
     ngOnInit(): void {
@@ -96,6 +98,14 @@ export class SidebarComponent implements OnInit {
 
     get showAdminSection(): boolean {
         return this.canManageUsers || this.canManageRoles;
+    }
+
+    get isDarkMode(): boolean {
+        return this.themeService.isDarkMode;
+    }
+
+    toggleTheme(): void {
+        this.themeService.toggleTheme();
     }
 
     // Collection Modal Actions

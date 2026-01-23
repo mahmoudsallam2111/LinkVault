@@ -127,6 +127,8 @@
                 "bundleName": "bootstrap-icons"
               },
               "src/assets/ngx-datatable/icons.css",
+              "node_modules/@swimlane/ngx-datatable/index.css",
+              "node_modules/@swimlane/ngx-datatable/themes/material.css",
               "src/styles.scss"
             ],
             "scripts": [],

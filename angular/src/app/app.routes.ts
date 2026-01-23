@@ -32,6 +32,14 @@ export const APP_ROUTES: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'collection/:id',
+    loadComponent: () =>
+      import('./link-vault/components/collection-detail/collection-detail.component').then(
+        c => c.CollectionDetailComponent,
+      ),
+    canActivate: [authGuard],
+  },
+  {
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(c => c.createRoutes()),
   },

@@ -1,0 +1,46 @@
+.app-container {
+    background-color: #696cff;
+    background-image: linear-gradient(135deg, #696cff 0%, #605ae6 100%);
+    min-height: 100vh;
+}
+
+.brand-logo .icon-box {
+    width: 36px;
+    height: 36px;
+    font-size: 1.2rem;
+}
+
+.tracking-tight {
+    letter-spacing: -0.5px;
+}
+
+.search-bar {
+    max-width: 500px;
+    width: 100%;
+}
+
+.search-bar .input-group-text {
+    background-color: #f8f9fa !important;
+}
+
+.search-bar .form-control {
+    background-color: #f8f9fa !important;
+}
+
+.search-bar .form-control:focus {
+    box-shadow: none;
+    background-color: #fff !important;
+}
+
+.transition-hover {
+    transition: all 0.2s ease;
+}
+
+.transition-hover:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(105, 108, 255, 0.4) !important;
+}
+
+.icon-box {
+    transition: transform 0.2s ease;
+}

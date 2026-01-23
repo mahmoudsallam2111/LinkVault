@@ -2,10 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { LinkCardComponent } from '../dashboard/link-card/link-card.component';
+import { NgbModal, NgbDropdownModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
+import { LocalizationService } from '@abp/ng.core';
 import { LinkModalComponent } from '../dashboard/link-modal/link-modal.component';
-import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
+import { ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { LinkService } from '../../../proxy/links/link.service';
 import { CollectionService } from '../../../proxy/collections/collection.service';
@@ -15,9 +16,9 @@ import { CollectionDto } from '../../../proxy/collections/models';
 @Component({
     selector: 'app-collection-detail',
     standalone: true,
-    imports: [CommonModule, FormsModule, RouterModule, LinkCardComponent, SidebarComponent],
+    imports: [CommonModule, FormsModule, RouterModule, NgxDatatableModule, NgbDropdownModule, SidebarComponent],
     templateUrl: './collection-detail.component.html',
-    styleUrls: ['./collection-detail.component.css']
+    styleUrls: ['./collection-detail.component.css'],
 })
 export class CollectionDetailComponent implements OnInit {
     collection: CollectionDto | null = null;
@@ -29,7 +30,7 @@ export class CollectionDetailComponent implements OnInit {
     filter: LinkFilterDto = {
         skipCount: 0,
         maxResultCount: 100,
-        includeDeleted: false
+        includeDeleted: false,
     };
 
     // Sort options
@@ -38,7 +39,7 @@ export class CollectionDetailComponent implements OnInit {
         { value: 'creationTime asc', label: 'Oldest First' },
         { value: 'title asc', label: 'Title A-Z' },
         { value: 'title desc', label: 'Title Z-A' },
-        { value: 'visitCount desc', label: 'Most Visited' }
+        { value: 'visitCount desc', label: 'Most Visited' },
     ];
     selectedSort = 'creationTime desc';
 
@@ -47,7 +48,11 @@ export class CollectionDetailComponent implements OnInit {
         private router: Router,
         private linkService: LinkService,
         private collectionService: CollectionService,
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private offcanvasService: NgbOffcanvas,
+        private confirmation: ConfirmationService,
+        private toaster: ToasterService,
+        public localization: LocalizationService,
     ) { }
 
     ngOnInit(): void {
@@ -63,14 +68,14 @@ export class CollectionDetailComponent implements OnInit {
 
     loadCollection() {
         this.collectionService.get(this.collectionId).subscribe({
-            next: (res) => {
+            next: res => {
                 this.collection = res;
             },
-            error: (err) => {
+            error: err => {
                 console.error('Failed to load collection', err);
                 // Navigate back to dashboard if collection not found
                 this.router.navigate(['/']);
-            }
+            },
         });
     }
 
@@ -78,14 +83,14 @@ export class CollectionDetailComponent implements OnInit {
         this.loading = true;
         this.filter.sorting = this.selectedSort;
         this.linkService.getList(this.filter).subscribe({
-            next: (res) => {
+            next: res => {
                 this.links = res.items;
                 this.loading = false;
             },
-            error: (err) => {
+            error: err => {
                 console.error('Failed to load links', err);
                 this.loading = false;
-            }
+            },
         });
     }
 
@@ -110,20 +115,22 @@ export class CollectionDetailComponent implements OnInit {
         const modalRef = this.modalService.open(LinkModalComponent, {
             size: 'lg',
             centered: true,
-            backdrop: 'static'
+            backdrop: 'static',
         });
         modalRef.componentInstance.mode = 'create';
         // Pre-select this collection when adding new link
         modalRef.componentInstance.preselectedCollectionId = this.collectionId;
 
         modalRef.result.then(
-            (result) => {
+            result => {
                 if (result) {
                     this.loadLinks();
                     this.loadCollection(); // Refresh link count
                 }
             },
-            () => { /* Modal dismissed */ }
+            () => {
+                /* Modal dismissed */
+            },
         );
     }
 
@@ -131,13 +138,13 @@ export class CollectionDetailComponent implements OnInit {
         const modalRef = this.modalService.open(LinkModalComponent, {
             size: 'lg',
             centered: true,
-            backdrop: 'static'
+            backdrop: 'static',
         });
         modalRef.componentInstance.mode = 'edit';
         modalRef.componentInstance.link = link;
 
         modalRef.result.then(
-            (result) => {
+            result => {
                 if (result) {
                     // If collection changed, remove from list
                     if (result.collectionId !== this.collectionId) {
@@ -148,54 +155,56 @@ export class CollectionDetailComponent implements OnInit {
                     }
                 }
             },
-            () => { /* Modal dismissed */ }
+            () => {
+                /* Modal dismissed */
+            },
         );
     }
 
     deleteLink(link: LinkDto) {
-        const modalRef = this.modalService.open(ConfirmDialogComponent, {
-            centered: true
-        });
-        modalRef.componentInstance.title = 'Delete Link';
-        modalRef.componentInstance.message = `Are you sure you want to delete "${link.title}"?`;
-        modalRef.componentInstance.confirmText = 'Delete';
-        modalRef.componentInstance.iconClass = 'fas fa-trash-alt text-danger';
-
-        modalRef.result.then(
-            (confirmed) => {
-                if (confirmed) {
+        this.confirmation
+            .warn(`Are you sure you want to delete "${link.title}"?`, 'Delete Link')
+            .subscribe(status => {
+                if (status === 'confirm') {
                     this.linkService.delete(link.id).subscribe({
                         next: () => {
                             this.links = this.links.filter(l => l.id !== link.id);
                             this.loadCollection(); // Refresh link count
+                            this.toaster.success('Link deleted successfully');
                         },
-                        error: (err) => {
+                        error: err => {
                             console.error('Failed to delete link', err);
-                        }
+                            this.toaster.error('Failed to delete link');
+                        },
                     });
                 }
-            },
-            () => { /* Modal dismissed */ }
-        );
+            });
     }
 
     toggleFavorite(link: LinkDto) {
         this.linkService.toggleFavorite(link.id).subscribe({
-            next: (updatedLink) => {
+            next: updatedLink => {
                 link.isFavorite = updatedLink.isFavorite;
             },
-            error: (err) => {
+            error: err => {
                 console.error('Failed to toggle favorite', err);
-            }
+            },
         });
     }
 
     visitLink(link: LinkDto) {
         this.linkService.incrementVisit(link.id).subscribe({
-            next: (updatedLink) => {
+            next: updatedLink => {
                 link.visitCount = updatedLink.visitCount;
-            }
+            },
         });
         window.open(link.url, '_blank');
+    }
+
+    openMobileSidebar() {
+        this.offcanvasService.open(SidebarComponent, {
+            position: 'start',
+            panelClass: 'sidebar-offcanvas'
+        });
     }
 }

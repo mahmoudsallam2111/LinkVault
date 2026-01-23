@@ -9,7 +9,7 @@ import { DashboardService } from '../../../proxy/dashboard/dashboard.service';
 import { CollectionDto } from '../../../proxy/collections/models';
 import { TagDto } from '../../../proxy/tags/models';
 import { CollectionModalComponent } from './collection-modal/collection-modal.component';
-import { ConfirmDialogComponent } from '../shared/confirm-dialog/confirm-dialog.component';
+import { ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 
 @Component({
     selector: 'app-sidebar',
@@ -42,7 +42,9 @@ export class SidebarComponent implements OnInit {
         private tagService: TagService,
         private dashboardService: DashboardService,
         private permissionService: PermissionService,
-        private modalService: NgbModal
+        private modalService: NgbModal,
+        private confirmation: ConfirmationService,
+        private toaster: ToasterService
     ) { }
 
     ngOnInit(): void {
@@ -135,28 +137,21 @@ export class SidebarComponent implements OnInit {
 
     deleteCollection(collection: CollectionDto, event: Event) {
         event.stopPropagation();
-        const modalRef = this.modalService.open(ConfirmDialogComponent, {
-            centered: true
-        });
-        modalRef.componentInstance.title = 'Delete Collection';
-        modalRef.componentInstance.message = `Are you sure you want to delete "${collection.name}"? Links in this collection will not be deleted.`;
-        modalRef.componentInstance.confirmText = 'Delete';
-        modalRef.componentInstance.iconClass = 'fas fa-trash-alt text-danger';
-
-        modalRef.result.then(
-            (confirmed) => {
-                if (confirmed) {
+        this.confirmation
+            .warn(`Are you sure you want to delete "${collection.name}"? Links in this collection will not be deleted.`, 'Delete Collection')
+            .subscribe((status) => {
+                if (status === 'confirm') {
                     this.collectionService.delete(collection.id).subscribe({
                         next: () => {
                             this.loadCollections();
+                            this.toaster.success('Collection deleted successfully');
                         },
                         error: (err) => {
                             console.error('Failed to delete collection', err);
+                            this.toaster.error('Failed to delete collection');
                         }
                     });
                 }
-            },
-            () => { /* Modal dismissed */ }
-        );
+            });
     }
 }

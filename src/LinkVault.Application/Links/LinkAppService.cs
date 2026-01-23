@@ -1,13 +1,14 @@
+using LinkVault.Permissions;
+using LinkVault.Tags;
+using Microsoft.AspNetCore.Authorization;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using LinkVault.Permissions;
-using LinkVault.Tags;
-using Microsoft.AspNetCore.Authorization;
 using Volo.Abp;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
+using Volo.Abp.Data;
 using Volo.Abp.Domain.Repositories;
 
 namespace LinkVault.Links;
@@ -21,19 +22,22 @@ public class LinkAppService : ApplicationService, ILinkAppService
     private readonly IRepository<LinkTag> _linkTagRepository;
     private readonly LinkManager _linkManager;
     private readonly MetadataFetcherService _metadataFetcher;
+    private readonly IDataFilter _dataFilter;
 
     public LinkAppService(
         ILinkRepository linkRepository,
         ITagRepository tagRepository,
         IRepository<LinkTag> linkTagRepository,
         LinkManager linkManager,
-        MetadataFetcherService metadataFetcher)
+        MetadataFetcherService metadataFetcher,
+         IDataFilter dataFilter)
     {
         _linkRepository = linkRepository;
         _tagRepository = tagRepository;
         _linkTagRepository = linkTagRepository;
         _linkManager = linkManager;
         _metadataFetcher = metadataFetcher;
+        _dataFilter = dataFilter;
     }
 
     public async Task<LinkDto> GetAsync(Guid id)
@@ -173,18 +177,21 @@ public class LinkAppService : ApplicationService, ILinkAppService
     //[Authorize(LinkVaultPermissions.Links.Delete)]
     public async Task RestoreAsync(Guid id)
     {
-        var link = await _linkRepository.FindAsync(id);
-        if (link == null)
+        using (_dataFilter.Disable<ISoftDelete>())
         {
-            throw new BusinessException(LinkVaultDomainErrorCodes.LinkNotFound);
+            var link = await _linkRepository.FindAsync(id);
+            if (link == null)
+            {
+                throw new BusinessException(LinkVaultDomainErrorCodes.LinkNotFound);
+            }
+            CheckOwnership(link);
+
+            link.IsDeleted = false;
+            link.DeletionTime = null;
+            link.DeleterId = null;
+
+            await _linkRepository.UpdateAsync(link);
         }
-        CheckOwnership(link);
-        
-        // ABP's soft delete uses IsDeleted property
-        // We need to use a workaround to restore
-        // This requires accessing the DbContext directly or using a custom method
-        link.IsDeleted = false;
-        await _linkRepository.UpdateAsync(link);
     }
 
     //[Authorize(LinkVaultPermissions.Links.Delete)]

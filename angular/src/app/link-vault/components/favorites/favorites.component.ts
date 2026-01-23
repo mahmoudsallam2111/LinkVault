@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbModal, NgbDropdownModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { LocalizationService } from '@abp/ng.core';
+import { LocalizationModule, LocalizationService } from '@abp/ng.core';
 import { LinkCardComponent } from '../dashboard/link-card/link-card.component';
 import { LinkModalComponent } from '../dashboard/link-modal/link-modal.component';
 import { ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
@@ -15,7 +15,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 @Component({
     selector: 'app-favorites',
     standalone: true,
-    imports: [CommonModule, FormsModule, NgxDatatableModule, NgbDropdownModule, SidebarComponent],
+    imports: [CommonModule, FormsModule, NgxDatatableModule, NgbDropdownModule, SidebarComponent, LocalizationModule],
     templateUrl: './favorites.component.html',
     styleUrls: ['./favorites.component.css']
 })
@@ -112,6 +112,8 @@ export class FavoritesComponent implements OnInit {
     }
 
     visitLink(link: LinkDto) {
+        // Increment the local visit count immediately for UI feedback
+        link.visitCount = (link.visitCount || 0) + 1;
         this.linkService.incrementVisit(link.id).subscribe();
         window.open(link.url, '_blank');
     }

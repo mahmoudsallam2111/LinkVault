@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbModal, NgbDropdownModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { LocalizationService } from '@abp/ng.core';
+import { LocalizationModule, LocalizationService } from '@abp/ng.core';
 import { ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { LinkService } from '../../../proxy/links/link.service';
 import { LinkDto } from '../../../proxy/links/models';
@@ -13,7 +13,7 @@ import { SidebarComponent } from '../sidebar/sidebar.component';
 @Component({
   selector: 'app-trash',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgxDatatableModule, NgbDropdownModule, SidebarComponent],
+  imports: [CommonModule, FormsModule, NgxDatatableModule, NgbDropdownModule, SidebarComponent, LocalizationModule],
   templateUrl: './trash.component.html',
   styleUrls: ['./trash.component.css'],
 })

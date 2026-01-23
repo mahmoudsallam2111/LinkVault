@@ -30,6 +30,6 @@ export const environment = {
   },
   remoteEnv: {
     url: '/getEnvConfig',
-    mergeStrategy: 'deepmerge'
-  }
+    mergeStrategy: 'deepmerge',
+  },
 } as Environment;

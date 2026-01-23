@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { NgbModal, NgbDropdownModule, NgbOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { NgxDatatableModule } from '@swimlane/ngx-datatable';
-import { LocalizationService } from '@abp/ng.core';
+import { LocalizationModule, LocalizationService } from '@abp/ng.core';
 import { LinkModalComponent } from '../dashboard/link-modal/link-modal.component';
 import { ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { SidebarComponent } from '../sidebar/sidebar.component';
@@ -16,7 +16,7 @@ import { CollectionDto } from '../../../proxy/collections/models';
 @Component({
     selector: 'app-collection-detail',
     standalone: true,
-    imports: [CommonModule, FormsModule, RouterModule, NgxDatatableModule, NgbDropdownModule, SidebarComponent],
+    imports: [CommonModule, FormsModule, RouterModule, NgxDatatableModule, NgbDropdownModule, SidebarComponent, LocalizationModule],
     templateUrl: './collection-detail.component.html',
     styleUrls: ['./collection-detail.component.css'],
 })
@@ -35,11 +35,11 @@ export class CollectionDetailComponent implements OnInit {
 
     // Sort options
     sortOptions = [
-        { value: 'creationTime desc', label: 'Newest First' },
-        { value: 'creationTime asc', label: 'Oldest First' },
-        { value: 'title asc', label: 'Title A-Z' },
-        { value: 'title desc', label: 'Title Z-A' },
-        { value: 'visitCount desc', label: 'Most Visited' },
+        { value: 'creationTime desc', labelKey: 'LinkVault::NewestFirst' },
+        { value: 'creationTime asc', labelKey: 'LinkVault::OldestFirst' },
+        { value: 'title asc', labelKey: 'LinkVault::TitleAZ' },
+        { value: 'title desc', labelKey: 'LinkVault::TitleZA' },
+        { value: 'visitCount desc', labelKey: 'LinkVault::MostVisited' },
     ];
     selectedSort = 'creationTime desc';
 
@@ -193,6 +193,8 @@ export class CollectionDetailComponent implements OnInit {
     }
 
     visitLink(link: LinkDto) {
+        // Increment the local visit count immediately for UI feedback
+        link.visitCount = (link.visitCount || 0) + 1;
         this.linkService.incrementVisit(link.id).subscribe({
             next: updatedLink => {
                 link.visitCount = updatedLink.visitCount;

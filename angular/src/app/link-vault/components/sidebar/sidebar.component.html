@@ -1,19 +1,19 @@
 <div class="sidebar d-flex flex-column p-3 bg-white h-100 shadow-sm">
   <div class="sidebar-header mb-4">
     <h3 class="fw-bold text-primary d-flex align-items-center">
-      <i class="fas fa-link me-2"></i> LinkVault
+      <i class="fas fa-link me-2"></i> {{ 'LinkVault::LinkVault' | abpLocalization }}
     </h3>
   </div>
 
   <div class="mb-4">
-    <h6 class="text-uppercase text-muted small fw-bold mb-3">Quick Access</h6>
+    <h6 class="text-uppercase text-muted small fw-bold mb-3">{{ 'LinkVault::Menu:Dashboard' | abpLocalization }}</h6>
     <ul class="nav flex-column gap-2">
       <li class="nav-item" *ngFor="let item of quickAccess">
         <a [routerLink]="item.route" routerLinkActive="active-link"
           class="nav-link d-flex align-items-center justify-content-between rounded px-3 py-2 text-dark">
           <div class="d-flex align-items-center">
             <i [class]="item.icon + ' me-3 text-muted'"></i>
-            <span>{{ item.label }}</span>
+            <span>{{ item.labelKey | abpLocalization }}</span>
           </div>
           <span class="badge rounded-pill bg-light text-dark">{{ item.count }}</span>
         </a>
@@ -22,7 +22,7 @@
   </div>
 
   <div class="mb-4 flex-grow-1 overflow-auto">
-    <h6 class="text-uppercase text-muted small fw-bold mb-3">Collections</h6>
+    <h6 class="text-uppercase text-muted small fw-bold mb-3">{{ 'LinkVault::Collections' | abpLocalization }}</h6>
     <ul class="nav flex-column gap-2">
       <li class="nav-item collection-item" *ngFor="let collection of collections">
         <a [routerLink]="['/collection', collection.id]" routerLinkActive="active-link"
@@ -37,11 +37,11 @@
               collection.linkCount
               }}</span>
             <button class="btn btn-sm btn-link p-0 text-muted collection-action"
-              (click)="editCollection(collection, $event)" title="Edit">
+              (click)="editCollection(collection, $event)" [title]="'LinkVault::Edit' | abpLocalization">
               <i class="fas fa-pencil-alt"></i>
             </button>
             <button class="btn btn-sm btn-link p-0 text-muted collection-action"
-              (click)="deleteCollection(collection, $event)" title="Delete">
+              (click)="deleteCollection(collection, $event)" [title]="'LinkVault::Delete' | abpLocalization">
               <i class="fas fa-trash-alt"></i>
             </button>
           </div>
@@ -49,14 +49,15 @@
       </li>
       <li class="nav-item mt-2">
         <a href="javascript:void(0)" class="nav-link text-primary px-3 py-1 small" (click)="addCollection()">
-          <i class="fas fa-plus me-2"></i> New Collection
+          <i class="fas fa-plus me-2"></i> {{ 'LinkVault::Add' | abpLocalization }} {{ 'LinkVault::Collection' |
+          abpLocalization }}
         </a>
       </li>
     </ul>
   </div>
 
   <div class="mb-4">
-    <h6 class="text-uppercase text-muted small fw-bold mb-3">Tags</h6>
+    <h6 class="text-uppercase text-muted small fw-bold mb-3">{{ 'LinkVault::Tags' | abpLocalization }}</h6>
     <div class="d-flex flex-wrap gap-2">
       <span *ngFor="let tag of tags"
         class="badge bg-light text-primary border fw-normal px-3 py-2 cursor-pointer hover-shadow">
@@ -64,27 +65,4 @@
       </span>
     </div>
   </div>
-
-  <!-- Admin Section
-  <div class="mt-auto pt-3 border-top" *ngIf="showAdminSection">
-    <h6 class="text-uppercase text-muted small fw-bold mb-3">
-      <i class="fas fa-shield-alt me-2"></i>Admin
-    </h6>
-    <ul class="nav flex-column gap-2">
-      <li class="nav-item" *ngIf="canManageUsers">
-        <a routerLink="/identity/users" routerLinkActive="active-link"
-          class="nav-link d-flex align-items-center rounded px-3 py-2 text-dark">
-          <i class="fas fa-users me-3 text-muted"></i>
-          <span>Users</span>
-        </a>
-      </li>
-      <li class="nav-item" *ngIf="canManageRoles">
-        <a routerLink="/identity/roles" routerLinkActive="active-link"
-          class="nav-link d-flex align-items-center rounded px-3 py-2 text-dark">
-          <i class="fas fa-user-shield me-3 text-muted"></i>
-          <span>Roles</span>
-        </a>
-      </li>
-    </ul>
-  </div> -->
 </div>

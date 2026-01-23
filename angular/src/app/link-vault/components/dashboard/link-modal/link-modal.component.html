@@ -1,7 +1,7 @@
 <div class="modal-header border-0 pb-0">
     <h4 class="modal-title fw-bold text-dark">
         <i class="fas fa-link text-primary me-2"></i>
-        {{ mode === 'create' ? 'Add New Link' : 'Edit Link' }}
+        {{ (mode === 'create' ? 'LinkVault::AddLink' : 'LinkVault::EditLink') | abpLocalization }}
     </h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="cancel()"></button>
 </div>
@@ -15,7 +15,8 @@
 
     <!-- URL Input with Fetch -->
     <div class="mb-3">
-        <label class="form-label fw-medium">URL <span class="text-danger">*</span></label>
+        <label class="form-label fw-medium">{{ 'LinkVault::URL' | abpLocalization }} <span
+                class="text-danger">*</span></label>
         <div class="input-group">
             <span class="input-group-text bg-light border-end-0">
                 <i class="fas fa-globe text-muted"></i>
@@ -26,30 +27,32 @@
                 [disabled]="fetchingMetadata || !form.url">
                 <span *ngIf="fetchingMetadata" class="spinner-border spinner-border-sm me-1"></span>
                 <i *ngIf="!fetchingMetadata" class="fas fa-magic me-1"></i>
-                {{ fetchingMetadata ? 'Fetching...' : 'Fetch Info' }}
+                {{ (fetchingMetadata ? 'LinkVault::Loading' : 'LinkVault::FetchInfo') | abpLocalization }}
             </button>
         </div>
-        <small class="text-muted">Enter a URL and click "Fetch Info" to auto-fill details</small>
+        <small class="text-muted">{{ 'LinkVault::EnterUrlFetchInfo' | abpLocalization }}</small>
     </div>
 
     <!-- Title -->
     <div class="mb-3">
-        <label class="form-label fw-medium">Title <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" [(ngModel)]="form.title" placeholder="Link title" [disabled]="loading">
+        <label class="form-label fw-medium">{{ 'LinkVault::Title' | abpLocalization }} <span
+                class="text-danger">*</span></label>
+        <input type="text" class="form-control" [(ngModel)]="form.title"
+            [placeholder]="'LinkVault::Title' | abpLocalization" [disabled]="loading">
     </div>
 
     <!-- Description -->
     <div class="mb-3">
-        <label class="form-label fw-medium">Description</label>
-        <textarea class="form-control" rows="3" [(ngModel)]="form.description" placeholder="Optional description"
-            [disabled]="loading"></textarea>
+        <label class="form-label fw-medium">{{ 'LinkVault::Description' | abpLocalization }}</label>
+        <textarea class="form-control" rows="3" [(ngModel)]="form.description"
+            [placeholder]="'LinkVault::OptionalDescription' | abpLocalization" [disabled]="loading"></textarea>
     </div>
 
     <!-- Collection -->
     <div class="mb-3">
-        <label class="form-label fw-medium">Collection</label>
+        <label class="form-label fw-medium">{{ 'LinkVault::Collection' | abpLocalization }}</label>
         <select class="form-select" [(ngModel)]="form.collectionId" [disabled]="loading">
-            <option [ngValue]="undefined">-- No Collection --</option>
+            <option [ngValue]="undefined">{{ 'LinkVault::NoCollection' | abpLocalization }}</option>
             <option *ngFor="let collection of collections" [ngValue]="collection.id">
                 {{ collection.name }}
             </option>
@@ -58,10 +61,10 @@
 
     <!-- Tags -->
     <div class="mb-3">
-        <label class="form-label fw-medium">Tags</label>
+        <label class="form-label fw-medium">{{ 'LinkVault::Tags' | abpLocalization }}</label>
         <input type="text" class="form-control" [(ngModel)]="tagsInput"
-            placeholder="Enter tags separated by commas (e.g., work, reference, tutorial)" [disabled]="loading">
-        <small class="text-muted">Separate multiple tags with commas</small>
+            [placeholder]="'LinkVault::EnterTagsHint' | abpLocalization" [disabled]="loading">
+        <small class="text-muted">{{ 'LinkVault::SeparateTagsWithCommas' | abpLocalization }}</small>
     </div>
 
     <!-- Favorite Toggle -->
@@ -70,13 +73,13 @@
             [disabled]="loading">
         <label class="form-check-label" for="favoriteCheck">
             <i class="fas fa-star text-warning me-1"></i>
-            Mark as favorite
+            {{ 'LinkVault::MarkAsFavorite' | abpLocalization }}
         </label>
     </div>
 
     <!-- Favicon Preview -->
     <div class="mb-3" *ngIf="form.favicon">
-        <label class="form-label fw-medium">Favicon Preview</label>
+        <label class="form-label fw-medium">{{ 'LinkVault::FaviconPreview' | abpLocalization }}</label>
         <div class="d-flex align-items-center gap-2 p-2 bg-light rounded">
             <img [src]="form.favicon" alt="favicon" class="favicon-preview" onerror="this.style.display='none'">
             <span class="small text-muted text-truncate">{{ form.favicon }}</span>
@@ -86,10 +89,11 @@
 
 <div class="modal-footer border-0 pt-0">
     <button type="button" class="btn btn-light px-4" (click)="cancel()" [disabled]="loading">
-        Cancel
+        {{ 'LinkVault::Cancel' | abpLocalization }}
     </button>
     <button type="button" class="btn btn-primary px-4" (click)="save()" [disabled]="loading">
         <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-        {{ loading ? 'Saving...' : (mode === 'create' ? 'Add Link' : 'Save Changes') }}
+        {{ (loading ? 'LinkVault::Saving' : (mode === 'create' ? 'LinkVault::AddLink' : 'LinkVault::Save')) |
+        abpLocalization }}
     </button>
 </div>

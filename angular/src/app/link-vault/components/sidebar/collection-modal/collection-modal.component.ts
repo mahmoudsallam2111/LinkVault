@@ -2,13 +2,14 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { LocalizationModule } from '@abp/ng.core';
 import { CollectionService } from '../../../../proxy/collections/collection.service';
 import { CollectionDto, CreateUpdateCollectionDto } from '../../../../proxy/collections/models';
 
 @Component({
     selector: 'app-collection-modal',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, LocalizationModule],
     templateUrl: './collection-modal.component.html',
     styleUrls: ['./collection-modal.component.css']
 })

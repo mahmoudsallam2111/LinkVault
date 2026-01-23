@@ -2,6 +2,7 @@ import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { LocalizationModule } from '@abp/ng.core';
 import { LinkService } from '../../../../proxy/links/link.service';
 import { CollectionService } from '../../../../proxy/collections/collection.service';
 import { LinkDto, CreateUpdateLinkDto } from '../../../../proxy/links/models';
@@ -10,7 +11,7 @@ import { CollectionDto } from '../../../../proxy/collections/models';
 @Component({
     selector: 'app-link-modal',
     standalone: true,
-    imports: [CommonModule, FormsModule],
+    imports: [CommonModule, FormsModule, LocalizationModule],
     templateUrl: './link-modal.component.html',
     styleUrls: ['./link-modal.component.css']
 })

@@ -42,3 +42,301 @@
 /* Ngx-Datatable Styles */
 @import '@swimlane/ngx-datatable/index.scss';
 @import '@swimlane/ngx-datatable/themes/material.scss';
+
+/* Global z-index fixes for navbar dropdowns */
+.dropdown-menu {
+  z-index: 1050 !important;
+}
+
+/* Ensure the app content doesn't create a stacking context that overlaps navbar */
+.app-container {
+  position: relative;
+  z-index: 1;
+}
+
+/* ========================================
+   Dark Theme Implementation
+   ======================================== */
+
+/* Light Theme Variables (Default) */
+body.light-theme {
+  --lv-bg-primary: #f8f9fa;
+  --lv-bg-secondary: #ffffff;
+  --lv-bg-card: #ffffff;
+  --lv-bg-sidebar: #ffffff;
+  --lv-bg-input: #f1f3f5;
+  --lv-bg-hover: #e9ecef;
+  --lv-bg-active: #e7f1ff;
+
+  --lv-text-primary: #212529;
+  --lv-text-secondary: #6c757d;
+  --lv-text-muted: #adb5bd;
+
+  --lv-border-color: #dee2e6;
+  --lv-shadow: rgba(0, 0, 0, 0.08);
+  --lv-shadow-lg: rgba(0, 0, 0, 0.15);
+}
+
+/* Dark Theme Variables */
+body.dark-theme {
+  --lv-bg-primary: #121212;
+  --lv-bg-secondary: #1e1e1e;
+  --lv-bg-card: #252525;
+  --lv-bg-sidebar: #1a1a1a;
+  --lv-bg-input: #2d2d2d;
+  --lv-bg-hover: #333333;
+  --lv-bg-active: #2c3e50;
+
+  --lv-text-primary: #e4e6eb;
+  --lv-text-secondary: #b0b3b8;
+  --lv-text-muted: #8a8d91;
+
+  --lv-border-color: #3a3b3c;
+  --lv-shadow: rgba(0, 0, 0, 0.3);
+  --lv-shadow-lg: rgba(0, 0, 0, 0.5);
+}
+
+/* Apply theme to body */
+body.dark-theme {
+  background-color: var(--lv-bg-primary) !important;
+  color: var(--lv-text-primary);
+}
+
+/* Dark theme overrides for main containers */
+body.dark-theme {
+  .app-container {
+    background-color: var(--lv-bg-primary) !important;
+  }
+
+  .bg-light {
+    background-color: var(--lv-bg-primary) !important;
+  }
+
+  .bg-white {
+    background-color: var(--lv-bg-card) !important;
+  }
+
+  /* Cards */
+  .card {
+    background-color: var(--lv-bg-card) !important;
+    border-color: var(--lv-border-color) !important;
+    box-shadow: 0 2px 8px var(--lv-shadow) !important;
+  }
+
+  /* Text colors */
+  .text-dark {
+    color: var(--lv-text-primary) !important;
+  }
+
+  .text-muted {
+    color: var(--lv-text-secondary) !important;
+  }
+
+  /* Sidebar */
+  .sidebar {
+    background-color: var(--lv-bg-sidebar) !important;
+    border-right: 1px solid var(--lv-border-color);
+  }
+
+  .sidebar .nav-link {
+    color: var(--lv-text-primary) !important;
+
+    &:hover {
+      background-color: var(--lv-bg-hover) !important;
+    }
+  }
+
+  .sidebar .active-link {
+    background-color: var(--lv-bg-active) !important;
+  }
+
+  /* Form inputs */
+  .form-control,
+  .form-select {
+    background-color: var(--lv-bg-input) !important;
+    border-color: var(--lv-border-color) !important;
+    color: var(--lv-text-primary) !important;
+
+    &::placeholder {
+      color: var(--lv-text-muted) !important;
+    }
+
+    &:focus {
+      background-color: var(--lv-bg-input) !important;
+      border-color: #696cff !important;
+      box-shadow: 0 0 0 0.2rem rgba(105, 108, 255, 0.25) !important;
+    }
+  }
+
+  .input-group-text {
+    background-color: var(--lv-bg-input) !important;
+    border-color: var(--lv-border-color) !important;
+    color: var(--lv-text-secondary) !important;
+  }
+
+  /* Buttons */
+  .btn-light {
+    background-color: var(--lv-bg-hover) !important;
+    border-color: var(--lv-border-color) !important;
+    color: var(--lv-text-primary) !important;
+  }
+
+  .btn-outline-secondary {
+    color: var(--lv-text-secondary) !important;
+    border-color: var(--lv-border-color) !important;
+
+    &:hover {
+      background-color: var(--lv-bg-hover) !important;
+      color: var(--lv-text-primary) !important;
+    }
+  }
+
+  /* Badges */
+  .badge.bg-light {
+    background-color: var(--lv-bg-hover) !important;
+    color: var(--lv-text-primary) !important;
+  }
+
+  .badge.bg-primary-subtle {
+    background-color: rgba(105, 108, 255, 0.2) !important;
+  }
+
+  .badge.bg-info-subtle {
+    background-color: rgba(3, 195, 236, 0.2) !important;
+  }
+
+  /* Dropdowns */
+  .dropdown-menu {
+    background-color: var(--lv-bg-card) !important;
+    border-color: var(--lv-border-color) !important;
+  }
+
+  .dropdown-item {
+    color: var(--lv-text-primary) !important;
+
+    &:hover {
+      background-color: var(--lv-bg-hover) !important;
+    }
+  }
+
+  .dropdown-divider {
+    border-color: var(--lv-border-color) !important;
+  }
+
+  /* Modals */
+  .modal-content {
+    background-color: var(--lv-bg-card) !important;
+    border-color: var(--lv-border-color) !important;
+  }
+
+  .modal-header {
+    border-color: var(--lv-border-color) !important;
+  }
+
+  .modal-footer {
+    border-color: var(--lv-border-color) !important;
+  }
+
+  /* Tables / Datatables */
+  .ngx-datatable.material {
+    background-color: var(--lv-bg-card) !important;
+    box-shadow: none !important;
+
+    .datatable-header {
+      background-color: var(--lv-bg-secondary) !important;
+
+      .datatable-header-cell {
+        background-color: var(--lv-bg-secondary) !important;
+        color: var(--lv-text-secondary) !important;
+      }
+    }
+
+    .datatable-body {
+      .datatable-body-row {
+        border-color: var(--lv-border-color) !important;
+
+        &:hover {
+          background-color: var(--lv-bg-hover) !important;
+        }
+
+        .datatable-body-cell {
+          color: var(--lv-text-primary) !important;
+        }
+      }
+    }
+
+    .datatable-footer {
+      background-color: var(--lv-bg-secondary) !important;
+      border-color: var(--lv-border-color) !important;
+      color: var(--lv-text-secondary) !important;
+
+      .pager li a {
+        color: var(--lv-text-secondary) !important;
+      }
+    }
+  }
+
+  /* Alerts */
+  .alert-warning {
+    background-color: rgba(255, 193, 7, 0.15) !important;
+    border-color: rgba(255, 193, 7, 0.3) !important;
+  }
+
+  /* Borders */
+  .border {
+    border-color: var(--lv-border-color) !important;
+  }
+
+  .border-top,
+  .border-bottom {
+    border-color: var(--lv-border-color) !important;
+  }
+
+  /* Offcanvas (mobile sidebar) */
+  .offcanvas {
+    background-color: var(--lv-bg-sidebar) !important;
+  }
+}
+
+/* Hide ABP Lepton Theme Footer */
+lpx-footer,
+.lpx-footbar-container,
+.lpx-footbar,
+[class*="lpx-footbar"] {
+  display: none !important;
+  visibility: hidden !important;
+  height: 0 !important;
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
+/* RTL Support */
+html[dir="rtl"] {
+  .text-end {
+    text-align: left !important;
+  }
+
+  .text-start {
+    text-align: right !important;
+  }
+
+  // Flip icons in RTL
+  .fa-arrow-right {
+    transform: rotate(180deg);
+  }
+
+  .fa-chevron-right {
+    transform: rotate(180deg);
+  }
+
+  .fa-chevron-left {
+    transform: rotate(180deg);
+  }
+
+  // Ensure sidebar offcanvas appears from right in RTL
+  .offcanvas-start {
+    left: auto;
+    right: 0;
+    transform: translateX(100%);
+  }
+}

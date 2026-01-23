@@ -1,479 +1,391 @@
 <div class="app-container p-3 p-md-4 min-vh-100 bg-light">
-  <!-- Top Header -->
-  <div class="card border-0 shadow-sm mb-4 sticky-top" style="top: 1rem; z-index: 1020">
-    <div
-      class="card-body d-flex flex-wrap justify-content-between align-items-center px-3 px-md-4 py-3 gap-2"
-    >
-      <div class="d-flex align-items-center">
-        <button
-          class="btn btn-link p-0 me-2 me-md-3 d-lg-none text-primary"
-          (click)="openMobileSidebar()"
-          aria-label="Toggle sidebar"
-        >
-          <i class="fas fa-bars fa-lg"></i>
-        </button>
-        <div
-          class="icon-box bg-gradient-primary text-white rounded-3 me-2 d-flex align-items-center justify-content-center"
-          style="width: 40px; height: 40px"
-        >
-          <i class="fas fa-link fa-lg"></i>
+    <!-- Top Header -->
+    <div class="card border-0 shadow-sm mb-4 sticky-top" style="top: 1rem; z-index: 900">
+        <div class="card-body d-flex flex-wrap justify-content-between align-items-center px-3 px-md-4 py-3 gap-2">
+            <div class="d-flex align-items-center">
+                <button class="btn btn-link p-0 me-2 me-md-3 d-lg-none text-primary" (click)="openMobileSidebar()"
+                    aria-label="Toggle sidebar">
+                    <i class="fas fa-bars fa-lg"></i>
+                </button>
+                <div class="icon-box bg-gradient-primary text-white rounded-3 me-2 d-flex align-items-center justify-content-center"
+                    style="width: 40px; height: 40px">
+                    <i class="fas fa-link fa-lg"></i>
+                </div>
+                <h4 class="fw-bold mb-0 d-none d-lg-block text-dark">{{ 'LinkVault::AppName' | abpLocalization }}</h4>
+                <h5 class="fw-bold mb-0 d-lg-none text-dark">{{ 'LinkVault::AppName' | abpLocalization }}</h5>
+            </div>
+            <div class="d-flex gap-2 align-items-center">
+                <!-- Theme Toggle Button -->
+                <button class="btn btn-icon rounded-circle d-flex align-items-center justify-content-center"
+                    [class.btn-outline-secondary]="!themeService.isDarkMode" [class.btn-light]="themeService.isDarkMode"
+                    (click)="themeService.toggleTheme()"
+                    [attr.aria-label]="themeService.isDarkMode ? 'Switch to light mode' : 'Switch to dark mode'"
+                    style="width: 40px; height: 40px;">
+                    <i class="fas" [class.fa-moon]="!themeService.isDarkMode"
+                        [class.fa-sun]="themeService.isDarkMode"></i>
+                </button>
+                <a class="btn btn-outline-secondary d-flex align-items-center" routerLink="/settings"
+                    aria-label="Settings">
+                    <i class="fas fa-cog"></i>
+                    <span class="d-none d-md-inline ms-2">{{ 'LinkVault::Settings' | abpLocalization }}</span>
+                </a>
+                <button class="btn btn-primary d-flex align-items-center shadow-sm" (click)="addLink()">
+                    <i class="fas fa-plus"></i>
+                    <span class="d-none d-md-inline ms-2">{{ 'LinkVault::AddLink' | abpLocalization }}</span>
+                </button>
+            </div>
         </div>
-        <h4 class="fw-bold mb-0 d-none d-lg-block text-dark">LinkVault</h4>
-        <h5 class="fw-bold mb-0 d-lg-none text-dark">LinkVault</h5>
-      </div>
-      <div class="d-flex gap-2">
-        <a
-          class="btn btn-outline-secondary d-flex align-items-center"
-          routerLink="/settings"
-          aria-label="Settings"
-        >
-          <i class="fas fa-cog"></i>
-          <span class="d-none d-md-inline ms-2">Settings</span>
-        </a>
-        <button class="btn btn-primary d-flex align-items-center shadow-sm" (click)="addLink()">
-          <i class="fas fa-plus"></i>
-          <span class="d-none d-md-inline ms-2">Add Link</span>
-        </button>
-      </div>
-    </div>
-  </div>
-
-  <div class="row g-3 g-md-4">
-    <!-- Sidebar -->
-    <div class="col-12 col-lg-3 d-none d-lg-block">
-      <div class="position-sticky" style="top: 6rem">
-        <app-sidebar class="d-block rounded-3 overflow-hidden shadow-sm"></app-sidebar>
-      </div>
     </div>
 
-    <!-- Main Content -->
-    <div class="col-12 col-lg-9">
-      <div class="card border-0 shadow-sm rounded-3">
-        <div class="card-body p-3 p-md-4">
-          <!-- Page Title -->
-          <div class="d-flex justify-content-between align-items-center mb-4">
-            <h2 class="fw-bold mb-0 text-dark">All Links</h2>
-            <span class="badge bg-light text-dark fs-6" *ngIf="stats">
-              {{ stats.totalLinks }} total
-            </span>
-          </div>
-
-          <!-- Stats Row -->
-          <div class="row g-3 mb-4" *ngIf="stats">
-            <div class="col-6 col-lg-3">
-              <app-stats-card
-                title="Total Links"
-                [value]="stats.totalLinks"
-                bgClass="bg-primary"
-                bgStyle="linear-gradient(135deg, #667eea 0%, #764ba2 100%)"
-              >
-              </app-stats-card>
+    <div class="row g-3 g-md-4">
+        <!-- Sidebar -->
+        <div class="col-12 col-lg-3 d-none d-lg-block">
+            <div class="position-sticky" style="top: 6rem">
+                <app-sidebar class="d-block rounded-3 overflow-hidden shadow-sm"></app-sidebar>
             </div>
-            <div class="col-6 col-lg-3">
-              <app-stats-card
-                title="Collections"
-                [value]="stats.collectionCount"
-                bgClass="bg-danger"
-                bgStyle="linear-gradient(135deg, #f093fb 0%, #f5576c 100%)"
-              >
-              </app-stats-card>
-            </div>
-            <div class="col-6 col-lg-3">
-              <app-stats-card
-                title="This Week"
-                [value]="stats.linksAddedThisWeek"
-                bgClass="bg-info"
-                bgStyle="linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)"
-              >
-              </app-stats-card>
-            </div>
-            <div class="col-6 col-lg-3">
-              <app-stats-card
-                title="Total Clicks"
-                [value]="stats.totalClicks"
-                bgClass="bg-success"
-                bgStyle="linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)"
-              >
-              </app-stats-card>
-            </div>
-          </div>
+        </div>
 
-          <!-- Search and Filter Section -->
-          <div class="card bg-light border-0 mb-4">
-            <div class="card-body p-3">
-              <!-- Search Bar -->
-              <div class="mb-3">
-                <div class="input-group input-group-lg">
-                  <span class="input-group-text bg-white border-end-0">
-                    <i class="fas fa-search text-muted"></i>
-                  </span>
-                  <input
-                    type="text"
-                    class="form-control bg-white border-start-0 ps-0"
-                    placeholder="Search links, tags, or collections..."
-                    [(ngModel)]="searchTerm"
-                    (input)="onSearch($event)"
-                    aria-label="Search"
-                  />
-                </div>
-              </div>
-
-              <!-- Filters Row -->
-              <div class="row g-2">
-                <!-- Date Range -->
-                <div class="col-12 col-md-6 col-lg-4">
-                  <label class="form-label small text-muted mb-1">Date Range</label>
-                  <div class="input-group input-group-sm">
-                    <input
-                      class="form-control"
-                      placeholder="Start date"
-                      name="dpFrom"
-                      [(ngModel)]="fromDate"
-                      ngbDatepicker
-                      #d1="ngbDatepicker"
-                      (click)="d1.toggle()"
-                      (dateSelect)="onDateSelect()"
-                      aria-label="Start date"
-                    />
-                    <span class="input-group-text bg-white px-2">
-                      <i class="fas fa-arrow-right text-muted" style="font-size: 0.75rem"></i>
-                    </span>
-                    <input
-                      class="form-control"
-                      placeholder="End date"
-                      name="dpTo"
-                      [(ngModel)]="toDate"
-                      ngbDatepicker
-                      #d2="ngbDatepicker"
-                      (click)="d2.toggle()"
-                      (dateSelect)="onDateSelect()"
-                      aria-label="End date"
-                    />
-                  </div>
-                </div>
-
-                <!-- Collection Filter -->
-                <div class="col-6 col-md-3 col-lg-3">
-                  <label class="form-label small text-muted mb-1">Collection</label>
-                  <select
-                    class="form-select form-select-sm"
-                    [(ngModel)]="selectedCollectionId"
-                    (change)="onCollectionFilterChange()"
-                    aria-label="Filter by collection"
-                  >
-                    <option value="">All Collections</option>
-                    <option *ngFor="let collection of collections" [value]="collection.id">
-                      {{ collection.name }}
-                    </option>
-                  </select>
-                </div>
-
-                <!-- Sort -->
-                <div class="col-6 col-md-3 col-lg-3">
-                  <label class="form-label small text-muted mb-1">Sort By</label>
-                  <select
-                    class="form-select form-select-sm"
-                    [(ngModel)]="selectedSort"
-                    (change)="onSortChange()"
-                    aria-label="Sort links"
-                  >
-                    <option *ngFor="let opt of sortOptions" [value]="opt.value">
-                      {{ opt.label }}
-                    </option>
-                  </select>
-                </div>
-
-                <!-- Favorites Toggle -->
-                <div class="col-12 col-lg-2">
-                  <label class="form-label small text-muted mb-1 d-none d-lg-block">&nbsp;</label>
-                  <button
-                    class="btn btn-sm w-100"
-                    [class.btn-warning]="filter.isFavorite"
-                    [class.btn-outline-secondary]="!filter.isFavorite"
-                    (click)="filterByFavorites()"
-                    aria-label="Filter favorites"
-                  >
-                    <i class="fas fa-star me-1"></i>
-                    <span>{{ filter.isFavorite ? 'Favorites' : 'All' }}</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Links Datatable - Desktop -->
-          <div class="d-none d-lg-block">
-            <ngx-datatable
-              class="material bootstrap"
-              [rows]="links"
-              [columnMode]="'force'"
-              [headerHeight]="50"
-              [footerHeight]="50"
-              [rowHeight]="'auto'"
-              [limit]="10"
-              [scrollbarH]="true"
-            >
-              <!-- Title Column -->
-              <ngx-datatable-column name="Title" prop="title" [flexGrow]="2.5">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  <div class="d-flex align-items-center py-2">
-                    <img
-                      [src]="row.favicon || 'assets/images/default-favicon.png'"
-                      alt="favicon"
-                      class="me-2 rounded"
-                      style="width: 24px; height: 24px; object-fit: contain"
-                      onerror="this.src = 'assets/images/default-favicon.png'"
-                    />
-                    <div class="flex-grow-1 min-w-0">
-                      <a
-                        [href]="row.url"
-                        target="_blank"
-                        class="text-decoration-none text-dark fw-semibold d-block text-truncate"
-                        [title]="row.title"
-                      >
-                        {{ row.title }}
-                      </a>
+        <!-- Main Content -->
+        <div class="col-12 col-lg-9">
+            <div class="card border-0 shadow-sm rounded-3">
+                <div class="card-body p-3 p-md-4">
+                    <!-- Page Title -->
+                    <div class="d-flex justify-content-between align-items-center mb-4">
+                        <h2 class="fw-bold mb-0 text-dark">{{ 'LinkVault::AllLinks' | abpLocalization }}</h2>
+                        <span class="badge bg-light text-dark fs-6" *ngIf="stats">
+                            {{ stats.totalLinks }} {{ 'LinkVault::Total' | abpLocalization }}
+                        </span>
                     </div>
-                  </div>
-                </ng-template>
-              </ngx-datatable-column>
 
-              <!-- URL Column -->
-              <ngx-datatable-column name="URL" prop="url" [flexGrow]="2">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                  <small
-                    class="text-muted text-truncate d-block"
-                    style="max-width: 250px"
-                    [title]="value"
-                  >
-                    {{ value }}
-                  </small>
-                </ng-template>
-              </ngx-datatable-column>
+                    <!-- Stats Row -->
+                    <div class="row g-3 mb-4" *ngIf="stats">
+                        <div class="col-6 col-lg-3">
+                            <app-stats-card [title]="'LinkVault::TotalLinks' | abpLocalization"
+                                [value]="stats.totalLinks" bgClass="bg-primary"
+                                bgStyle="linear-gradient(135deg, #667eea 0%, #764ba2 100%)">
+                            </app-stats-card>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                            <app-stats-card [title]="'LinkVault::Collections' | abpLocalization"
+                                [value]="stats.collectionCount" bgClass="bg-danger"
+                                bgStyle="linear-gradient(135deg, #f093fb 0%, #f5576c 100%)">
+                            </app-stats-card>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                            <app-stats-card [title]="'LinkVault::ThisWeek' | abpLocalization"
+                                [value]="stats.linksAddedThisWeek" bgClass="bg-info"
+                                bgStyle="linear-gradient(135deg, #4facfe 0%, #00f2fe 100%)">
+                            </app-stats-card>
+                        </div>
+                        <div class="col-6 col-lg-3">
+                            <app-stats-card [title]="'LinkVault::TotalClicks' | abpLocalization"
+                                [value]="stats.totalClicks" bgClass="bg-success"
+                                bgStyle="linear-gradient(135deg, #43e97b 0%, #38f9d7 100%)">
+                            </app-stats-card>
+                        </div>
+                    </div>
 
-              <!-- Collection Column -->
-              <ngx-datatable-column name="Collection" [flexGrow]="1.2">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  <span *ngIf="row.collection" class="badge bg-light text-dark border">
-                    <i
-                      [class]="'fas fa-' + (row.collection.icon || 'folder') + ' me-1'"
-                      [style.color]="row.collection.color"
-                    ></i>
-                    {{ row.collection.name }}
-                  </span>
-                  <span *ngIf="!row.collection" class="text-muted small">—</span>
-                </ng-template>
-              </ngx-datatable-column>
+                    <!-- Search and Filter Section -->
+                    <div class="card bg-light border-0 mb-4">
+                        <div class="card-body p-3">
+                            <!-- Search Bar -->
+                            <div class="mb-3">
+                                <div class="input-group input-group-lg">
+                                    <span class="input-group-text bg-white border-end-0">
+                                        <i class="fas fa-search text-muted"></i>
+                                    </span>
+                                    <input type="text" class="form-control bg-white border-start-0 ps-0"
+                                        [placeholder]="'LinkVault::SearchPlaceholder' | abpLocalization"
+                                        [(ngModel)]="searchTerm" (input)="onSearch($event)"
+                                        [attr.aria-label]="'LinkVault::Search' | abpLocalization" />
+                                </div>
+                            </div>
 
-              <!-- Tags Column -->
-              <ngx-datatable-column name="Tags" [flexGrow]="1.5">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  <div class="d-flex flex-wrap gap-1">
-                    <span
-                      *ngFor="let tag of row.tags?.slice(0, 2)"
-                      class="badge bg-primary-subtle text-primary"
-                    >
-                      {{ tag.name }}
-                    </span>
-                    <span
-                      *ngIf="row.tags?.length > 2"
-                      class="badge bg-secondary-subtle text-secondary"
-                    >
-                      +{{ row.tags.length - 2 }}
-                    </span>
-                  </div>
-                </ng-template>
-              </ngx-datatable-column>
+                            <!-- Filters Row -->
+                            <div class="row g-2">
+                                <!-- Date Range -->
+                                <div class="col-12 col-md-6 col-lg-4">
+                                    <label class="form-label small text-muted mb-1">{{ 'LinkVault::DateRange' |
+                                        abpLocalization }}</label>
+                                    <div class="input-group input-group-sm">
+                                        <input class="form-control"
+                                            [placeholder]="'LinkVault::StartDate' | abpLocalization" name="dpFrom"
+                                            [(ngModel)]="fromDate" ngbDatepicker #d1="ngbDatepicker"
+                                            (click)="d1.toggle()" (dateSelect)="onDateSelect()"
+                                            [attr.aria-label]="'LinkVault::StartDate' | abpLocalization" />
+                                        <span class="input-group-text bg-white px-2">
+                                            <i class="fas fa-arrow-right text-muted" style="font-size: 0.75rem"></i>
+                                        </span>
+                                        <input class="form-control"
+                                            [placeholder]="'LinkVault::EndDate' | abpLocalization" name="dpTo"
+                                            [(ngModel)]="toDate" ngbDatepicker #d2="ngbDatepicker" (click)="d2.toggle()"
+                                            (dateSelect)="onDateSelect()"
+                                            [attr.aria-label]="'LinkVault::EndDate' | abpLocalization" />
+                                    </div>
+                                </div>
 
-              <!-- Visits Column -->
-              <ngx-datatable-column name="Visits" prop="visitCount" [flexGrow]="0.7">
-                <ng-template let-value="value" ngx-datatable-cell-template>
-                  <span class="badge bg-info-subtle text-info">
-                    <i class="fas fa-eye me-1"></i>{{ value || 0 }}
-                  </span>
-                </ng-template>
-              </ngx-datatable-column>
+                                <!-- Collection Filter -->
+                                <div class="col-6 col-md-3 col-lg-3">
+                                    <label class="form-label small text-muted mb-1">{{ 'LinkVault::Collection' |
+                                        abpLocalization }}</label>
+                                    <select class="form-select form-select-sm" [(ngModel)]="selectedCollectionId"
+                                        (change)="onCollectionFilterChange()"
+                                        [attr.aria-label]="'LinkVault::SelectCollection' | abpLocalization">
+                                        <option value="">{{ 'LinkVault::AllCollections' | abpLocalization }}</option>
+                                        <option *ngFor="let collection of collections" [value]="collection.id">
+                                            {{ collection.name }}
+                                        </option>
+                                    </select>
+                                </div>
 
-              <!-- Favorite Column -->
-              <ngx-datatable-column name="" [flexGrow]="0.5" [sortable]="false">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  <button
-                    class="btn btn-sm btn-link p-0"
-                    (click)="toggleFavorite(row)"
-                    [attr.aria-label]="
+                                <!-- Sort -->
+                                <div class="col-6 col-md-3 col-lg-3">
+                                    <label class="form-label small text-muted mb-1">{{ 'LinkVault::SortBy' |
+                                        abpLocalization }}</label>
+                                    <select class="form-select form-select-sm" [(ngModel)]="selectedSort"
+                                        (change)="onSortChange()"
+                                        [attr.aria-label]="'LinkVault::SortBy' | abpLocalization">
+                                        <option *ngFor="let opt of sortOptions" [value]="opt.value">
+                                            {{ opt.labelKey | abpLocalization }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <!-- Favorites Toggle -->
+                                <div class="col-12 col-lg-2">
+                                    <label class="form-label small text-muted mb-1 d-none d-lg-block">&nbsp;</label>
+                                    <button class="btn btn-sm w-100" [class.btn-warning]="filter.isFavorite"
+                                        [class.btn-outline-secondary]="!filter.isFavorite" (click)="filterByFavorites()"
+                                        [attr.aria-label]="'LinkVault::Favorites' | abpLocalization">
+                                        <i class="fas fa-star me-1"></i>
+                                        <span>{{ (filter.isFavorite ? 'LinkVault::Favorites' : 'LinkVault::All') |
+                                            abpLocalization }}</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Links Datatable - Desktop -->
+                    <div class="d-none d-lg-block">
+                        <ngx-datatable class="material bootstrap" [rows]="links" [columnMode]="'force'"
+                            [headerHeight]="50" [footerHeight]="50" [rowHeight]="'auto'" [limit]="10"
+                            [scrollbarH]="true">
+                            <!-- Title Column -->
+                            <ngx-datatable-column [name]="'LinkVault::Title' | abpLocalization" prop="title"
+                                [flexGrow]="2.5">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <div class="d-flex align-items-center py-2">
+                                        <img [src]="row.favicon || 'assets/images/default-favicon.png'" alt="favicon"
+                                            class="me-2 rounded" style="width: 24px; height: 24px; object-fit: contain"
+                                            onerror="this.src = 'assets/images/default-favicon.png'" />
+                                        <div class="flex-grow-1 min-w-0">
+                                            <a [href]="row.url" target="_blank" (click)="visitLink(row)"
+                                                class="text-decoration-none text-dark fw-semibold d-block text-truncate"
+                                                [title]="row.title">
+                                                {{ row.title }}
+                                            </a>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- URL Column -->
+                            <ngx-datatable-column [name]="'LinkVault::URL' | abpLocalization" prop="url" [flexGrow]="2">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                    <small class="text-muted text-truncate d-block" style="max-width: 250px"
+                                        [title]="value">
+                                        {{ value }}
+                                    </small>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- Collection Column -->
+                            <ngx-datatable-column [name]="'LinkVault::Collection' | abpLocalization" [flexGrow]="1.2">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <span *ngIf="row.collectionName" class="badge bg-light text-dark border">
+                                        <i class="fas fa-folder me-1 text-primary"></i>
+                                        {{ row.collectionName }}
+                                    </span>
+                                    <span *ngIf="!row.collectionName" class="text-muted small">—</span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- Tags Column -->
+                            <ngx-datatable-column [name]="'LinkVault::Tags' | abpLocalization" [flexGrow]="1.5">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <div class="d-flex flex-wrap gap-1">
+                                        <span *ngFor="let tag of row.tags?.slice(0, 2)"
+                                            class="badge bg-primary-subtle text-primary">
+                                            {{ tag.name }}
+                                        </span>
+                                        <span *ngIf="row.tags?.length > 2"
+                                            class="badge bg-secondary-subtle text-secondary">
+                                            +{{ row.tags.length - 2 }}
+                                        </span>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- Visits Column -->
+                            <ngx-datatable-column [name]="'LinkVault::Visits' | abpLocalization" prop="visitCount"
+                                [flexGrow]="0.7">
+                                <ng-template let-value="value" ngx-datatable-cell-template>
+                                    <span class="badge bg-info-subtle text-info">
+                                        <i class="fas fa-eye me-1"></i>{{ value || 0 }}
+                                    </span>
+                                </ng-template>
+                            </ngx-datatable-column>
+
+                            <!-- Favorite Column -->
+                            <ngx-datatable-column name="" [flexGrow]="0.5" [sortable]="false">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <button class="btn btn-sm btn-link p-0" (click)="toggleFavorite(row)"
+                                        [attr.aria-label]="
                       row.isFavorite ? 'Remove from favorites' : 'Add to favorites'
-                    "
-                  >
-                    <i
-                      class="fas fa-star fa-lg"
-                      [class.text-warning]="row.isFavorite"
-                      [class.text-muted]="!row.isFavorite"
-                    ></i>
-                  </button>
-                </ng-template>
-              </ngx-datatable-column>
+                    ">
+                                        <i class="fas fa-star fa-lg" [class.text-warning]="row.isFavorite"
+                                            [class.text-muted]="!row.isFavorite"></i>
+                                    </button>
+                                </ng-template>
+                            </ngx-datatable-column>
 
-              <!-- Actions Column -->
-              <ngx-datatable-column name="Actions" [flexGrow]="1" [sortable]="false">
-                <ng-template let-row="row" ngx-datatable-cell-template>
-                  <div ngbDropdown container="body">
-                    <button
-                      class="btn btn-sm btn-outline-primary"
-                      id="actionsDropdown-{{ row.id }}"
-                      ngbDropdownToggle
-                    >
-                      <i class="fas fa-ellipsis-v"></i>
-                    </button>
-                    <div ngbDropdownMenu [attr.aria-labelledby]="'actionsDropdown-' + row.id">
-                      <button ngbDropdownItem (click)="visitLink(row)">
-                        <i class="fas fa-external-link-alt me-2 text-primary"></i> Visit
-                      </button>
-                      <button ngbDropdownItem (click)="editLink(row)">
-                        <i class="fas fa-edit me-2 text-secondary"></i> Edit
-                      </button>
-                      <div class="dropdown-divider"></div>
-                      <button ngbDropdownItem class="text-danger" (click)="deleteLink(row)">
-                        <i class="fas fa-trash me-2"></i> Delete
-                      </button>
-                    </div>
-                  </div>
-                </ng-template>
-              </ngx-datatable-column>
-            </ngx-datatable>
-          </div>
-
-          <!-- Links Cards - Mobile/Tablet -->
-          <div class="d-lg-none">
-            <div class="row g-3">
-              <div class="col-12" *ngFor="let link of links">
-                <div class="card border shadow-sm h-100 hover-shadow transition">
-                  <div class="card-body p-3">
-                    <!-- Header with favicon and favorite -->
-                    <div class="d-flex justify-content-between align-items-start mb-2">
-                      <div class="d-flex align-items-center flex-grow-1 min-w-0 me-2">
-                        <img
-                          [src]="link.favicon || 'assets/images/default-favicon.png'"
-                          alt="favicon"
-                          class="me-2 rounded"
-                          style="width: 24px; height: 24px; object-fit: contain"
-                          onerror="this.src = 'assets/images/default-favicon.png'"
-                        />
-                        <h6 class="mb-0 fw-semibold text-truncate">{{ link.title }}</h6>
-                      </div>
-                      <button
-                        class="btn btn-sm btn-link p-0 flex-shrink-0"
-                        (click)="toggleFavorite(link)"
-                      >
-                        <i
-                          class="fas fa-star"
-                          [class.text-warning]="link.isFavorite"
-                          [class.text-muted]="!link.isFavorite"
-                        ></i>
-                      </button>
+                            <!-- Actions Column -->
+                            <ngx-datatable-column [name]="'LinkVault::Actions' | abpLocalization" [flexGrow]="1"
+                                [sortable]="false">
+                                <ng-template let-row="row" ngx-datatable-cell-template>
+                                    <div ngbDropdown container="body">
+                                        <button class="btn btn-sm btn-outline-primary" id="actionsDropdown-{{ row.id }}"
+                                            ngbDropdownToggle>
+                                            <i class="fas fa-ellipsis-v"></i>
+                                        </button>
+                                        <div ngbDropdownMenu [attr.aria-labelledby]="'actionsDropdown-' + row.id">
+                                            <button ngbDropdownItem (click)="visitLink(row)">
+                                                <i class="fas fa-external-link-alt me-2 text-primary"></i> Visit
+                                            </button>
+                                            <button ngbDropdownItem (click)="editLink(row)">
+                                                <i class="fas fa-edit me-2 text-secondary"></i> Edit
+                                            </button>
+                                            <div class="dropdown-divider"></div>
+                                            <button ngbDropdownItem class="text-danger" (click)="deleteLink(row)">
+                                                <i class="fas fa-trash me-2"></i> Delete
+                                            </button>
+                                        </div>
+                                    </div>
+                                </ng-template>
+                            </ngx-datatable-column>
+                        </ngx-datatable>
                     </div>
 
-                    <!-- URL -->
-                    <p class="text-muted small mb-2 text-truncate">
-                      <i class="fas fa-link me-1"></i>{{ link.url }}
-                    </p>
+                    <!-- Links Cards - Mobile/Tablet -->
+                    <div class="d-lg-none">
+                        <div class="row g-3">
+                            <div class="col-12" *ngFor="let link of links">
+                                <div class="card border shadow-sm h-100 hover-shadow transition">
+                                    <div class="card-body p-3">
+                                        <!-- Header with favicon and favorite -->
+                                        <div class="d-flex justify-content-between align-items-start mb-2">
+                                            <div class="d-flex align-items-center flex-grow-1 min-w-0 me-2">
+                                                <img [src]="link.favicon || 'assets/images/default-favicon.png'"
+                                                    alt="favicon" class="me-2 rounded"
+                                                    style="width: 24px; height: 24px; object-fit: contain"
+                                                    onerror="this.src = 'assets/images/default-favicon.png'" />
+                                                <h6 class="mb-0 fw-semibold text-truncate">{{ link.title }}</h6>
+                                            </div>
+                                            <button class="btn btn-sm btn-link p-0 flex-shrink-0"
+                                                (click)="toggleFavorite(link)">
+                                                <i class="fas fa-star" [class.text-warning]="link.isFavorite"
+                                                    [class.text-muted]="!link.isFavorite"></i>
+                                            </button>
+                                        </div>
 
-                    <!-- Collection and Tags -->
-                    <div class="mb-3">
-                      <span
-                        *ngIf="link.collection"
-                        class="badge bg-light text-dark border me-1 mb-1"
-                      >
-                        <i
-                          [class]="'fas fa-' + (link.collection.icon || 'folder') + ' me-1'"
-                          [style.color]="link.collection.color"
-                        ></i>
-                        {{ link.collection.name }}
-                      </span>
-                      <span
-                        *ngFor="let tag of link.tags?.slice(0, 3)"
-                        class="badge bg-primary-subtle text-primary me-1 mb-1"
-                      >
-                        {{ tag.name }}
-                      </span>
-                      <span
-                        *ngIf="link.tags?.length > 3"
-                        class="badge bg-secondary-subtle text-secondary mb-1"
-                      >
-                        +{{ link.tags.length - 3 }}
-                      </span>
+                                        <!-- URL -->
+                                        <p class="text-muted small mb-2 text-truncate">
+                                            <i class="fas fa-link me-1"></i>{{ link.url }}
+                                        </p>
+
+                                        <!-- Collection and Tags -->
+                                        <div class="mb-3">
+                                            <span *ngIf="link.collectionName"
+                                                class="badge bg-light text-dark border me-1 mb-1">
+                                                <i class="fas fa-folder me-1 text-primary"></i>
+                                                {{ link.collectionName }}
+                                            </span>
+                                            <span *ngFor="let tag of link.tags?.slice(0, 3)"
+                                                class="badge bg-primary-subtle text-primary me-1 mb-1">
+                                                {{ tag.name }}
+                                            </span>
+                                            <span *ngIf="link.tags?.length > 3"
+                                                class="badge bg-secondary-subtle text-secondary mb-1">
+                                                +{{ link.tags.length - 3 }}
+                                            </span>
+                                        </div>
+
+                                        <!-- Stats and Actions -->
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <span class="badge bg-info-subtle text-info">
+                                                <i class="fas fa-eye me-1"></i>{{ link.visitCount || 0 }} {{
+                                                'LinkVault::Visits' | abpLocalization }}
+                                            </span>
+                                            <div class="btn-group btn-group-sm" role="group">
+                                                <button class="btn btn-outline-primary" (click)="visitLink(link)"
+                                                    title="Visit">
+                                                    <i class="fas fa-external-link-alt"></i>
+                                                </button>
+                                                <button class="btn btn-outline-secondary" (click)="editLink(link)"
+                                                    title="Edit">
+                                                    <i class="fas fa-edit"></i>
+                                                </button>
+                                                <button class="btn btn-outline-danger" (click)="deleteLink(link)"
+                                                    title="Delete">
+                                                    <i class="fas fa-trash"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Mobile Pagination -->
+                        <nav aria-label="Page navigation" class="mt-4" *ngIf="links.length > 0">
+                            <ul class="pagination pagination-sm justify-content-center">
+                                <li class="page-item disabled">
+                                    <a class="page-link" href="#" tabindex="-1">{{ 'LinkVault::Previous' |
+                                        abpLocalization }}</a>
+                                </li>
+                                <li class="page-item active"><a class="page-link" href="#">1</a></li>
+                                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                                <li class="page-item">
+                                    <a class="page-link" href="#">{{ 'LinkVault::Next' | abpLocalization }}</a>
+                                </li>
+                            </ul>
+                        </nav>
                     </div>
 
-                    <!-- Stats and Actions -->
-                    <div class="d-flex justify-content-between align-items-center">
-                      <span class="badge bg-info-subtle text-info">
-                        <i class="fas fa-eye me-1"></i>{{ link.visitCount || 0 }} visits
-                      </span>
-                      <div class="btn-group btn-group-sm" role="group">
-                        <button
-                          class="btn btn-outline-primary"
-                          (click)="visitLink(link)"
-                          title="Visit"
-                        >
-                          <i class="fas fa-external-link-alt"></i>
+                    <!-- Empty State -->
+                    <div class="text-center py-5" *ngIf="links.length === 0 && !loading">
+                        <div class="mb-4">
+                            <i class="fas fa-inbox text-muted" style="font-size: 4rem; opacity: 0.3"></i>
+                        </div>
+                        <h5 class="text-muted mb-2">{{ 'LinkVault::NoLinksFoundDetail' | abpLocalization }}</h5>
+                        <p class="text-muted small mb-3">{{ 'LinkVault::StartBuildingCollection' | abpLocalization }}
+                        </p>
+                        <button class="btn btn-primary" (click)="addLink()">
+                            <i class="fas fa-plus me-2"></i>{{ 'LinkVault::AddFirstLink' | abpLocalization }}
                         </button>
-                        <button
-                          class="btn btn-outline-secondary"
-                          (click)="editLink(link)"
-                          title="Edit"
-                        >
-                          <i class="fas fa-edit"></i>
-                        </button>
-                        <button
-                          class="btn btn-outline-danger"
-                          (click)="deleteLink(link)"
-                          title="Delete"
-                        >
-                          <i class="fas fa-trash"></i>
-                        </button>
-                      </div>
                     </div>
-                  </div>
+
+                    <!-- Loading State -->
+                    <div class="text-center py-5" *ngIf="loading">
+                        <div class="spinner-border text-primary" role="status">
+                            <span class="visually-hidden">{{ 'LinkVault::Loading' | abpLocalization }}</span>
+                        </div>
+                        <p class="text-muted mt-3">{{ 'LinkVault::LoadingLinks' | abpLocalization }}</p>
+                    </div>
                 </div>
-              </div>
             </div>
-
-            <!-- Mobile Pagination -->
-            <nav aria-label="Page navigation" class="mt-4" *ngIf="links.length > 0">
-              <ul class="pagination pagination-sm justify-content-center">
-                <li class="page-item disabled">
-                  <a class="page-link" href="#" tabindex="-1">Previous</a>
-                </li>
-                <li class="page-item active"><a class="page-link" href="#">1</a></li>
-                <li class="page-item"><a class="page-link" href="#">2</a></li>
-                <li class="page-item"><a class="page-link" href="#">3</a></li>
-                <li class="page-item">
-                  <a class="page-link" href="#">Next</a>
-                </li>
-              </ul>
-            </nav>
-          </div>
-
-          <!-- Empty State -->
-          <div class="text-center py-5" *ngIf="links.length === 0 && !loading">
-            <div class="mb-4">
-              <i class="fas fa-inbox text-muted" style="font-size: 4rem; opacity: 0.3"></i>
-            </div>
-            <h5 class="text-muted mb-2">No links found</h5>
-            <p class="text-muted small mb-3">Start building your link collection</p>
-            <button class="btn btn-primary" (click)="addLink()">
-              <i class="fas fa-plus me-2"></i>Add your first link
-            </button>
-          </div>
-
-          <!-- Loading State -->
-          <div class="text-center py-5" *ngIf="loading">
-            <div class="spinner-border text-primary" role="status">
-              <span class="visually-hidden">Loading...</span>
-            </div>
-            <p class="text-muted mt-3">Loading links...</p>
-          </div>
         </div>
-      </div>
     </div>
-  </div>
 </div>

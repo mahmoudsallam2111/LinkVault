@@ -1,7 +1,7 @@
 <div class="modal-header border-0 pb-0">
     <h4 class="modal-title fw-bold text-dark">
         <i class="fas fa-folder text-primary me-2"></i>
-        {{ mode === 'create' ? 'New Collection' : 'Edit Collection' }}
+        {{ (mode === 'create' ? 'LinkVault::NewCollection' : 'LinkVault::EditCollection') | abpLocalization }}
     </h4>
     <button type="button" class="btn-close" aria-label="Close" (click)="cancel()"></button>
 </div>
@@ -15,14 +15,15 @@
 
     <!-- Name -->
     <div class="mb-4">
-        <label class="form-label fw-medium">Name <span class="text-danger">*</span></label>
-        <input type="text" class="form-control" [(ngModel)]="form.name" placeholder="Collection name"
-            [disabled]="loading">
+        <label class="form-label fw-medium">{{ 'LinkVault::Name' | abpLocalization }} <span
+                class="text-danger">*</span></label>
+        <input type="text" class="form-control" [(ngModel)]="form.name"
+            [placeholder]="'LinkVault::Name' | abpLocalization" [disabled]="loading">
     </div>
 
     <!-- Color Picker -->
     <div class="mb-4">
-        <label class="form-label fw-medium">Color</label>
+        <label class="form-label fw-medium">{{ 'LinkVault::Color' | abpLocalization }}</label>
         <div class="d-flex flex-wrap gap-2">
             <button *ngFor="let color of colorOptions" type="button" class="color-swatch"
                 [style.background-color]="color" [class.selected]="form.color === color" (click)="selectColor(color)"
@@ -34,7 +35,7 @@
 
     <!-- Icon Selector -->
     <div class="mb-4">
-        <label class="form-label fw-medium">Icon</label>
+        <label class="form-label fw-medium">{{ 'LinkVault::Icon' | abpLocalization }}</label>
         <div class="d-flex flex-wrap gap-2">
             <button *ngFor="let icon of iconOptions" type="button" class="icon-swatch"
                 [class.selected]="form.icon === icon" (click)="selectIcon(icon)" [disabled]="loading">
@@ -45,19 +46,19 @@
 
     <!-- Parent Collection -->
     <div class="mb-3">
-        <label class="form-label fw-medium">Parent Collection</label>
+        <label class="form-label fw-medium">{{ 'LinkVault::ParentCollection' | abpLocalization }}</label>
         <select class="form-select" [(ngModel)]="form.parentId" [disabled]="loading">
-            <option [ngValue]="undefined">-- None (Top Level) --</option>
+            <option [ngValue]="undefined">{{ 'LinkVault::NoneTopLevel' | abpLocalization }}</option>
             <option *ngFor="let c of collections" [ngValue]="c.id">
                 {{ c.name }}
             </option>
         </select>
-        <small class="text-muted">Optionally nest this collection under another</small>
+        <small class="text-muted">{{ 'LinkVault::OptionallyNestCollection' | abpLocalization }}</small>
     </div>
 
     <!-- Preview -->
     <div class="mb-3">
-        <label class="form-label fw-medium">Preview</label>
+        <label class="form-label fw-medium">{{ 'LinkVault::Preview' | abpLocalization }}</label>
         <div class="preview-box p-3 rounded border d-flex align-items-center gap-2">
             <i [class]="'fas fa-' + form.icon" [style.color]="form.color"></i>
             <span class="fw-medium">{{ form.name || 'Collection Name' }}</span>
@@ -67,10 +68,11 @@
 
 <div class="modal-footer border-0 pt-0">
     <button type="button" class="btn btn-light px-4" (click)="cancel()" [disabled]="loading">
-        Cancel
+        {{ 'LinkVault::Cancel' | abpLocalization }}
     </button>
     <button type="button" class="btn btn-primary px-4" (click)="save()" [disabled]="loading">
         <span *ngIf="loading" class="spinner-border spinner-border-sm me-2"></span>
-        {{ loading ? 'Saving...' : (mode === 'create' ? 'Create' : 'Save Changes') }}
+        {{ (loading ? 'LinkVault::Saving' : (mode === 'create' ? 'LinkVault::Save' : 'LinkVault::Save')) |
+        abpLocalization }}
     </button>
 </div>

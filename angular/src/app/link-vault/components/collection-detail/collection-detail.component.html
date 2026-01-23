@@ -11,14 +11,17 @@
                     class="icon-box bg-primary text-white rounded me-2 d-flex align-items-center justify-content-center">
                     <i class="fas fa-link"></i>
                 </div>
-                <h4 class="fw-bold mb-0 tracking-tight d-none d-lg-block">LinkVault</h4>
+                <h4 class="fw-bold mb-0 tracking-tight d-none d-lg-block">{{ 'LinkVault::AppName' | abpLocalization }}
+                </h4>
             </div>
             <div class="d-flex gap-2 gap-md-3">
                 <button class="btn btn-light text-muted fw-medium px-3" (click)="goBack()">
-                    <i class="fas fa-arrow-left"></i> <span class="d-none d-md-inline ms-2">Back</span>
+                    <i class="fas fa-arrow-left"></i> <span class="d-none d-md-inline ms-2">{{ 'LinkVault::Back' |
+                        abpLocalization }}</span>
                 </button>
                 <button class="btn btn-primary px-3 px-md-4 fw-medium shadow-sm transition-hover" (click)="addLink()">
-                    <i class="fas fa-plus"></i> <span class="d-none d-md-inline ms-2">Add Link</span>
+                    <i class="fas fa-plus"></i> <span class="d-none d-md-inline ms-2">{{ 'LinkVault::AddLink' |
+                        abpLocalization }}</span>
                 </button>
             </div>
         </div>
@@ -44,14 +47,15 @@
                             </div>
                             <div>
                                 <h2 class="fw-bold mb-0 text-dark">{{ collection.name }}</h2>
-                                <p class="text-muted mb-0 small">{{ links.length }} links in this collection</p>
+                                <p class="text-muted mb-0 small">{{ links.length }} {{ 'LinkVault::LinksInCollection' |
+                                    abpLocalization }}</p>
                             </div>
                         </div>
                         <div class="d-flex align-items-center" *ngIf="!collection">
                             <div class="spinner-border spinner-border-sm text-primary me-2" role="status">
-                                <span class="visually-hidden">Loading...</span>
+                                <span class="visually-hidden">{{ 'LinkVault::Loading' | abpLocalization }}</span>
                             </div>
-                            <span class="text-muted">Loading collection...</span>
+                            <span class="text-muted">{{ 'LinkVault::Loading' | abpLocalization }}</span>
                         </div>
                     </div>
 
@@ -62,14 +66,14 @@
                                 <i class="fas fa-search text-muted"></i>
                             </span>
                             <input type="text" class="form-control bg-light border-0 py-2"
-                                placeholder="Search links in this collection..." [(ngModel)]="searchTerm"
+                                [placeholder]="'LinkVault::SearchLinks' | abpLocalization" [(ngModel)]="searchTerm"
                                 (input)="onSearch($event)">
                         </div>
                         <div class="d-flex gap-2">
                             <select class="form-select border fw-medium" style="width: auto;" [(ngModel)]="selectedSort"
                                 (change)="onSortChange()">
                                 <option *ngFor="let opt of sortOptions" [value]="opt.value">
-                                    {{ opt.label }}
+                                    {{ opt.labelKey | abpLocalization }}
                                 </option>
                             </select>
                         </div>
@@ -80,12 +84,12 @@
                     <ngx-datatable class="material" [rows]="links" [columnMode]="'force'" [headerHeight]="50"
                         [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [scrollbarH]="true">
 
-                        <ngx-datatable-column name="Title" prop="title" [flexGrow]="2">
+                        <ngx-datatable-column [name]="'LinkVault::Title' | abpLocalization" prop="title" [flexGrow]="2">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <div class="d-flex align-items-center">
                                     <img [src]="row.favicon || 'assets/images/default-favicon.png'" alt="favicon"
                                         class="me-2" style="width: 20px; height: 20px; object-fit: contain;">
-                                    <a [href]="row.url" target="_blank"
+                                    <a [href]="row.url" target="_blank" (click)="visitLink(row)"
                                         class="text-decoration-none text-dark fw-medium">
                                         {{ row.title }}
                                     </a>
@@ -93,7 +97,7 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="Tags" [flexGrow]="1">
+                        <ngx-datatable-column [name]="'LinkVault::Tags' | abpLocalization" [flexGrow]="1">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <span *ngFor="let tag of row.tags?.slice(0, 2)" class="badge bg-primary me-1">
                                     {{ tag.name }}
@@ -104,13 +108,14 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="Visits" prop="visitCount" [flexGrow]="0.5">
+                        <ngx-datatable-column [name]="'LinkVault::Visits' | abpLocalization" prop="visitCount"
+                            [flexGrow]="0.5">
                             <ng-template let-value="value" ngx-datatable-cell-template>
                                 <span class="badge bg-info">{{ value || 0 }}</span>
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="Favorite" [flexGrow]="0.5">
+                        <ngx-datatable-column [name]="'LinkVault::Favorite' | abpLocalization" [flexGrow]="0.5">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <button class="btn btn-sm btn-link p-0" (click)="toggleFavorite(row)">
                                     <i class="fas fa-star" [class.text-warning]="row.isFavorite"
@@ -119,23 +124,27 @@
                             </ng-template>
                         </ngx-datatable-column>
 
-                        <ngx-datatable-column name="Actions" [flexGrow]="1" [sortable]="false">
+                        <ngx-datatable-column [name]="'LinkVault::Actions' | abpLocalization" [flexGrow]="1"
+                            [sortable]="false">
                             <ng-template let-row="row" ngx-datatable-cell-template>
                                 <div ngbDropdown container="body">
                                     <button class="btn btn-sm btn-outline-primary" id="actionsDropdown"
                                         ngbDropdownToggle>
-                                        Actions
+                                        {{ 'LinkVault::Actions' | abpLocalization }}
                                     </button>
                                     <div ngbDropdownMenu aria-labelledby="actionsDropdown">
                                         <button ngbDropdownItem (click)="visitLink(row)">
-                                            <i class="fas fa-external-link-alt me-2 text-primary"></i> Visit
+                                            <i class="fas fa-external-link-alt me-2 text-primary"></i> {{
+                                            'LinkVault::Visit' | abpLocalization }}
                                         </button>
                                         <button ngbDropdownItem (click)="editLink(row)">
-                                            <i class="fas fa-edit me-2 text-secondary"></i> Edit
+                                            <i class="fas fa-edit me-2 text-secondary"></i> {{ 'LinkVault::Edit' |
+                                            abpLocalization }}
                                         </button>
                                         <div class="dropdown-divider"></div>
                                         <button ngbDropdownItem class="text-danger" (click)="deleteLink(row)">
-                                            <i class="fas fa-trash me-2"></i> Delete
+                                            <i class="fas fa-trash me-2"></i> {{ 'LinkVault::Delete' | abpLocalization
+                                            }}
                                         </button>
                                     </div>
                                 </div>
@@ -148,19 +157,19 @@
                         <div class="mb-3 text-muted opacity-50">
                             <i [class]="'fas fa-' + (collection.icon || 'folder') + ' fa-3x'"></i>
                         </div>
-                        <h5 class="text-muted">No links in this collection</h5>
-                        <p class="text-muted small">Add links to "{{ collection.name }}" to see them here.</p>
+                        <h5 class="text-muted">{{ 'LinkVault::NoLinksInCollection' | abpLocalization }}</h5>
+                        <p class="text-muted small">{{ 'LinkVault::AddLinksToCollection' | abpLocalization }}</p>
                         <button class="btn btn-primary btn-sm mt-2" (click)="addLink()">
-                            <i class="fas fa-plus me-2"></i> Add Link
+                            <i class="fas fa-plus me-2"></i> {{ 'LinkVault::AddLink' | abpLocalization }}
                         </button>
                     </div>
 
                     <!-- Loading State -->
                     <div class="text-center py-5" *ngIf="loading">
                         <div class="spinner-border text-primary" role="status">
-                            <span class="visually-hidden">Loading...</span>
+                            <span class="visually-hidden">{{ 'LinkVault::Loading' | abpLocalization }}</span>
                         </div>
-                        <p class="text-muted mt-3">Loading links...</p>
+                        <p class="text-muted mt-3">{{ 'LinkVault::Loading' | abpLocalization }}</p>
                     </div>
                 </div>
             </div>

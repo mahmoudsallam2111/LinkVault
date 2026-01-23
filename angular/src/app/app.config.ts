@@ -10,9 +10,10 @@ import { registerLocaleForEsBuild } from '@abp/ng.core/locale';
 import { provideThemeLeptonX } from '@abp/ng.theme.lepton-x';
 import { provideSideMenuLayout } from '@abp/ng.theme.lepton-x/layouts';
 import { provideLogo, withEnvironmentOptions } from '@abp/ng.theme.shared';
-import { ApplicationConfig } from '@angular/core';
+import { ApplicationConfig, importProvidersFrom } from '@angular/core';
 import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideRouter } from '@angular/router';
+import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { environment } from '../environments/environment';
 import { APP_ROUTES } from './app.routes';
 import { APP_ROUTE_PROVIDER } from './route.provider';
@@ -23,6 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(APP_ROUTES),
     APP_ROUTE_PROVIDER,
     provideAnimations(),
+    importProvidersFrom(NgxDatatableModule),
     provideAbpCore(
       withOptions({
         environment,

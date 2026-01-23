@@ -42,4 +42,11 @@ public interface ICollectionRepository : IRepository<Collection, Guid>
     Task<Dictionary<Guid, int>> GetLinkCountsAsync(
         Guid userId,
         CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Finds a collection by its public share token.
+    /// </summary>
+    Task<Collection?> FindByShareTokenAsync(
+        string token,
+        CancellationToken cancellationToken = default);
 }

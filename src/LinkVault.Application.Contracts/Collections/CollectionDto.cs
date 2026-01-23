@@ -16,5 +16,6 @@ public class CollectionDto : FullAuditedEntityDto<Guid>
     public string? Icon { get; set; }
     public int Order { get; set; }
     public int LinkCount { get; set; }
+    public string? PublicShareToken { get; set; }
     public List<CollectionDto> Children { get; set; } = new();
 }

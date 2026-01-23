@@ -43,6 +43,11 @@ public class Collection : FullAuditedAggregateRoot<Guid>
     public int Order { get; set; }
 
     /// <summary>
+    /// The unique, secure token for public sharing. Null if not shared.
+    /// </summary>
+    public string? PublicShareToken { get; private set; }
+
+    /// <summary>
     /// Navigation property to the parent collection.
     /// </summary>
     public virtual Collection? Parent { get; set; }
@@ -91,5 +96,22 @@ public class Collection : FullAuditedAggregateRoot<Guid>
     public void SetName(string name)
     {
         Name = Check.NotNullOrWhiteSpace(name, nameof(name), CollectionConsts.MaxNameLength);
+    }
+
+    /// <summary>
+    /// Generates a new unique, URL-safe token for public sharing.
+    /// </summary>
+    public string GenerateShareToken()
+    {
+        PublicShareToken = Guid.NewGuid().ToString("N") + Guid.NewGuid().ToString("N")[..8];
+        return PublicShareToken;
+    }
+
+    /// <summary>
+    /// Revokes the public share token, disabling public access.
+    /// </summary>
+    public void RevokeShareToken()
+    {
+        PublicShareToken = null;
     }
 }

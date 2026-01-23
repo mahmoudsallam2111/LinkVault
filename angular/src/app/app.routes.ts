@@ -40,6 +40,14 @@ export const APP_ROUTES: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'share/:token',
+    loadComponent: () =>
+      import('./link-vault/components/public-collection/public-collection.component').then(
+        c => c.PublicCollectionComponent,
+      ),
+    // No authGuard - public route for shared collections
+  },
+  {
     path: 'account',
     loadChildren: () => import('@abp/ng.account').then(c => c.createRoutes()),
   },

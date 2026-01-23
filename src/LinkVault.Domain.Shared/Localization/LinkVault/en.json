@@ -144,6 +144,9 @@
     "StartBuildingCollection": "Start building your link collection",
     "LoadingLinks": "Loading links...",
     "NoLinksFoundDetail": "No links found",
-    "SwitchToDarkMode": "Switch to dark mode"
+    "SwitchToDarkMode": "Switch to dark mode",
+    "Share": "Share",
+    "ShareViaWhatsApp": "Share via WhatsApp",
+    "RevokeShare": "Revoke Share Link"
   }
 }

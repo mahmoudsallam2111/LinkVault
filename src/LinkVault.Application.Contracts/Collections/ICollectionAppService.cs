@@ -50,6 +50,21 @@ public interface ICollectionAppService : IApplicationService
     /// Updates the order of multiple collections.
     /// </summary>
     Task ReorderAsync(List<ReorderCollectionDto> items);
+
+    /// <summary>
+    /// Generates a public share token for a collection.
+    /// </summary>
+    Task<CollectionDto> GenerateShareTokenAsync(Guid id);
+
+    /// <summary>
+    /// Revokes the public share token for a collection.
+    /// </summary>
+    Task RevokeShareTokenAsync(Guid id);
+
+    /// <summary>
+    /// Gets a collection by its public share token. Returns null if not found.
+    /// </summary>
+    Task<PublicCollectionDto?> GetByShareTokenAsync(string token);
 }
 
 /// <summary>

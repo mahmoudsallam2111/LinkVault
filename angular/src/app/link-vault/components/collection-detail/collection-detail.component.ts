@@ -34,6 +34,7 @@ export class CollectionDetailComponent implements OnInit {
   loading = false;
   searchTerm = '';
   collectionId: string = '';
+  isSharing = false;
 
   filter: LinkFilterDto = {
     skipCount: 0,
@@ -61,7 +62,7 @@ export class CollectionDetailComponent implements OnInit {
     private confirmation: ConfirmationService,
     private toaster: ToasterService,
     public localization: LocalizationService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -216,5 +217,62 @@ export class CollectionDetailComponent implements OnInit {
       position: 'start',
       panelClass: 'sidebar-offcanvas',
     });
+  }
+
+  shareCollection() {
+    if (!this.collection) return;
+
+    this.isSharing = true;
+
+    // If already has a share token, use it; otherwise generate one
+    if (this.collection.publicShareToken) {
+      this.openWhatsAppShare(this.collection.publicShareToken);
+      this.isSharing = false;
+    } else {
+      this.collectionService.generateShareToken(this.collectionId).subscribe({
+        next: updatedCollection => {
+          this.collection = updatedCollection;
+          if (updatedCollection.publicShareToken) {
+            this.openWhatsAppShare(updatedCollection.publicShareToken);
+          }
+          this.isSharing = false;
+        },
+        error: err => {
+          console.error('Failed to generate share token', err);
+          this.toaster.error('Failed to generate share link');
+          this.isSharing = false;
+        },
+      });
+    }
+  }
+
+  revokeShare() {
+    if (!this.collection) return;
+
+    this.confirmation
+      .warn('Are you sure you want to revoke the share link? Anyone with the link will no longer be able to access this collection.', 'Revoke Share')
+      .subscribe(status => {
+        if (status === 'confirm') {
+          this.collectionService.revokeShareToken(this.collectionId).subscribe({
+            next: () => {
+              if (this.collection) {
+                this.collection.publicShareToken = undefined;
+              }
+              this.toaster.success('Share link revoked successfully');
+            },
+            error: err => {
+              console.error('Failed to revoke share token', err);
+              this.toaster.error('Failed to revoke share link');
+            },
+          });
+        }
+      });
+  }
+
+  private openWhatsAppShare(token: string) {
+    const publicUrl = `${window.location.origin}/share/${token}`;
+    const message = `Check out my collection "${this.collection?.name}": ${publicUrl}`;
+    const whatsappUrl = `https://wa.me/?text=${encodeURIComponent(message)}`;
+    window.open(whatsappUrl, '_blank');
   }
 }

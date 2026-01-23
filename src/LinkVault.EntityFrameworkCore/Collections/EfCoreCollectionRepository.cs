@@ -96,4 +96,15 @@ public class EfCoreCollectionRepository : EfCoreRepository<LinkVaultDbContext, C
             })
             .ToDictionaryAsync(x => x.Id, x => x.Count, cancellationToken);
     }
+
+    public async Task<Collection?> FindByShareTokenAsync(
+        string token,
+        CancellationToken cancellationToken = default)
+    {
+        var dbSet = await GetDbSetAsync();
+
+        return await dbSet
+            .Include(c => c.Links.Where(l => !l.IsDeleted))
+            .FirstOrDefaultAsync(x => x.PublicShareToken == token, cancellationToken);
+    }
 }

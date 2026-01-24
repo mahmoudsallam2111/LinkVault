@@ -1,0 +1,25 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: db-migrator-seed
+  namespace: linkvault
+spec:
+  template:
+    spec:
+      containers:
+      - name: db-migrator
+        image: linkvault/dbmigrator:latest
+        imagePullPolicy: Never
+        env:
+        - name: ConnectionStrings__Default
+          value: "Host=postgresql;Port=5432;Database=LinkVault;User ID=linkvault;Password=LinkVault@2024!;"
+        - name: OpenIddict__Applications__LinkVault_App__ClientId
+          value: "LinkVault_App"
+        - name: OpenIddict__Applications__LinkVault_App__RootUrl
+          value: "http://linkvault.local"
+        - name: OpenIddict__Applications__LinkVault_Swagger__ClientId
+          value: "LinkVault_Swagger"
+        - name: OpenIddict__Applications__LinkVault_Swagger__RootUrl
+          value: "http://linkvault.local"
+      restartPolicy: OnFailure
+  backoffLimit: 4

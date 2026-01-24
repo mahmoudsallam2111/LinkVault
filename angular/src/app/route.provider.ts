@@ -1,11 +1,17 @@
 import { RoutesService, eLayoutType, ConfigStateService } from '@abp/ng.core';
-import { inject, provideAppInitializer } from '@angular/core';
+import { APP_INITIALIZER } from '@angular/core';
 
 export const APP_ROUTE_PROVIDER = [
-  provideAppInitializer(() => {
-    // inject() must be called directly in the initialization context, not in a nested function
-    const routes = inject(RoutesService);
-    const configState = inject(ConfigStateService);
+  {
+    provide: APP_INITIALIZER,
+    useFactory: configureRoutes,
+    deps: [RoutesService, ConfigStateService],
+    multi: true,
+  },
+];
+
+function configureRoutes(routes: RoutesService, configState: ConfigStateService) {
+  return () => {
     routes.add([
       {
         path: '/',
@@ -16,5 +22,5 @@ export const APP_ROUTE_PROVIDER = [
         invisible: !configState.getOne('currentUser')?.roles?.includes('admin'),
       },
     ]);
-  }),
-];
+  };
+}

@@ -14,7 +14,7 @@ backend:
   image:
     repository: mahmoudali2111/linkvault-backend
     tag: latest
-    pullPolicy: Always # Always  # Force pull on every pod start
+    pullPolicy: IfNotPresent
 
   service:
     type: ClusterIP
@@ -49,9 +49,9 @@ frontend:
   replicaCount: 1
 
   image:
-    repository: linkvault/frontend
+    repository: mahmoudali2111/linkvault-frontend
     tag: latest
-    pullPolicy: Never
+    pullPolicy: IfNotPresent
 
   service:
     type: ClusterIP

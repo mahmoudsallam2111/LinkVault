@@ -1,14 +1,14 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'http://localhost:4200';
+const baseUrl = 'http://linkvault.local';
 
 const oAuthConfig = {
-  issuer: 'https://localhost:44317/',
+  issuer: 'http://linkvault.local/',
   redirectUri: baseUrl,
   clientId: 'LinkVault_App',
   responseType: 'code',
   scope: 'offline_access LinkVault',
-  requireHttps: true,
+  requireHttps: false,
 };
 
 export const environment = {
@@ -20,7 +20,7 @@ export const environment = {
   oAuthConfig,
   apis: {
     default: {
-      url: 'https://localhost:44317',
+      url: 'http://linkvault.local',
       rootNamespace: 'LinkVault',
     },
     AbpAccountPublic: {

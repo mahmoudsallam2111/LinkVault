@@ -4,6 +4,7 @@ using LinkVault.Links;
 using LinkVault.Collections;
 using LinkVault.Tags;
 using LinkVault.Settings;
+using LinkVault.Links.Dtos;
 
 namespace LinkVault;
 

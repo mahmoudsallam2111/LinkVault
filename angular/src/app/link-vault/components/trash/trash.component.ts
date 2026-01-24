@@ -6,14 +6,21 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { LocalizationModule, LocalizationService } from '@abp/ng.core';
 import { ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { LinkService } from '../../../proxy/links/link.service';
-import { LinkDto } from '../../../proxy/links/models';
 
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { LinkDto } from 'src/app/proxy/links/dtos';
 
 @Component({
   selector: 'app-trash',
   standalone: true,
-  imports: [CommonModule, FormsModule, NgxDatatableModule, NgbDropdownModule, SidebarComponent, LocalizationModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    NgxDatatableModule,
+    NgbDropdownModule,
+    SidebarComponent,
+    LocalizationModule,
+  ],
   templateUrl: './trash.component.html',
   styleUrls: ['./trash.component.css'],
 })
@@ -29,7 +36,7 @@ export class TrashComponent implements OnInit {
     private confirmation: ConfirmationService,
     private toaster: ToasterService,
     public localization: LocalizationService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.loadData();
@@ -106,7 +113,7 @@ export class TrashComponent implements OnInit {
   openMobileSidebar() {
     this.offcanvasService.open(SidebarComponent, {
       position: 'start',
-      panelClass: 'sidebar-offcanvas'
+      panelClass: 'sidebar-offcanvas',
     });
   }
 }

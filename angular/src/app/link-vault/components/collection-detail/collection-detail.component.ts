@@ -10,8 +10,8 @@ import { ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { LinkService } from '../../../proxy/links/link.service';
 import { CollectionService } from '../../../proxy/collections/collection.service';
-import { LinkDto, LinkFilterDto } from '../../../proxy/links/models';
 import { CollectionDto } from '../../../proxy/collections/models';
+import { LinkDto, LinkFilterDto } from 'src/app/proxy/links/dtos';
 
 @Component({
   selector: 'app-collection-detail',
@@ -62,7 +62,7 @@ export class CollectionDetailComponent implements OnInit {
     private confirmation: ConfirmationService,
     private toaster: ToasterService,
     public localization: LocalizationService,
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.route.params.subscribe(params => {
@@ -250,7 +250,10 @@ export class CollectionDetailComponent implements OnInit {
     if (!this.collection) return;
 
     this.confirmation
-      .warn('Are you sure you want to revoke the share link? Anyone with the link will no longer be able to access this collection.', 'Revoke Share')
+      .warn(
+        'Are you sure you want to revoke the share link? Anyone with the link will no longer be able to access this collection.',
+        'Revoke Share',
+      )
       .subscribe(status => {
         if (status === 'confirm') {
           this.collectionService.revokeShareToken(this.collectionId).subscribe({

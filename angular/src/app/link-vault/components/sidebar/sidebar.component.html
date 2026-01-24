@@ -9,7 +9,7 @@
     <h6 class="text-uppercase text-muted small fw-bold mb-3">{{ 'LinkVault::Menu:Dashboard' | abpLocalization }}</h6>
     <ul class="nav flex-column gap-2">
       <li class="nav-item" *ngFor="let item of quickAccess">
-        <a [routerLink]="item.route" routerLinkActive="active-link"
+        <a [routerLink]="item.route" routerLinkActive="active-link" (click)="closeSidebar()"
           class="nav-link d-flex align-items-center justify-content-between rounded px-3 py-2 text-dark">
           <div class="d-flex align-items-center">
             <i [class]="item.icon + ' me-3 text-muted'"></i>
@@ -23,32 +23,54 @@
 
   <div class="mb-4 flex-grow-1 overflow-auto">
     <h6 class="text-uppercase text-muted small fw-bold mb-3">{{ 'LinkVault::Collections' | abpLocalization }}</h6>
-    <ul class="nav flex-column gap-2">
-      <li class="nav-item collection-item" *ngFor="let collection of collections">
-        <a [routerLink]="['/collection', collection.id]" routerLinkActive="active-link"
-          class="nav-link d-flex align-items-center justify-content-between rounded px-3 py-2 text-dark cursor-pointer">
-          <div class="d-flex align-items-center flex-grow-1">
-            <i [class]="'fas fa-' + (collection.icon || 'folder') + ' me-3'"
-              [style.color]="collection.color || '#6c757d'"></i>
-            <span>{{ collection.name }}</span>
+    <ul class="nav flex-column gap-1">
+      <ng-container *ngFor="let collection of collections">
+        <ng-container *ngTemplateOutlet="collectionItemTemplate; context: { $implicit: collection }"></ng-container>
+      </ng-container>
+
+      <ng-template #collectionItemTemplate let-collection>
+        <li class="nav-item w-100">
+          <div class="d-flex align-items-center justify-content-between rounded px-2 py-1 mb-1 transition-colors"
+            routerLinkActive="active" #rla="routerLinkActive" [class.bg-primary-subtle]="rla.isActive"
+            [class.hover-bg-light]="!rla.isActive">
+
+            <a [routerLink]="['/collection', collection.id]" (click)="closeSidebar()"
+              class="d-flex align-items-center text-decoration-none flex-grow-1 py-1 min-w-0"
+              [class.text-primary]="rla.isActive" [class.text-dark]="!rla.isActive" [class.fw-bold]="rla.isActive">
+
+              <i [class]="'fas fa-' + (collection.icon || 'folder') + ' me-3'"
+                [style.color]="collection.color || '#6c757d'"></i>
+              <span class="text-truncate">{{ collection.name }}</span>
+            </a>
+
+            <div class="d-flex align-items-center gap-2 ms-2">
+              <span class="badge rounded-pill bg-light text-dark border" *ngIf="collection.linkCount > 0">{{
+                collection.linkCount }}</span>
+
+              <div class="btn-group opacity-75 hover-opacity-100">
+                <button class="btn btn-sm btn-link p-0 text-secondary" (click)="editCollection(collection, $event)"
+                  [title]="'LinkVault::Edit' | abpLocalization">
+                  <i class="fas fa-pencil-alt fa-sm"></i>
+                </button>
+                <button class="btn btn-sm btn-link p-0 text-danger ms-2" (click)="deleteCollection(collection, $event)"
+                  [title]="'LinkVault::Delete' | abpLocalization">
+                  <i class="fas fa-trash-alt fa-sm"></i>
+                </button>
+              </div>
+            </div>
           </div>
-          <div class="d-flex align-items-center gap-1">
-            <span class="badge rounded-pill bg-light text-dark me-1">{{
-              collection.linkCount
-              }}</span>
-            <button class="btn btn-sm btn-link p-0 text-muted collection-action"
-              (click)="editCollection(collection, $event)" [title]="'LinkVault::Edit' | abpLocalization">
-              <i class="fas fa-pencil-alt"></i>
-            </button>
-            <button class="btn btn-sm btn-link p-0 text-muted collection-action"
-              (click)="deleteCollection(collection, $event)" [title]="'LinkVault::Delete' | abpLocalization">
-              <i class="fas fa-trash-alt"></i>
-            </button>
-          </div>
-        </a>
-      </li>
-      <li class="nav-item mt-2">
-        <a href="javascript:void(0)" class="nav-link text-primary px-3 py-1 small" (click)="addCollection()">
+
+          <!-- Children -->
+          <ul class="nav flex-column ms-3 border-start ps-2" *ngIf="collection.children?.length">
+            <ng-container *ngFor="let child of collection.children">
+              <ng-container *ngTemplateOutlet="collectionItemTemplate; context: { $implicit: child }"></ng-container>
+            </ng-container>
+          </ul>
+        </li>
+      </ng-template>
+
+      <li class="nav-item mt-3 px-2">
+        <a href="javascript:void(0)" class="nav-link text-primary p-0 small" (click)="addCollection()">
           <i class="fas fa-plus me-2"></i> {{ 'LinkVault::Add' | abpLocalization }} {{ 'LinkVault::Collection' |
           abpLocalization }}
         </a>

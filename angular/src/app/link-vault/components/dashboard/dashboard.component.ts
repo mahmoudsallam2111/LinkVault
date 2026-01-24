@@ -13,16 +13,15 @@ import { NgxDatatableModule } from '@swimlane/ngx-datatable';
 import { LocalizationModule, LocalizationService } from '@abp/ng.core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { StatsCardComponent } from './stats-card/stats-card.component';
-import { LinkCardComponent } from './link-card/link-card.component';
 import { LinkModalComponent } from './link-modal/link-modal.component';
 import { ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { LinkService } from '../../../proxy/links/link.service';
 import { DashboardService } from '../../../proxy/dashboard/dashboard.service';
 import { CollectionService } from '../../../proxy/collections/collection.service';
-import { LinkDto, LinkFilterDto } from '../../../proxy/links/models';
 import { DashboardStatsDto } from '../../../proxy/dashboard/models';
 import { CollectionDto } from '../../../proxy/collections/models';
 import { ThemeService } from '../../services/theme.service';
+import { LinkDto, LinkFilterDto } from 'src/app/proxy/links/dtos/models';
 
 @Component({
   selector: 'app-dashboard',

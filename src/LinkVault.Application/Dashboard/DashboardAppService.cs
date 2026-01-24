@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using LinkVault.Collections;
 using LinkVault.Links;
+using LinkVault.Links.Dtos;
 using LinkVault.Permissions;
 using LinkVault.Tags;
 using Microsoft.AspNetCore.Authorization;

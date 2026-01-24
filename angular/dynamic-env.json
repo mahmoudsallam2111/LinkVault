@@ -1,2 +1,25 @@
 {
+    "production": true,
+    "application": {
+        "baseUrl": "http://linkvault.local",
+        "name": "LinkVault"
+    },
+    "oAuthConfig": {
+        "issuer": "http://linkvault.local/",
+        "redirectUri": "http://linkvault.local",
+        "clientId": "LinkVault_App",
+        "responseType": "code",
+        "scope": "offline_access LinkVault",
+        "requireHttps": false
+    },
+    "apis": {
+        "default": {
+            "url": "http://linkvault.local",
+            "rootNamespace": "LinkVault"
+        },
+        "AbpAccountPublic": {
+            "url": "http://linkvault.local",
+            "rootNamespace": "AbpAccountPublic"
+        }
+    }
 }

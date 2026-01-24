@@ -8,7 +8,7 @@ const oAuthConfig = {
   clientId: 'LinkVault_App',
   responseType: 'code',
   scope: 'offline_access LinkVault',
-  requireHttps: true,
+  requireHttps: false,
 };
 
 export const environment = {

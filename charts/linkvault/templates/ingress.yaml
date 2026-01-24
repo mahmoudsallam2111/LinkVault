@@ -47,6 +47,20 @@ spec:
                 name: {{ $.Values.backend.name }}
                 port:
                   number: {{ $.Values.backend.service.port }}
+          - path: /ApplicationConfigurationScript
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Values.backend.name }}
+                port:
+                  number: {{ $.Values.backend.service.port }}
+          - path: /ServiceProxyScript
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Values.backend.name }}
+                port:
+                  number: {{ $.Values.backend.service.port }}
           - path: /abp
             pathType: Prefix
             backend:
@@ -70,6 +84,55 @@ spec:
                   number: {{ $.Values.backend.service.port }}
           - path: /swagger
             pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Values.backend.name }}
+                port:
+                  number: {{ $.Values.backend.service.port }}
+          - path: /libs
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Values.backend.name }}
+                port:
+                  number: {{ $.Values.backend.service.port }}
+          - path: /images
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Values.backend.name }}
+                port:
+                  number: {{ $.Values.backend.service.port }}
+          - path: /styles
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Values.backend.name }}
+                port:
+                  number: {{ $.Values.backend.service.port }}
+          - path: /_content
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Values.backend.name }}
+                port:
+                  number: {{ $.Values.backend.service.port }}
+          - path: /__bundles
+            pathType: Prefix
+            backend:
+              service:
+                name: {{ $.Values.backend.name }}
+                port:
+                  number: {{ $.Values.backend.service.port }}
+          - path: /favicon.ico
+            pathType: ImplementationSpecific
+            backend:
+              service:
+                name: {{ $.Values.backend.name }}
+                port:
+                  number: {{ $.Values.backend.service.port }}
+          - path: /favicon.svg
+            pathType: ImplementationSpecific
             backend:
               service:
                 name: {{ $.Values.backend.name }}

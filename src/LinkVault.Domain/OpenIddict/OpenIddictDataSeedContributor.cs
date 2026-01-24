@@ -79,8 +79,18 @@ public class OpenIddictDataSeedContributor : OpenIddictDataSeedContributorBase, 
                     "Impersonation"
                 },
                 scopes: commonScopes,
-                redirectUris: new List<string> { consoleAndAngularClientRootUrl },
-                postLogoutRedirectUris: new List<string> { consoleAndAngularClientRootUrl },
+                redirectUris: new List<string> 
+                { 
+                    consoleAndAngularClientRootUrl,
+                    "http://localhost:4200",
+                    "http://linkvault.local"
+                },
+                postLogoutRedirectUris: new List<string> 
+                { 
+                    consoleAndAngularClientRootUrl,
+                    "http://localhost:4200",
+                    "http://linkvault.local"
+                },
                 clientUri: consoleAndAngularClientRootUrl,
                 logoUri: "/images/clients/angular.svg"
             );

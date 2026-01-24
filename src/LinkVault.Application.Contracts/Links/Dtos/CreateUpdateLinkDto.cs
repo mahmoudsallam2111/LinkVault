@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace LinkVault.Links;
+namespace LinkVault.Links.Dtos;
 
-/// <summary>
-/// DTO for creating or updating a link.
-/// </summary>
 public class CreateUpdateLinkDto
 {
     [Required]
@@ -27,9 +24,5 @@ public class CreateUpdateLinkDto
 
     public Guid? CollectionId { get; set; }
 
-    /// <summary>
-    /// List of tag names to associate with the link.
-    /// Tags will be created if they don't exist.
-    /// </summary>
     public List<string> TagNames { get; set; } = new();
 }

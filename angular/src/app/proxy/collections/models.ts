@@ -20,11 +20,6 @@ export interface CreateUpdateCollectionDto {
   order?: number;
 }
 
-export interface ReorderCollectionDto {
-  id?: string;
-  order?: number;
-}
-
 export interface PublicCollectionDto {
   id?: string;
   name?: string;
@@ -40,4 +35,9 @@ export interface PublicLinkDto {
   url?: string;
   description?: string;
   faviconUrl?: string;
+}
+
+export interface ReorderCollectionDto {
+  id?: string;
+  order?: number;
 }

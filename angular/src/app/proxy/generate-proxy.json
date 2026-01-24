@@ -1027,6 +1027,57 @@
                     "type": "System.Void",
                     "typeSimple": "System.Void"
                   }
+                },
+                {
+                  "name": "GenerateShareTokenAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "LinkVault.Collections.CollectionDto",
+                    "typeSimple": "LinkVault.Collections.CollectionDto"
+                  }
+                },
+                {
+                  "name": "RevokeShareTokenAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "id",
+                      "typeAsString": "System.Guid, System.Private.CoreLib",
+                      "type": "System.Guid",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "System.Void",
+                    "typeSimple": "System.Void"
+                  }
+                },
+                {
+                  "name": "GetByShareTokenAsync",
+                  "parametersOnMethod": [
+                    {
+                      "name": "token",
+                      "typeAsString": "System.String, System.Private.CoreLib",
+                      "type": "System.String",
+                      "typeSimple": "string",
+                      "isOptional": false,
+                      "defaultValue": null
+                    }
+                  ],
+                  "returnValue": {
+                    "type": "LinkVault.Collections.PublicCollectionDto",
+                    "typeSimple": "LinkVault.Collections.PublicCollectionDto"
+                  }
                 }
               ]
             }
@@ -1345,6 +1396,117 @@
               },
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Collections.ICollectionAppService"
+            },
+            "GenerateShareTokenAsyncById": {
+              "uniqueName": "GenerateShareTokenAsyncById",
+              "name": "GenerateShareTokenAsync",
+              "httpMethod": "POST",
+              "url": "api/app/collection/{id}/generate-share-token",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "LinkVault.Collections.CollectionDto",
+                "typeSimple": "LinkVault.Collections.CollectionDto"
+              },
+              "allowAnonymous": true,
+              "implementFrom": "LinkVault.Collections.ICollectionAppService"
+            },
+            "RevokeShareTokenAsyncById": {
+              "uniqueName": "RevokeShareTokenAsyncById",
+              "name": "RevokeShareTokenAsync",
+              "httpMethod": "POST",
+              "url": "api/app/collection/{id}/revoke-share-token",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "id",
+                  "typeAsString": "System.Guid, System.Private.CoreLib",
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "id",
+                  "name": "id",
+                  "jsonName": null,
+                  "type": "System.Guid",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": [],
+                  "bindingSourceId": "Path",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "System.Void",
+                "typeSimple": "System.Void"
+              },
+              "allowAnonymous": true,
+              "implementFrom": "LinkVault.Collections.ICollectionAppService"
+            },
+            "GetByShareTokenAsyncByToken": {
+              "uniqueName": "GetByShareTokenAsyncByToken",
+              "name": "GetByShareTokenAsync",
+              "httpMethod": "GET",
+              "url": "api/app/collection/by-share-token",
+              "supportedVersions": [],
+              "parametersOnMethod": [
+                {
+                  "name": "token",
+                  "typeAsString": "System.String, System.Private.CoreLib",
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null
+                }
+              ],
+              "parameters": [
+                {
+                  "nameOnMethod": "token",
+                  "name": "token",
+                  "jsonName": null,
+                  "type": "System.String",
+                  "typeSimple": "string",
+                  "isOptional": false,
+                  "defaultValue": null,
+                  "constraintTypes": null,
+                  "bindingSourceId": "ModelBinding",
+                  "descriptorName": ""
+                }
+              ],
+              "returnValue": {
+                "type": "LinkVault.Collections.PublicCollectionDto",
+                "typeSimple": "LinkVault.Collections.PublicCollectionDto"
+              },
+              "allowAnonymous": true,
+              "implementFrom": "LinkVault.Collections.ICollectionAppService"
             }
           }
         },
@@ -1381,8 +1543,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "System.Collections.Generic.List<LinkVault.Links.LinkDto>",
-                    "typeSimple": "[LinkVault.Links.LinkDto]"
+                    "type": "System.Collections.Generic.List<LinkVault.Links.Dtos.LinkDto>",
+                    "typeSimple": "[LinkVault.Links.Dtos.LinkDto]"
                   }
                 },
                 {
@@ -1398,8 +1560,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "System.Collections.Generic.List<LinkVault.Links.LinkDto>",
-                    "typeSimple": "[LinkVault.Links.LinkDto]"
+                    "type": "System.Collections.Generic.List<LinkVault.Links.Dtos.LinkDto>",
+                    "typeSimple": "[LinkVault.Links.Dtos.LinkDto]"
                   }
                 }
               ]
@@ -1452,8 +1614,8 @@
                 }
               ],
               "returnValue": {
-                "type": "System.Collections.Generic.List<LinkVault.Links.LinkDto>",
-                "typeSimple": "[LinkVault.Links.LinkDto]"
+                "type": "System.Collections.Generic.List<LinkVault.Links.Dtos.LinkDto>",
+                "typeSimple": "[LinkVault.Links.Dtos.LinkDto]"
               },
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Dashboard.IDashboardAppService"
@@ -1489,8 +1651,8 @@
                 }
               ],
               "returnValue": {
-                "type": "System.Collections.Generic.List<LinkVault.Links.LinkDto>",
-                "typeSimple": "[LinkVault.Links.LinkDto]"
+                "type": "System.Collections.Generic.List<LinkVault.Links.Dtos.LinkDto>",
+                "typeSimple": "[LinkVault.Links.Dtos.LinkDto]"
               },
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Dashboard.IDashboardAppService"
@@ -1702,8 +1864,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "LinkVault.Links.LinkDto",
-                    "typeSimple": "LinkVault.Links.LinkDto"
+                    "type": "LinkVault.Links.Dtos.LinkDto",
+                    "typeSimple": "LinkVault.Links.Dtos.LinkDto"
                   }
                 },
                 {
@@ -1711,16 +1873,16 @@
                   "parametersOnMethod": [
                     {
                       "name": "input",
-                      "typeAsString": "LinkVault.Links.LinkFilterDto, LinkVault.Application.Contracts",
-                      "type": "LinkVault.Links.LinkFilterDto",
-                      "typeSimple": "LinkVault.Links.LinkFilterDto",
+                      "typeAsString": "LinkVault.Links.Dtos.LinkFilterDto, LinkVault.Application.Contracts",
+                      "type": "LinkVault.Links.Dtos.LinkFilterDto",
+                      "typeSimple": "LinkVault.Links.Dtos.LinkFilterDto",
                       "isOptional": false,
                       "defaultValue": null
                     }
                   ],
                   "returnValue": {
-                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.LinkDto>",
-                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.LinkDto>"
+                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.Dtos.LinkDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.Dtos.LinkDto>"
                   }
                 },
                 {
@@ -1728,16 +1890,16 @@
                   "parametersOnMethod": [
                     {
                       "name": "input",
-                      "typeAsString": "LinkVault.Links.CreateUpdateLinkDto, LinkVault.Application.Contracts",
-                      "type": "LinkVault.Links.CreateUpdateLinkDto",
-                      "typeSimple": "LinkVault.Links.CreateUpdateLinkDto",
+                      "typeAsString": "LinkVault.Links.Dtos.CreateUpdateLinkDto, LinkVault.Application.Contracts",
+                      "type": "LinkVault.Links.Dtos.CreateUpdateLinkDto",
+                      "typeSimple": "LinkVault.Links.Dtos.CreateUpdateLinkDto",
                       "isOptional": false,
                       "defaultValue": null
                     }
                   ],
                   "returnValue": {
-                    "type": "LinkVault.Links.LinkDto",
-                    "typeSimple": "LinkVault.Links.LinkDto"
+                    "type": "LinkVault.Links.Dtos.LinkDto",
+                    "typeSimple": "LinkVault.Links.Dtos.LinkDto"
                   }
                 },
                 {
@@ -1761,8 +1923,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "LinkVault.Links.LinkDto",
-                    "typeSimple": "LinkVault.Links.LinkDto"
+                    "type": "LinkVault.Links.Dtos.LinkDto",
+                    "typeSimple": "LinkVault.Links.Dtos.LinkDto"
                   }
                 },
                 {
@@ -1778,16 +1940,16 @@
                     },
                     {
                       "name": "input",
-                      "typeAsString": "LinkVault.Links.CreateUpdateLinkDto, LinkVault.Application.Contracts",
-                      "type": "LinkVault.Links.CreateUpdateLinkDto",
-                      "typeSimple": "LinkVault.Links.CreateUpdateLinkDto",
+                      "typeAsString": "LinkVault.Links.Dtos.CreateUpdateLinkDto, LinkVault.Application.Contracts",
+                      "type": "LinkVault.Links.Dtos.CreateUpdateLinkDto",
+                      "typeSimple": "LinkVault.Links.Dtos.CreateUpdateLinkDto",
                       "isOptional": false,
                       "defaultValue": null
                     }
                   ],
                   "returnValue": {
-                    "type": "LinkVault.Links.LinkDto",
-                    "typeSimple": "LinkVault.Links.LinkDto"
+                    "type": "LinkVault.Links.Dtos.LinkDto",
+                    "typeSimple": "LinkVault.Links.Dtos.LinkDto"
                   }
                 },
                 {
@@ -1854,8 +2016,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "LinkVault.Links.LinkDto",
-                    "typeSimple": "LinkVault.Links.LinkDto"
+                    "type": "LinkVault.Links.Dtos.LinkDto",
+                    "typeSimple": "LinkVault.Links.Dtos.LinkDto"
                   }
                 },
                 {
@@ -1871,8 +2033,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "LinkVault.Links.LinkDto",
-                    "typeSimple": "LinkVault.Links.LinkDto"
+                    "type": "LinkVault.Links.Dtos.LinkDto",
+                    "typeSimple": "LinkVault.Links.Dtos.LinkDto"
                   }
                 },
                 {
@@ -1888,8 +2050,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.LinkDto>",
-                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.LinkDto>"
+                    "type": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.Dtos.LinkDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.Dtos.LinkDto>"
                   }
                 },
                 {
@@ -1905,8 +2067,8 @@
                     }
                   ],
                   "returnValue": {
-                    "type": "LinkVault.Links.LinkMetadataDto",
-                    "typeSimple": "LinkVault.Links.LinkMetadataDto"
+                    "type": "LinkVault.Links.Dtos.LinkMetadataDto",
+                    "typeSimple": "LinkVault.Links.Dtos.LinkMetadataDto"
                   }
                 },
                 {
@@ -1918,11 +2080,11 @@
                   }
                 },
                 {
-                  "name": "GetAddedTodayAsync",
+                  "name": "GetAddedThisWeekAsync",
                   "parametersOnMethod": [],
                   "returnValue": {
-                    "type": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Links.LinkDto>",
-                    "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Links.LinkDto>"
+                    "type": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Links.Dtos.LinkDto>",
+                    "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Links.Dtos.LinkDto>"
                   }
                 }
               ]
@@ -1960,8 +2122,8 @@
                 }
               ],
               "returnValue": {
-                "type": "LinkVault.Links.LinkDto",
-                "typeSimple": "LinkVault.Links.LinkDto"
+                "type": "LinkVault.Links.Dtos.LinkDto",
+                "typeSimple": "LinkVault.Links.Dtos.LinkDto"
               },
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
@@ -1975,9 +2137,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "LinkVault.Links.LinkFilterDto, LinkVault.Application.Contracts",
-                  "type": "LinkVault.Links.LinkFilterDto",
-                  "typeSimple": "LinkVault.Links.LinkFilterDto",
+                  "typeAsString": "LinkVault.Links.Dtos.LinkFilterDto, LinkVault.Application.Contracts",
+                  "type": "LinkVault.Links.Dtos.LinkFilterDto",
+                  "typeSimple": "LinkVault.Links.Dtos.LinkFilterDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -2093,8 +2255,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.LinkDto>",
-                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.LinkDto>"
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.Dtos.LinkDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.Dtos.LinkDto>"
               },
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
@@ -2108,9 +2270,9 @@
               "parametersOnMethod": [
                 {
                   "name": "input",
-                  "typeAsString": "LinkVault.Links.CreateUpdateLinkDto, LinkVault.Application.Contracts",
-                  "type": "LinkVault.Links.CreateUpdateLinkDto",
-                  "typeSimple": "LinkVault.Links.CreateUpdateLinkDto",
+                  "typeAsString": "LinkVault.Links.Dtos.CreateUpdateLinkDto, LinkVault.Application.Contracts",
+                  "type": "LinkVault.Links.Dtos.CreateUpdateLinkDto",
+                  "typeSimple": "LinkVault.Links.Dtos.CreateUpdateLinkDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -2120,8 +2282,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "LinkVault.Links.CreateUpdateLinkDto",
-                  "typeSimple": "LinkVault.Links.CreateUpdateLinkDto",
+                  "type": "LinkVault.Links.Dtos.CreateUpdateLinkDto",
+                  "typeSimple": "LinkVault.Links.Dtos.CreateUpdateLinkDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -2130,8 +2292,8 @@
                 }
               ],
               "returnValue": {
-                "type": "LinkVault.Links.LinkDto",
-                "typeSimple": "LinkVault.Links.LinkDto"
+                "type": "LinkVault.Links.Dtos.LinkDto",
+                "typeSimple": "LinkVault.Links.Dtos.LinkDto"
               },
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
@@ -2187,8 +2349,8 @@
                 }
               ],
               "returnValue": {
-                "type": "LinkVault.Links.LinkDto",
-                "typeSimple": "LinkVault.Links.LinkDto"
+                "type": "LinkVault.Links.Dtos.LinkDto",
+                "typeSimple": "LinkVault.Links.Dtos.LinkDto"
               },
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
@@ -2210,9 +2372,9 @@
                 },
                 {
                   "name": "input",
-                  "typeAsString": "LinkVault.Links.CreateUpdateLinkDto, LinkVault.Application.Contracts",
-                  "type": "LinkVault.Links.CreateUpdateLinkDto",
-                  "typeSimple": "LinkVault.Links.CreateUpdateLinkDto",
+                  "typeAsString": "LinkVault.Links.Dtos.CreateUpdateLinkDto, LinkVault.Application.Contracts",
+                  "type": "LinkVault.Links.Dtos.CreateUpdateLinkDto",
+                  "typeSimple": "LinkVault.Links.Dtos.CreateUpdateLinkDto",
                   "isOptional": false,
                   "defaultValue": null
                 }
@@ -2234,8 +2396,8 @@
                   "nameOnMethod": "input",
                   "name": "input",
                   "jsonName": null,
-                  "type": "LinkVault.Links.CreateUpdateLinkDto",
-                  "typeSimple": "LinkVault.Links.CreateUpdateLinkDto",
+                  "type": "LinkVault.Links.Dtos.CreateUpdateLinkDto",
+                  "typeSimple": "LinkVault.Links.Dtos.CreateUpdateLinkDto",
                   "isOptional": false,
                   "defaultValue": null,
                   "constraintTypes": null,
@@ -2244,8 +2406,8 @@
                 }
               ],
               "returnValue": {
-                "type": "LinkVault.Links.LinkDto",
-                "typeSimple": "LinkVault.Links.LinkDto"
+                "type": "LinkVault.Links.Dtos.LinkDto",
+                "typeSimple": "LinkVault.Links.Dtos.LinkDto"
               },
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
@@ -2392,8 +2554,8 @@
                 }
               ],
               "returnValue": {
-                "type": "LinkVault.Links.LinkDto",
-                "typeSimple": "LinkVault.Links.LinkDto"
+                "type": "LinkVault.Links.Dtos.LinkDto",
+                "typeSimple": "LinkVault.Links.Dtos.LinkDto"
               },
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
@@ -2429,8 +2591,8 @@
                 }
               ],
               "returnValue": {
-                "type": "LinkVault.Links.LinkDto",
-                "typeSimple": "LinkVault.Links.LinkDto"
+                "type": "LinkVault.Links.Dtos.LinkDto",
+                "typeSimple": "LinkVault.Links.Dtos.LinkDto"
               },
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
@@ -2490,8 +2652,8 @@
                 }
               ],
               "returnValue": {
-                "type": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.LinkDto>",
-                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.LinkDto>"
+                "type": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.Dtos.LinkDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.PagedResultDto<LinkVault.Links.Dtos.LinkDto>"
               },
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
@@ -2527,8 +2689,8 @@
                 }
               ],
               "returnValue": {
-                "type": "LinkVault.Links.LinkMetadataDto",
-                "typeSimple": "LinkVault.Links.LinkMetadataDto"
+                "type": "LinkVault.Links.Dtos.LinkMetadataDto",
+                "typeSimple": "LinkVault.Links.Dtos.LinkMetadataDto"
               },
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
@@ -2548,17 +2710,17 @@
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
             },
-            "GetAddedTodayAsync": {
-              "uniqueName": "GetAddedTodayAsync",
-              "name": "GetAddedTodayAsync",
+            "GetAddedThisWeekAsync": {
+              "uniqueName": "GetAddedThisWeekAsync",
+              "name": "GetAddedThisWeekAsync",
               "httpMethod": "GET",
-              "url": "api/app/link/added-today",
+              "url": "api/app/link/added-this-week",
               "supportedVersions": [],
               "parametersOnMethod": [],
               "parameters": [],
               "returnValue": {
-                "type": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Links.LinkDto>",
-                "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Links.LinkDto>"
+                "type": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Links.Dtos.LinkDto>",
+                "typeSimple": "Volo.Abp.Application.Dtos.ListResultDto<LinkVault.Links.Dtos.LinkDto>"
               },
               "allowAnonymous": true,
               "implementFrom": "LinkVault.Links.ILinkAppService"
@@ -5977,6 +6139,18 @@
           "regex": null
         },
         {
+          "name": "PublicShareToken",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
           "name": "Children",
           "jsonName": null,
           "type": "[LinkVault.Collections.CollectionDto]",
@@ -6050,6 +6224,156 @@
           "jsonName": null,
           "type": "System.Int32",
           "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "LinkVault.Collections.PublicCollectionDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Name",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Color",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Icon",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "LinkCount",
+          "jsonName": null,
+          "type": "System.Int32",
+          "typeSimple": "number",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Links",
+          "jsonName": null,
+          "type": "[LinkVault.Collections.PublicLinkDto]",
+          "typeSimple": "[LinkVault.Collections.PublicLinkDto]",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        }
+      ]
+    },
+    "LinkVault.Collections.PublicLinkDto": {
+      "baseType": null,
+      "isEnum": false,
+      "enumNames": null,
+      "enumValues": null,
+      "genericArguments": null,
+      "properties": [
+        {
+          "name": "Id",
+          "jsonName": null,
+          "type": "System.Guid",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Title",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Url",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "Description",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
+          "isRequired": false,
+          "minLength": null,
+          "maxLength": null,
+          "minimum": null,
+          "maximum": null,
+          "regex": null
+        },
+        {
+          "name": "FaviconUrl",
+          "jsonName": null,
+          "type": "System.String",
+          "typeSimple": "string",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -6323,7 +6647,7 @@
         }
       ]
     },
-    "LinkVault.Links.CreateUpdateLinkDto": {
+    "LinkVault.Links.Dtos.CreateUpdateLinkDto": {
       "baseType": null,
       "isEnum": false,
       "enumNames": null,
@@ -6416,7 +6740,7 @@
         }
       ]
     },
-    "LinkVault.Links.LinkDto": {
+    "LinkVault.Links.Dtos.LinkDto": {
       "baseType": "Volo.Abp.Application.Dtos.FullAuditedEntityDto<System.Guid>",
       "isEnum": false,
       "enumNames": null,
@@ -6546,8 +6870,8 @@
         {
           "name": "Tags",
           "jsonName": null,
-          "type": "[LinkVault.Links.LinkTagDto]",
-          "typeSimple": "[LinkVault.Links.LinkTagDto]",
+          "type": "[LinkVault.Links.Dtos.LinkTagDto]",
+          "typeSimple": "[LinkVault.Links.Dtos.LinkTagDto]",
           "isRequired": false,
           "minLength": null,
           "maxLength": null,
@@ -6557,7 +6881,7 @@
         }
       ]
     },
-    "LinkVault.Links.LinkFilterDto": {
+    "LinkVault.Links.Dtos.LinkFilterDto": {
       "baseType": "Volo.Abp.Application.Dtos.PagedAndSortedResultRequestDto",
       "isEnum": false,
       "enumNames": null,
@@ -6638,7 +6962,7 @@
         }
       ]
     },
-    "LinkVault.Links.LinkMetadataDto": {
+    "LinkVault.Links.Dtos.LinkMetadataDto": {
       "baseType": null,
       "isEnum": false,
       "enumNames": null,
@@ -6683,7 +7007,7 @@
         }
       ]
     },
-    "LinkVault.Links.LinkTagDto": {
+    "LinkVault.Links.Dtos.LinkTagDto": {
       "baseType": null,
       "isEnum": false,
       "enumNames": null,

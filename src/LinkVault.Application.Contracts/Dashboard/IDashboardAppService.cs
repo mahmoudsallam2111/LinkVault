@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using LinkVault.Links;
+using LinkVault.Links.Dtos;
 using Volo.Abp.Application.Services;
 
 namespace LinkVault.Dashboard;

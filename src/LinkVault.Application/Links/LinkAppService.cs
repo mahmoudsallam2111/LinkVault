@@ -1,3 +1,4 @@
+using LinkVault.Links.Dtos;
 using LinkVault.Permissions;
 using LinkVault.Tags;
 using Microsoft.AspNetCore.Authorization;
@@ -261,11 +262,12 @@ public class LinkAppService : ApplicationService, ILinkAppService
         return new ListResultDto<string>(domains);
     }
 
-    public async Task<ListResultDto<LinkDto>> GetAddedTodayAsync()
+    public async Task<ListResultDto<LinkDto>> GetAddedThisWeekAsync()
     {
         var userId = CurrentUser.Id!.Value;
         // Using UTC Today as the baseline
-        var links = await _linkRepository.GetLinksAddedSinceAsync(userId, DateTime.UtcNow.Date);
+        var sinceWeek = DateTime.UtcNow.AddDays(-7);
+        var links = await _linkRepository.GetLinksAddedSinceAsync(userId, sinceWeek);
         return new ListResultDto<LinkDto>(links.Select(MapToDto).ToList());
     }
 

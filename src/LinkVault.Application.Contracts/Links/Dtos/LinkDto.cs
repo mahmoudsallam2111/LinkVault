@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using Volo.Abp.Application.Dtos;
 
-namespace LinkVault.Links;
+namespace LinkVault.Links.Dtos;
 
-/// <summary>
-/// DTO for displaying link information.
-/// </summary>
 public class LinkDto : FullAuditedEntityDto<Guid>
 {
     public Guid UserId { get; set; }
@@ -20,14 +17,4 @@ public class LinkDto : FullAuditedEntityDto<Guid>
     public Guid? CollectionId { get; set; }
     public string? CollectionName { get; set; }
     public List<LinkTagDto> Tags { get; set; } = new();
-}
-
-/// <summary>
-/// Simplified tag DTO for embedding in LinkDto.
-/// </summary>
-public class LinkTagDto
-{
-    public Guid Id { get; set; }
-    public string Name { get; set; } = string.Empty;
-    public string Color { get; set; } = string.Empty;
 }

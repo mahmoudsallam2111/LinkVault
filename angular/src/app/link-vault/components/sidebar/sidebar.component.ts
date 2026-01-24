@@ -1,8 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Optional } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { LocalizationModule, PermissionService } from '@abp/ng.core';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbActiveOffcanvas } from '@ng-bootstrap/ng-bootstrap';
 import { CollectionService } from '../../../proxy/collections/collection.service';
 import { TagService } from '../../../proxy/tags/tag.service';
 import { DashboardService } from '../../../proxy/dashboard/dashboard.service';
@@ -46,8 +46,15 @@ export class SidebarComponent implements OnInit {
         private modalService: NgbModal,
         private confirmation: ConfirmationService,
         private toaster: ToasterService,
-        public themeService: ThemeService
+        public themeService: ThemeService,
+        @Optional() private activeOffcanvas: NgbActiveOffcanvas
     ) { }
+
+    closeSidebar() {
+        if (this.activeOffcanvas) {
+            this.activeOffcanvas.dismiss('Navigation');
+        }
+    }
 
     ngOnInit(): void {
         this.loadCollections();
@@ -56,8 +63,12 @@ export class SidebarComponent implements OnInit {
         this.checkAdminPermissions();
     }
 
+    rootCollections: CollectionDto[] = [];
+
+    // ...
+
     loadCollections() {
-        this.collectionService.getList().subscribe({
+        this.collectionService.getTree().subscribe({
             next: (res) => {
                 this.collections = res.items;
             },

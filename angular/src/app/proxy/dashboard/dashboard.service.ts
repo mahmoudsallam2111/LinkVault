@@ -1,7 +1,7 @@
 import type { DashboardStatsDto } from './models';
 import { RestService, Rest } from '@abp/ng.core';
 import { Injectable, inject } from '@angular/core';
-import type { LinkDto } from '../links/models';
+import type { LinkDto } from '../links/dtos/models';
 
 @Injectable({
   providedIn: 'root',

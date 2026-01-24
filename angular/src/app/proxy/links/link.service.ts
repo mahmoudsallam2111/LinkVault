@@ -1,4 +1,4 @@
-import type { CreateUpdateLinkDto, LinkDto, LinkFilterDto, LinkMetadataDto } from './models';
+import type { CreateUpdateLinkDto, LinkDto, LinkFilterDto, LinkMetadataDto } from './dtos/models';
 import { RestService, Rest } from '@abp/ng.core';
 import type { ListResultDto, PagedAndSortedResultRequestDto, PagedResultDto } from '@abp/ng.core';
 import { Injectable, inject } from '@angular/core';
@@ -54,10 +54,10 @@ export class LinkService {
     { apiName: this.apiName,...config });
   
 
-  getAddedToday = (config?: Partial<Rest.Config>) =>
+  getAddedThisWeek = (config?: Partial<Rest.Config>) =>
     this.restService.request<any, ListResultDto<LinkDto>>({
       method: 'GET',
-      url: '/api/app/link/added-today',
+      url: '/api/app/link/added-this-week',
     },
     { apiName: this.apiName,...config });
   

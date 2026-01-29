@@ -78,7 +78,7 @@ public class TagAppService : ApplicationService, ITagAppService
         return MapToDto(tag, 0);
     }
 
-    //[Authorize(LinkVaultPermissions.Tags.Edit)]
+    // [Authorize(LinkVaultPermissions.Tags.Edit)]
     public async Task<TagDto> UpdateAsync(Guid id, CreateUpdateTagDto input)
     {
         var tag = await _tagRepository.GetAsync(id);

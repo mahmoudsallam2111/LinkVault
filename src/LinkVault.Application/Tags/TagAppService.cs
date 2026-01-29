@@ -10,7 +10,7 @@ using Volo.Abp.Application.Services;
 namespace LinkVault.Tags;
 
 [AllowAnonymous]
-//[Authorize(LinkVaultPermissions.Tags.Default)]
+//[Authorize(LinkVaultPermissions.Tags.Default)] -- Test CI
 public class TagAppService : ApplicationService, ITagAppService
 {
     private readonly ITagRepository _tagRepository;

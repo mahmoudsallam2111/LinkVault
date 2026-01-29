@@ -7,7 +7,7 @@ on:
       - master
 
 env:
-  DOTNET_VERSION: "9.x"
+  DOTNET_VERSION: "10.x"
   SOLUTION_NAME: "LinkVault.slnx"
 
 jobs:

@@ -265,7 +265,7 @@ src/LinkVault.HttpApi.Host/Logs/*
 src/LinkVault.DbMigrator/Logs/*
 src/LinkVault.Blazor.Server/Logs/*
 src/LinkVault.Blazor.Server.Tiered/Logs/*
-Logs/*
+
 # Use abp install-libs to restore.
 **/wwwroot/libs/*
 

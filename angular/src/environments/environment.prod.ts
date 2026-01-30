@@ -1,9 +1,9 @@
 import { Environment } from '@abp/ng.core';
 
-const baseUrl = 'https://keyvaultx.netlify.app';
+const baseUrl = 'http://linkvault.local';
 
 const oAuthConfig = {
-  issuer: 'https://linkvault.runasp.net/',
+  issuer: 'http://linkvault.local/',
   redirectUri: baseUrl,
   clientId: 'LinkVault_App',
   responseType: 'code',
@@ -20,7 +20,7 @@ export const environment = {
   oAuthConfig,
   apis: {
     default: {
-      url: 'https://linkvault.runasp.net',
+      url: 'http://linkvault.local',
       rootNamespace: 'LinkVault',
     },
     AbpAccountPublic: {
@@ -28,8 +28,8 @@ export const environment = {
       rootNamespace: 'AbpAccountPublic',
     },
   },
-  // remoteEnv: {
-  //   url: '/getEnvConfig',
-  //   mergeStrategy: 'deepmerge'
-  // }
+  remoteEnv: {
+    url: '/getEnvConfig',
+    mergeStrategy: 'deepmerge',
+  },
 } as Environment;

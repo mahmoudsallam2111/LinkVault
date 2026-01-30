@@ -1,44 +1,44 @@
-name: Build and Sync
+# name: Build and Sync
 
-on:
-  workflow_dispatch:
-  push:
-    branches:
-      - master
+# on:
+#   workflow_dispatch:
+#   push:
+#     branches:
+#       - master
 
-env:
-  DOTNET_VERSION: "10.x"
-  SOLUTION_NAME: "LinkVault.slnx"
+# env:
+#   DOTNET_VERSION: "10.x"
+#   SOLUTION_NAME: "LinkVault.slnx"
 
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
+# jobs:
+#   build:
+#     runs-on: ubuntu-latest
+#     permissions:
+#       contents: write
 
-    steps:
-      - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+#     steps:
+#       - uses: actions/checkout@v4
+#         with:
+#           fetch-depth: 0
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: ${{ env.DOTNET_VERSION }}
+#       - name: Setup .NET
+#         uses: actions/setup-dotnet@v4
+#         with:
+#           dotnet-version: ${{ env.DOTNET_VERSION }}
 
-      - name: Restore
-        run: dotnet restore ${{ env.SOLUTION_NAME }}
+#       - name: Restore
+#         run: dotnet restore ${{ env.SOLUTION_NAME }}
 
-      - name: Build
-        run: dotnet build ${{ env.SOLUTION_NAME }} --configuration Release --no-restore
+#       - name: Build
+#         run: dotnet build ${{ env.SOLUTION_NAME }} --configuration Release --no-restore
 
-      - name: Test
-        run: dotnet test ${{ env.SOLUTION_NAME }} --configuration Release --no-restore --no-build
+#       - name: Test
+#         run: dotnet test ${{ env.SOLUTION_NAME }} --configuration Release --no-restore --no-build
 
-      - name: Publish
-        run: dotnet publish ${{ env.SOLUTION_NAME }} --configuration Release --no-restore --no-build
+#       - name: Publish
+#         run: dotnet publish ${{ env.SOLUTION_NAME }} --configuration Release --no-restore --no-build
 
-      - name: Force push to Prod_19/01/2026
-        if: success()
-        run: |
-          git push origin master:Prod_19/01/2026 --force
+#       - name: Force push to Prod_19/01/2026
+#         if: success()
+#         run: |
+#           git push origin master:Prod_19/01/2026 --force

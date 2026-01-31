@@ -74,7 +74,7 @@ public class AppNotificationAppService : ApplicationService, IAppNotificationApp
         var unreadNotifications = await _notificationRepository.GetListAsync(
             CurrentUser.Id.Value,
             unreadOnly: true,
-            maxResultCount: 1000 // Reasonable limit
+            maxResultCount: 1000
         );
 
         foreach (var notification in unreadNotifications)

@@ -87,8 +87,14 @@ public class LinkVaultHttpApiHostModule : AbpModule
 
             PreConfigure<OpenIddictServerBuilder>(serverBuilder =>
             {
-                serverBuilder.AddProductionEncryptionAndSigningCertificate("openiddict.pfx", configuration["AuthServer:CertificatePassPhrase"]!);
-                serverBuilder.SetIssuer(new Uri(configuration["AuthServer:Authority"]!));
+                // Use ephemeral keys (in-memory) - works on shared hosting without certificate store access
+                serverBuilder.AddEphemeralEncryptionKey();
+                serverBuilder.AddEphemeralSigningKey();
+
+                if (!hostingEnvironment.IsDevelopment())
+                {
+                    serverBuilder.SetIssuer(new Uri(configuration["AuthServer:Authority"]!));
+                }
             });
         }
     }

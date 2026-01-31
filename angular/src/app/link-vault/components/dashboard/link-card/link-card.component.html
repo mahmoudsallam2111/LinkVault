@@ -49,6 +49,11 @@
                         ngbTooltip="Favorite">
                         <i [class]="link.isFavorite ? 'fas fa-star' : 'far fa-star'"></i>
                     </button>
+                    <button class="btn btn-icon btn-sm rounded-circle" [class.text-info]="link.hasReminder"
+                        [class.text-muted]="!link.hasReminder" (click)="$event.stopPropagation(); reminder.emit(link)"
+                        [ngbTooltip]="link.hasReminder ? 'Reminder set' : 'Set reminder'">
+                        <i [class]="link.hasReminder ? 'fas fa-bell' : 'far fa-bell'"></i>
+                    </button>
                     <button class="btn btn-icon btn-sm rounded-circle text-muted hover-primary"
                         (click)="$event.stopPropagation(); edit.emit(link)" ngbTooltip="Edit">
                         <i class="fas fa-pencil-alt"></i>

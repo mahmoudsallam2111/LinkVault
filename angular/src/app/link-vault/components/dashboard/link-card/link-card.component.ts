@@ -15,6 +15,7 @@ export class LinkCardComponent {
   @Input() trashMode = false;
   @Output() visit = new EventEmitter<LinkDto>();
   @Output() favorite = new EventEmitter<LinkDto>();
+  @Output() reminder = new EventEmitter<LinkDto>();
   @Output() edit = new EventEmitter<LinkDto>();
   @Output() delete = new EventEmitter<LinkDto>();
   @Output() restore = new EventEmitter<LinkDto>();

@@ -16,6 +16,7 @@ using Volo.Abp.TenantManagement.EntityFrameworkCore;
 using LinkVault.Links;
 using LinkVault.Collections;
 using LinkVault.Settings;
+using LinkVault.Reminders;
 using Volo.Abp.EntityFrameworkCore.Modeling;
 using LinkVault.Tags;
 
@@ -34,7 +35,9 @@ public class LinkVaultDbContext :
     public DbSet<LinkTag> LinkTags { get; set; }
     public DbSet<Collection> Collections { get; set; }
     public DbSet<Tag> Tags { get; set; }
-    public DbSet<LinkVault.Settings.UserEmailPreferences> UserEmailPreferences { get; set; }
+    public DbSet<LinkReminder> LinkReminders { get; set; }
+    public DbSet<UserEmailPreferences> UserEmailPreferences { get; set; }
+    public DbSet<UserReminderSettings> UserReminderSettings { get; set; }
 
     #region Entities from the modules
 
@@ -95,6 +98,13 @@ public class LinkVaultDbContext :
             b.ToTable(LinkVaultConsts.DbTablePrefix + "UserEmailPreferences", LinkVaultConsts.DbSchema);
             b.ConfigureByConvention();
             b.Property(x => x.UserId).IsRequired();
+            b.HasIndex(x => x.UserId);
+        });
+
+        builder.Entity<LinkVault.Notifications.AppNotification>(b =>
+        {
+            b.ToTable(LinkVaultConsts.DbTablePrefix + "AppNotifications", LinkVaultConsts.DbSchema);
+            b.ConfigureByConvention();
             b.HasIndex(x => x.UserId);
         });
     }

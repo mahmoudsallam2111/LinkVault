@@ -1,0 +1,18 @@
+.link-preview {
+    border: 1px solid #e9ecef;
+}
+
+.btn-outline-primary.active {
+    background-color: var(--bs-primary);
+    color: white;
+}
+
+.btn-outline-secondary.active {
+    background-color: var(--bs-secondary);
+    color: white;
+}
+
+.modal-body {
+    max-height: 60vh;
+    overflow-y: auto;
+}

@@ -1,0 +1,59 @@
+<div class="modal-header border-0 pb-0">
+    <h5 class="modal-title fw-bold">
+        <i class="fas fa-bell me-2 text-primary"></i>Set Reminder
+    </h5>
+    <button type="button" class="btn-close" aria-label="Close" (click)="activeModal.dismiss()"></button>
+</div>
+
+<div class="modal-body pt-2">
+    <!-- Link Preview -->
+    <div class="link-preview d-flex align-items-center p-3 bg-light rounded-3 mb-4">
+        <img *ngIf="link.favicon" [src]="link.favicon" class="me-3" style="width: 24px; height: 24px;"
+            onerror="this.style.display='none'" alt="">
+        <div class="overflow-hidden">
+            <div class="fw-semibold text-truncate">{{ link.title }}</div>
+            <small class="text-muted">{{ link.domain }}</small>
+        </div>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-danger py-2 mb-3">
+        {{ errorMessage }}
+    </div>
+
+    <!-- Preset Options -->
+    <label class="form-label text-muted small mb-2">Remind me in...</label>
+    <div class="d-flex flex-wrap gap-2 mb-4">
+        <button *ngFor="let option of presetOptions" type="button" class="btn btn-outline-primary rounded-pill px-3"
+            [class.active]="selectedPreset === option.hours && !useCustomTime" (click)="selectPreset(option.hours)">
+            {{ option.label }}
+        </button>
+        <button type="button" class="btn btn-outline-secondary rounded-pill px-3" [class.active]="useCustomTime"
+            (click)="enableCustomTime()">
+            <i class="fas fa-calendar-alt me-1"></i>Custom
+        </button>
+    </div>
+
+    <!-- Custom DateTime Picker -->
+    <div *ngIf="useCustomTime" class="mb-4">
+        <label class="form-label text-muted small">Choose date and time</label>
+        <input type="datetime-local" class="form-control" [(ngModel)]="customDateTime"
+            [min]="formatDateTimeLocal(getNow())">
+    </div>
+
+    <!-- Note -->
+    <div class="mb-3">
+        <label class="form-label text-muted small">Add a note (optional)</label>
+        <textarea class="form-control" rows="2" [(ngModel)]="note"
+            placeholder="e.g., Read this article about Angular..."></textarea>
+    </div>
+</div>
+
+<div class="modal-footer border-0 pt-0">
+    <button type="button" class="btn btn-light" (click)="activeModal.dismiss()">Cancel</button>
+    <button type="button" class="btn btn-primary" (click)="setReminder()" [disabled]="isLoading">
+        <span *ngIf="isLoading" class="spinner-border spinner-border-sm me-1"></span>
+        <i *ngIf="!isLoading" class="fas fa-bell me-1"></i>
+        Set Reminder
+    </button>
+</div>

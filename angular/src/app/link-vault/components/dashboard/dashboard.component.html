@@ -15,6 +15,9 @@
                 <h5 class="fw-bold mb-0 d-lg-none text-dark">{{ 'LinkVault::AppName' | abpLocalization }}</h5>
             </div>
             <div class="d-flex gap-2 align-items-center">
+                <!-- Notification Bell -->
+                <app-notification-bell></app-notification-bell>
+
                 <!-- Theme Toggle Button -->
                 <button class="btn btn-icon rounded-circle d-flex align-items-center justify-content-center"
                     [class.btn-outline-secondary]="!themeService.isDarkMode" [class.btn-light]="themeService.isDarkMode"
@@ -263,6 +266,11 @@
                                             <button ngbDropdownItem (click)="visitLink(row)">
                                                 <i class="fas fa-external-link-alt me-2 text-primary"></i> Visit
                                             </button>
+                                            <button ngbDropdownItem (click)="setReminder(row)">
+                                                <i
+                                                    [class]="'fas fa-bell me-2 ' + (row.hasReminder ? 'text-info' : 'text-muted')"></i>
+                                                {{ row.hasReminder ? 'Update Reminder' : 'Set Reminder' }}
+                                            </button>
                                             <button ngbDropdownItem (click)="editLink(row)">
                                                 <i class="fas fa-edit me-2 text-secondary"></i> Edit
                                             </button>
@@ -331,6 +339,10 @@
                                                 <button class="btn btn-outline-primary" (click)="visitLink(link)"
                                                     title="Visit">
                                                     <i class="fas fa-external-link-alt"></i>
+                                                </button>
+                                                <button class="btn btn-outline-info" (click)="setReminder(link)"
+                                                    [title]="link.hasReminder ? 'Update Reminder' : 'Set Reminder'">
+                                                    <i [class]="link.hasReminder ? 'fas fa-bell' : 'far fa-bell'"></i>
                                                 </button>
                                                 <button class="btn btn-outline-secondary" (click)="editLink(link)"
                                                     title="Edit">

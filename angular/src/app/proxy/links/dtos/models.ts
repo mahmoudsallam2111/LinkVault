@@ -12,6 +12,8 @@ export interface LinkDto extends FullAuditedEntityDto<string> {
   collectionId?: string;
   collectionName?: string;
   tags?: LinkTagDto[];
+  hasReminder?: boolean;
+  reminderAt?: string;
 }
 
 export interface LinkTagDto {

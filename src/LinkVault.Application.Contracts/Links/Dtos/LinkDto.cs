@@ -17,4 +17,9 @@ public class LinkDto : FullAuditedEntityDto<Guid>
     public Guid? CollectionId { get; set; }
     public string? CollectionName { get; set; }
     public List<LinkTagDto> Tags { get; set; } = new();
+
+    // Reminder fields
+    public bool HasReminder { get; set; }
+    public DateTime? ReminderAt { get; set; }
 }
+

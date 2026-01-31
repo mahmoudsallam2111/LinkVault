@@ -1,6 +1,7 @@
 using LinkVault.EntityFrameworkCore;
 using LinkVault.HealthChecks;
 using LinkVault.MultiTenancy;
+using LinkVault.BackgroundJobs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
@@ -18,6 +19,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Security.Cryptography.X509Certificates;
+using System.Threading.Tasks;
 using Volo.Abp;
 using Volo.Abp.Account;
 using Volo.Abp.Account.Web;
@@ -30,11 +32,14 @@ using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
 using Volo.Abp.Autofac;
+using Volo.Abp.BackgroundWorkers;
 using Volo.Abp.Identity;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.OpenIddict;
+using Volo.Abp.AspNetCore.SignalR;
 using Volo.Abp.Security.Claims;
+using LinkVault.Hubs;
 using Volo.Abp.Studio;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Swashbuckle;
@@ -53,7 +58,8 @@ namespace LinkVault;
     typeof(LinkVaultEntityFrameworkCoreModule),
     typeof(AbpAccountWebOpenIddictModule),
     typeof(AbpSwashbuckleModule),
-    typeof(AbpAspNetCoreSerilogModule)
+    typeof(AbpAspNetCoreSerilogModule),
+    typeof(AbpAspNetCoreSignalRModule)
     )]
 public class LinkVaultHttpApiHostModule : AbpModule
 {
@@ -130,6 +136,8 @@ public class LinkVaultHttpApiHostModule : AbpModule
         
         // Register HttpClient for MetadataFetcher
         context.Services.AddHttpClient("MetadataFetcher");
+        
+        context.Services.AddSignalR();
     }
 
     private void ConfigureAuthentication(ServiceConfigurationContext context)
@@ -221,14 +229,8 @@ public class LinkVaultHttpApiHostModule : AbpModule
             options.AddDefaultPolicy(builder =>
             {
                 builder
-                    .WithOrigins(
-                        configuration["App:CorsOrigins"]?
-                            .Split(",", StringSplitOptions.RemoveEmptyEntries)
-                            .Select(o => o.Trim().RemovePostFix("/"))
-                            .ToArray() ?? Array.Empty<string>()
-                    )
+                    .SetIsOriginAllowed(_ => true) // Allow any origin to fix CORS issues in dev
                     .WithAbpExposedHeaders()
-                    .SetIsOriginAllowedToAllowWildcardSubdomains()
                     .AllowAnyHeader()
                     .AllowAnyMethod()
                     .AllowCredentials();
@@ -240,6 +242,7 @@ public class LinkVaultHttpApiHostModule : AbpModule
     {
         context.Services.AddLinkVaultHealthChecks();
     }
+
 
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -261,11 +264,11 @@ public class LinkVaultHttpApiHostModule : AbpModule
             app.UseErrorPage();
         }
 
+        app.UseCors();
         app.UseRouting();
         app.MapAbpStaticAssets();
         app.UseAbpStudioLink();
         app.UseAbpSecurityHeaders();
-        app.UseCors();
         app.UseAuthentication();
         app.UseAbpOpenIddictValidation();
 
@@ -290,4 +293,13 @@ public class LinkVaultHttpApiHostModule : AbpModule
         app.UseAbpSerilogEnrichers();
         app.UseConfiguredEndpoints();
     }
+
+    public override async Task OnApplicationInitializationAsync(ApplicationInitializationContext context)
+    {
+        await base.OnApplicationInitializationAsync(context);
+        
+        // Register background workers
+        await context.AddBackgroundWorkerAsync<ReminderNotificationWorker>();
+    }
 }
+

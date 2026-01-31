@@ -19,4 +19,9 @@ public static class LinkVaultDomainErrorCodes
     /* Import error codes */
     public const string InvalidImportFormat = "LinkVault:InvalidImportFormat";
     public const string ImportFailed = "LinkVault:ImportFailed";
+
+    /* Reminder error codes */
+    public const string ReminderAlreadyExists = "LinkVault:ReminderAlreadyExists";
+    public const string ReminderNotFound = "LinkVault:ReminderNotFound";
+    public const string ReminderTimeMustBeFuture = "LinkVault:ReminderTimeMustBeFuture";
 }

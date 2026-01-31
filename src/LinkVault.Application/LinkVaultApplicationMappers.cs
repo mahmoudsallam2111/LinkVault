@@ -43,3 +43,12 @@ public partial class UserEmailPreferencesToEmailPreferencesDtoMapper : MapperBas
 
     public override partial void Map(UserEmailPreferences source, EmailPreferencesDto destination);
 }
+
+/* AppNotification Mappers */
+[Mapper(RequiredMappingStrategy = RequiredMappingStrategy.Target)]
+public partial class AppNotificationToAppNotificationDtoMapper : MapperBase<Notifications.AppNotification, Notifications.AppNotificationDto>
+{
+    public override partial Notifications.AppNotificationDto Map(Notifications.AppNotification source);
+
+    public override partial void Map(Notifications.AppNotification source, Notifications.AppNotificationDto destination);
+}

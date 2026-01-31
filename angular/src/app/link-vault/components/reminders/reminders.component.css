@@ -1,0 +1,29 @@
+.reminder-card {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.reminder-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+.icon-wrapper {
+    /* Base styles, width/height set inline in HTML for flexibility or here */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.favicon-img {
+    object-fit: contain;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+@media (max-width: 991.98px) {
+    .mobile-row {
+        margin-top: 0;
+    }
+}

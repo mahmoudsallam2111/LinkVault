@@ -10,6 +10,7 @@ import { ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { LinkService } from '../../../proxy/links/link.service';
 
 import { SidebarComponent } from '../sidebar/sidebar.component';
+import { ReminderModalComponent } from '../reminder-modal/reminder-modal.component';
 import { LinkDto, LinkFilterDto } from 'src/app/proxy/links/dtos';
 
 @Component({
@@ -45,7 +46,7 @@ export class FavoritesComponent implements OnInit {
     private confirmation: ConfirmationService,
     private toaster: ToasterService,
     public localization: LocalizationService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -117,7 +118,25 @@ export class FavoritesComponent implements OnInit {
           }
         }
       },
-      () => {},
+      () => { },
+    );
+  }
+
+  setReminder(link: LinkDto) {
+    const modalRef = this.modalService.open(ReminderModalComponent, {
+      centered: true,
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.link = link;
+
+    modalRef.result.then(
+      result => {
+        if (result === 'success') {
+          this.toaster.success('Reminder set successfully');
+          this.loadData();
+        }
+      },
+      () => { },
     );
   }
 

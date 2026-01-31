@@ -11,16 +11,11 @@
         <div class="card-body p-4">
           <div class="d-flex flex-wrap justify-content-between align-items-center mb-4 gap-3">
             <div class="d-flex align-items-center">
-              <button
-                class="btn btn-link p-0 me-3 d-lg-none text-primary"
-                (click)="openMobileSidebar()"
-              >
+              <button class="btn btn-link p-0 me-3 d-lg-none text-primary" (click)="openMobileSidebar()">
                 <i class="fas fa-bars fa-lg"></i>
               </button>
-              <div
-                class="icon-box bg-info text-white rounded me-3 d-flex align-items-center justify-content-center"
-                style="width: 48px; height: 48px"
-              >
+              <div class="icon-box bg-info text-white rounded me-3 d-flex align-items-center justify-content-center"
+                style="width: 48px; height: 48px">
                 <i class="fas fa-clock fa-lg"></i>
               </div>
               <div>
@@ -33,20 +28,13 @@
               </div>
             </div>
 
-            <div
-              class="input-group search-bar w-auto flex-grow-1 flex-md-grow-0"
-              style="min-width: 200px"
-            >
+            <div class="input-group search-bar w-auto flex-grow-1 flex-md-grow-0" style="min-width: 200px">
               <span class="input-group-text bg-light border-0 ps-3">
                 <i class="fas fa-search text-muted"></i>
               </span>
-              <input
-                type="text"
-                class="form-control bg-light border-0 py-2"
-                [placeholder]="'LinkVault::FilterList' | abpLocalization"
-                [(ngModel)]="searchTerm"
-                (input)="onSearch(searchTerm)"
-              />
+              <input type="text" class="form-control bg-light border-0 py-2"
+                [placeholder]="'LinkVault::FilterList' | abpLocalization" [(ngModel)]="searchTerm"
+                (input)="onSearch(searchTerm)" />
             </div>
           </div>
 
@@ -58,23 +46,14 @@
                   <!-- Header: Icon, Title, Star -->
                   <div class="d-flex justify-content-between align-items-start mb-2">
                     <div class="d-flex align-items-center overflow-hidden me-2">
-                      <img
-                        [src]="link.favicon || 'assets/images/default-favicon.png'"
-                        alt="favicon"
+                      <img [src]="link.favicon || 'assets/images/default-favicon.png'" alt="favicon"
                         class="me-2 rounded-circle"
-                        style="width: 24px; height: 24px; object-fit: contain; min-width: 24px"
-                      />
+                        style="width: 24px; height: 24px; object-fit: contain; min-width: 24px" />
                       <h6 class="card-title mb-0 fw-bold text-truncate">{{ link.title }}</h6>
                     </div>
-                    <button
-                      class="btn btn-link p-0 text-decoration-none"
-                      (click)="toggleFavorite(link)"
-                    >
-                      <i
-                        class="fas fa-star"
-                        [class.text-warning]="link.isFavorite"
-                        [class.text-muted]="!link.isFavorite"
-                      ></i>
+                    <button class="btn btn-link p-0 text-decoration-none" (click)="toggleFavorite(link)">
+                      <i class="fas fa-star" [class.text-warning]="link.isFavorite"
+                        [class.text-muted]="!link.isFavorite"></i>
                     </button>
                   </div>
 
@@ -88,55 +67,37 @@
 
                   <!-- Tags & Collection -->
                   <div class="mb-3 d-flex flex-wrap gap-1">
-                    <span
-                      *ngIf="link.collectionName"
-                      class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill px-2 fw-normal"
-                    >
+                    <span *ngIf="link.collectionName"
+                      class="badge bg-secondary bg-opacity-10 text-secondary border border-secondary border-opacity-25 rounded-pill px-2 fw-normal">
                       <i class="fas fa-folder me-1"></i>{{ link.collectionName }}
                     </span>
-                    <span
-                      *ngFor="let tag of link.tags?.slice(0, 3)"
-                      class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-2 fw-normal"
-                    >
+                    <span *ngFor="let tag of link.tags?.slice(0, 3)"
+                      class="badge bg-primary bg-opacity-10 text-primary border border-primary border-opacity-25 rounded-pill px-2 fw-normal">
                       {{ tag.name }}
                     </span>
-                    <span
-                      *ngIf="link.tags?.length > 3"
-                      class="badge bg-light text-muted border rounded-pill px-2 fw-normal"
-                    >
+                    <span *ngIf="link.tags?.length > 3"
+                      class="badge bg-light text-muted border rounded-pill px-2 fw-normal">
                       +{{ link.tags.length - 3 }}
                     </span>
                   </div>
 
                   <!-- Footer: Visits & Actions -->
-                  <div
-                    class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top"
-                  >
+                  <div class="d-flex justify-content-between align-items-center mt-auto pt-2 border-top">
                     <span
-                      class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 rounded-pill px-2 py-1 fw-normal"
-                    >
+                      class="badge bg-info bg-opacity-10 text-info border border-info border-opacity-25 rounded-pill px-2 py-1 fw-normal">
                       <i class="fas fa-eye me-1"></i> {{ link.visitCount || 0 }} Visits
                     </span>
                     <div class="btn-group">
-                      <button
-                        class="btn btn-outline-primary btn-sm rounded-start"
-                        (click)="visitLink(link)"
-                        title="{{ 'LinkVault::Visit' | abpLocalization }}"
-                      >
+                      <button class="btn btn-outline-primary btn-sm rounded-start" (click)="visitLink(link)"
+                        title="{{ 'LinkVault::Visit' | abpLocalization }}">
                         <i class="fas fa-external-link-alt"></i>
                       </button>
-                      <button
-                        class="btn btn-outline-primary btn-sm"
-                        (click)="editLink(link)"
-                        title="{{ 'LinkVault::Edit' | abpLocalization }}"
-                      >
+                      <button class="btn btn-outline-primary btn-sm" (click)="editLink(link)"
+                        title="{{ 'LinkVault::Edit' | abpLocalization }}">
                         <i class="fas fa-edit"></i>
                       </button>
-                      <button
-                        class="btn btn-outline-danger btn-sm rounded-end"
-                        (click)="deleteLink(link)"
-                        title="{{ 'LinkVault::Delete' | abpLocalization }}"
-                      >
+                      <button class="btn btn-outline-danger btn-sm rounded-end" (click)="deleteLink(link)"
+                        title="{{ 'LinkVault::Delete' | abpLocalization }}">
                         <i class="fas fa-trash"></i>
                       </button>
                     </div>
@@ -148,45 +109,22 @@
 
           <!-- Desktop Table View -->
           <div class="d-none d-md-block">
-            <ngx-datatable
-              class="material"
-              [rows]="links"
-              [columnMode]="'force'"
-              [headerHeight]="50"
-              [footerHeight]="50"
-              [rowHeight]="'auto'"
-              [limit]="10"
-              [scrollbarH]="true"
-            >
-              <ngx-datatable-column
-                [name]="'LinkVault::Title' | abpLocalization"
-                prop="title"
-                [flexGrow]="2"
-              >
+            <ngx-datatable class="material" [rows]="links" [columnMode]="'force'" [headerHeight]="50"
+              [footerHeight]="50" [rowHeight]="'auto'" [limit]="10" [scrollbarH]="true">
+              <ngx-datatable-column [name]="'LinkVault::Title' | abpLocalization" prop="title" [flexGrow]="2">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                   <div class="d-flex align-items-center">
-                    <img
-                      [src]="row.favicon || 'assets/images/default-favicon.png'"
-                      alt="favicon"
-                      class="me-2"
-                      style="width: 20px; height: 20px; object-fit: contain"
-                    />
-                    <a
-                      [href]="row.url"
-                      target="_blank"
-                      (click)="visitLink(row)"
-                      class="text-decoration-none text-dark fw-medium"
-                    >
+                    <img [src]="row.favicon || 'assets/images/default-favicon.png'" alt="favicon" class="me-2"
+                      style="width: 20px; height: 20px; object-fit: contain" />
+                    <a [href]="row.url" target="_blank" (click)="visitLink(row)"
+                      class="text-decoration-none text-dark fw-medium">
                       {{ row.title }}
                     </a>
                   </div>
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column
-                [name]="'LinkVault::Collection' | abpLocalization"
-                [flexGrow]="1"
-              >
+              <ngx-datatable-column [name]="'LinkVault::Collection' | abpLocalization" [flexGrow]="1">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                   <span *ngIf="row.collectionName" class="badge bg-light text-dark">
                     <i class="fas fa-folder me-1 text-primary"></i>
@@ -207,49 +145,36 @@
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column
-                [name]="'LinkVault::Visits' | abpLocalization"
-                prop="visitCount"
-                [flexGrow]="0.5"
-              >
+              <ngx-datatable-column [name]="'LinkVault::Visits' | abpLocalization" prop="visitCount" [flexGrow]="0.5">
                 <ng-template let-value="value" ngx-datatable-cell-template>
                   <span class="badge bg-info">{{ value || 0 }}</span>
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column
-                [name]="'LinkVault::Favorite' | abpLocalization"
-                [flexGrow]="0.5"
-              >
+              <ngx-datatable-column [name]="'LinkVault::Favorite' | abpLocalization" [flexGrow]="0.5">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                   <button class="btn btn-sm btn-link p-0" (click)="toggleFavorite(row)">
-                    <i
-                      class="fas fa-star"
-                      [class.text-warning]="row.isFavorite"
-                      [class.text-muted]="!row.isFavorite"
-                    ></i>
+                    <i class="fas fa-star" [class.text-warning]="row.isFavorite"
+                      [class.text-muted]="!row.isFavorite"></i>
                   </button>
                 </ng-template>
               </ngx-datatable-column>
 
-              <ngx-datatable-column
-                [name]="'LinkVault::Actions' | abpLocalization"
-                [flexGrow]="1"
-                [sortable]="false"
-              >
+              <ngx-datatable-column [name]="'LinkVault::Actions' | abpLocalization" [flexGrow]="1" [sortable]="false">
                 <ng-template let-row="row" ngx-datatable-cell-template>
                   <div ngbDropdown container="body">
-                    <button
-                      class="btn btn-sm btn-outline-primary"
-                      id="actionsDropdown"
-                      ngbDropdownToggle
-                    >
+                    <button class="btn btn-sm btn-outline-primary" id="actionsDropdown" ngbDropdownToggle>
                       {{ 'LinkVault::Actions' | abpLocalization }}
                     </button>
                     <div ngbDropdownMenu aria-labelledby="actionsDropdown">
                       <button ngbDropdownItem (click)="visitLink(row)">
                         <i class="fas fa-external-link-alt me-2 text-primary"></i>
                         {{ 'LinkVault::Visit' | abpLocalization }}
+                      </button>
+                      <button ngbDropdownItem (click)="setReminder(row)">
+                        <i [class]="'fas fa-bell me-2 ' + (row.hasReminder ? 'text-info' : 'text-muted')"></i>
+                        {{ (row.hasReminder ? 'LinkVault::UpdateReminder' : 'LinkVault::SetReminder') | abpLocalization
+                        }}
                       </button>
                       <button ngbDropdownItem (click)="editLink(row)">
                         <i class="fas fa-edit me-2 text-secondary"></i>

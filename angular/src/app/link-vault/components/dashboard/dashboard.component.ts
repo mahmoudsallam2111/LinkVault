@@ -14,6 +14,7 @@ import { LocalizationModule, LocalizationService } from '@abp/ng.core';
 import { SidebarComponent } from '../sidebar/sidebar.component';
 import { StatsCardComponent } from './stats-card/stats-card.component';
 import { LinkModalComponent } from './link-modal/link-modal.component';
+import { ReminderModalComponent } from '../reminder-modal/reminder-modal.component';
 import { ConfirmationService, ToasterService } from '@abp/ng.theme.shared';
 import { LinkService } from '../../../proxy/links/link.service';
 import { DashboardService } from '../../../proxy/dashboard/dashboard.service';
@@ -22,6 +23,7 @@ import { DashboardStatsDto } from '../../../proxy/dashboard/models';
 import { CollectionDto } from '../../../proxy/collections/models';
 import { ThemeService } from '../../services/theme.service';
 import { LinkDto, LinkFilterDto } from 'src/app/proxy/links/dtos/models';
+import { NotificationBellComponent } from '../notifications/notification-bell/notification-bell.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -36,6 +38,7 @@ import { LinkDto, LinkFilterDto } from 'src/app/proxy/links/dtos/models';
     SidebarComponent,
     StatsCardComponent,
     LocalizationModule,
+    NotificationBellComponent
   ],
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.css'],
@@ -77,7 +80,7 @@ export class DashboardComponent implements OnInit {
     private toaster: ToasterService,
     public localization: LocalizationService,
     public themeService: ThemeService,
-  ) {}
+  ) { }
 
   ngOnInit(): void {
     this.loadData();
@@ -195,6 +198,26 @@ export class DashboardComponent implements OnInit {
     );
   }
 
+  setReminder(link: LinkDto) {
+    const modalRef = this.modalService.open(ReminderModalComponent, {
+      centered: true,
+      backdrop: 'static',
+    });
+    modalRef.componentInstance.link = link;
+
+    modalRef.result.then(
+      result => {
+        if (result === 'success') {
+          this.toaster.success('Reminder set successfully');
+          this.loadData();
+        }
+      },
+      () => {
+        /* Modal dismissed */
+      },
+    );
+  }
+
   onDateSelect() {
     if (!this.fromDate && !this.toDate) {
       this.loadData();
@@ -284,3 +307,4 @@ export class DashboardComponent implements OnInit {
     });
   }
 }
+

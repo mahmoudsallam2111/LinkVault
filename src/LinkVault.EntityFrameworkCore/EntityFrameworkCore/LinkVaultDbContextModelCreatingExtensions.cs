@@ -4,6 +4,8 @@ using Volo.Abp.EntityFrameworkCore.Modeling;
 using LinkVault.Links;
 using LinkVault.Collections;
 using LinkVault.Tags;
+using LinkVault.Reminders;
+using LinkVault.Settings;
 
 namespace LinkVault.EntityFrameworkCore;
 
@@ -114,5 +116,44 @@ public static class LinkVaultDbContextModelCreatingExtensions
                 .HasForeignKey(x => x.TagId)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+
+        /* Configure LinkReminder entity */
+        builder.Entity<LinkReminder>(b =>
+        {
+            b.ToTable(LinkVaultConsts.DbTablePrefix + "LinkReminders", LinkVaultConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.Property(x => x.UserId).IsRequired();
+            b.Property(x => x.LinkId).IsRequired();
+            b.Property(x => x.RemindAt).IsRequired();
+            b.Property(x => x.IsTriggered).HasDefaultValue(false);
+            b.Property(x => x.Note).HasMaxLength(500);
+
+            // Indexes for efficient querying
+            b.HasIndex(x => x.UserId);
+            b.HasIndex(x => new { x.IsTriggered, x.RemindAt }); // For finding due reminders
+            b.HasIndex(x => new { x.LinkId, x.IsTriggered }); // For checking if link has pending reminder
+
+            // Relationship to Link
+            b.HasOne(x => x.Link)
+                .WithMany()
+                .HasForeignKey(x => x.LinkId)
+                .OnDelete(DeleteBehavior.Cascade);
+        });
+
+        /* Configure UserReminderSettings entity */
+        builder.Entity<UserReminderSettings>(b =>
+        {
+            b.ToTable(LinkVaultConsts.DbTablePrefix + "UserReminderSettings", LinkVaultConsts.DbSchema);
+            b.ConfigureByConvention();
+
+            b.Property(x => x.UserId).IsRequired();
+            b.Property(x => x.DefaultReminderHours).HasDefaultValue(ReminderConsts.DefaultReminderHours);
+            b.Property(x => x.EnableInAppNotifications).HasDefaultValue(true);
+            b.Property(x => x.EnableEmailNotifications).HasDefaultValue(false);
+
+            b.HasIndex(x => x.UserId).IsUnique();
+        });
     }
 }
+

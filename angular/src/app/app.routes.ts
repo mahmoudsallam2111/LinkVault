@@ -40,6 +40,14 @@ export const APP_ROUTES: Routes = [
     canActivate: [authGuard],
   },
   {
+    path: 'reminders',
+    loadComponent: () =>
+      import('./link-vault/components/reminders/reminders.component').then(
+        c => c.RemindersComponent,
+      ),
+    canActivate: [authGuard],
+  },
+  {
     path: 'share/:token',
     loadComponent: () =>
       import('./link-vault/components/public-collection/public-collection.component').then(

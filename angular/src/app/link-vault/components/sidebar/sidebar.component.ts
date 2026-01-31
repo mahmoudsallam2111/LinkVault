@@ -27,6 +27,7 @@ export class SidebarComponent implements OnInit {
         { labelKey: 'LinkVault::AllLinks', icon: 'fas fa-thumbtack', route: '/', count: 0, activeClass: 'text-primary bg-primary-subtle' },
         { labelKey: 'LinkVault::Favorites', icon: 'fas fa-star', route: '/favorites', count: 0, activeClass: 'text-warning bg-warning-subtle' },
         { labelKey: 'LinkVault::Recent', icon: 'fas fa-clock', route: '/recent', count: 0, activeClass: 'text-info bg-info-subtle' },
+        { labelKey: 'LinkVault::Reminders', icon: 'fas fa-bell', route: '/reminders', count: 0, activeClass: 'text-info bg-info-subtle' },
         { labelKey: 'LinkVault::Trash', icon: 'fas fa-trash', route: '/trash', count: 0, activeClass: 'text-danger bg-danger-subtle' }
     ];
 
@@ -61,6 +62,10 @@ export class SidebarComponent implements OnInit {
         this.loadTags();
         this.loadCounts();
         this.checkAdminPermissions();
+
+        if (!this.canManageUsers && !this.canManageRoles) {
+            this.quickAccess = this.quickAccess.filter(item => item.labelKey !== 'LinkVault::Reminders');
+        }
     }
 
     rootCollections: CollectionDto[] = [];

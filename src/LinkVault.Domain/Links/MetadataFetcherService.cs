@@ -21,12 +21,6 @@ public class MetadataFetcherService : ITransientDependency
         _logger = logger;
     }
 
-    /// <summary>
-    /// Fetches metadata from a URL.
-    /// </summary>
-    /// <param name="url">The URL to fetch metadata from.</param>
-    /// <param name="cancellationToken">Cancellation token.</param>
-    /// <returns>The fetched metadata.</returns>
     public async Task<LinkMetadata> FetchMetadataAsync(
         string url,
         CancellationToken cancellationToken = default)
@@ -155,10 +149,6 @@ public class MetadataFetcherService : ITransientDependency
         return System.Net.WebUtility.HtmlDecode(text);
     }
 }
-
-/// <summary>
-/// DTO for link metadata.
-/// </summary>
 public class LinkMetadata
 {
     public string Title { get; set; } = string.Empty;

@@ -1,10 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 
 namespace LinkVault.Tags;
-
-/// <summary>
-/// DTO for creating or updating a tag.
-/// </summary>
 public class CreateUpdateTagDto
 {
     [Required]

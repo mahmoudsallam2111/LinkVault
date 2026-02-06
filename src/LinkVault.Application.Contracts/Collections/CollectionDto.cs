@@ -4,9 +4,6 @@ using Volo.Abp.Application.Dtos;
 
 namespace LinkVault.Collections;
 
-/// <summary>
-/// DTO for displaying collection information.
-/// </summary>
 public class CollectionDto : FullAuditedEntityDto<Guid>
 {
     public Guid UserId { get; set; }

@@ -9,10 +9,6 @@ using Volo.Abp.Uow;
 
 namespace LinkVault.BackgroundJobs;
 
-/// <summary>
-/// Background worker that processes due link reminders.
-/// Runs periodically to check for reminders that should be triggered.
-/// </summary>
 public class ReminderNotificationWorker : AsyncPeriodicBackgroundWorkerBase
 {
     public ReminderNotificationWorker(

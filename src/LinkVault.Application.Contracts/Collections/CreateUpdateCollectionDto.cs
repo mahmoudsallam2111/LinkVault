@@ -3,9 +3,6 @@ using System.ComponentModel.DataAnnotations;
 
 namespace LinkVault.Collections;
 
-/// <summary>
-/// DTO for creating or updating a collection.
-/// </summary>
 public class CreateUpdateCollectionDto
 {
     [Required]

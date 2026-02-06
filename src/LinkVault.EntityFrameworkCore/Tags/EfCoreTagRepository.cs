@@ -10,10 +10,6 @@ using Volo.Abp.Guids;
 using LinkVault.EntityFrameworkCore;
 
 namespace LinkVault.Tags;
-
-/// <summary>
-/// EF Core implementation of ITagRepository.
-/// </summary>
 public class EfCoreTagRepository : EfCoreRepository<LinkVaultDbContext, Tag, Guid>, ITagRepository
 {
     private readonly IGuidGenerator _guidGenerator;

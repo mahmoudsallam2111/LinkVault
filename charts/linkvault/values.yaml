@@ -9,7 +9,7 @@ namespace: linkvault
 # =============================================================================
 backend:
   name: backend
-  replicaCount: 1
+  replicaCount: 2
 
   image:
     repository: mahmoudali2111/linkvault-backend
@@ -46,7 +46,7 @@ backend:
 # =============================================================================
 frontend:
   name: frontend
-  replicaCount: 2
+  replicaCount: 1
 
   image:
     repository: mahmoudali2111/linkvault-frontend

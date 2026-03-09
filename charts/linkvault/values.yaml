@@ -9,7 +9,7 @@ namespace: linkvault
 # =============================================================================
 backend:
   name: backend
-  replicaCount: 2
+  replicaCount: 1
 
   image:
     repository: mahmoudali2111/linkvault-backend

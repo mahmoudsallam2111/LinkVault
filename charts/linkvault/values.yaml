@@ -46,7 +46,7 @@ backend:
 # =============================================================================
 frontend:
   name: frontend
-  replicaCount: 1
+  replicaCount: 2
 
   image:
     repository: mahmoudali2111/linkvault-frontend

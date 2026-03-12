@@ -1,7 +1,8 @@
+using LinkVault.BackgroundJobs;
 using LinkVault.EntityFrameworkCore;
 using LinkVault.HealthChecks;
+using LinkVault.Hubs;
 using LinkVault.MultiTenancy;
-using LinkVault.BackgroundJobs;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
@@ -26,20 +27,20 @@ using Volo.Abp.Account.Web;
 using Volo.Abp.AspNetCore.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
+using Volo.Abp.AspNetCore.Mvc.Libs;
 using Volo.Abp.AspNetCore.Mvc.UI.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.Shared;
 using Volo.Abp.AspNetCore.Serilog;
+using Volo.Abp.AspNetCore.SignalR;
 using Volo.Abp.Autofac;
 using Volo.Abp.BackgroundWorkers;
 using Volo.Abp.Identity;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
 using Volo.Abp.OpenIddict;
-using Volo.Abp.AspNetCore.SignalR;
 using Volo.Abp.Security.Claims;
-using LinkVault.Hubs;
 using Volo.Abp.Studio;
 using Volo.Abp.Studio.Client.AspNetCore;
 using Volo.Abp.Swashbuckle;
@@ -109,6 +110,9 @@ public class LinkVaultHttpApiHostModule : AbpModule
         {
             options.AutoValidate = false;
         });
+
+
+        Configure<AbpMvcLibsOptions>(options => { options.CheckLibs = false; });
 
         if (!configuration.GetValue<bool>("AuthServer:RequireHttpsMetadata"))
         {

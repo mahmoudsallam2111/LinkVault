@@ -112,6 +112,7 @@ public class LinkVaultHttpApiHostModule : AbpModule
         });
 
 
+        // ABP Framework Missing Client-Side Libraries (AbpMvcLibsOptions.CheckLibs Error) when deploy to K8s
         Configure<AbpMvcLibsOptions>(options => { options.CheckLibs = false; });
 
         if (!configuration.GetValue<bool>("AuthServer:RequireHttpsMetadata"))

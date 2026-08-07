@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using LinkVault.Localization;
 using LinkVault.MultiTenancy;
 using Volo.Abp.Modularity;
 using Volo.Abp.MultiTenancy;

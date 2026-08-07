@@ -167,22 +167,22 @@ public class LinkVaultHttpApiHostModule : AbpModule
     {
         Configure<AbpBundlingOptions>(options =>
         {
-            options.Mode = BundlingMode.None;
-            //options.StyleBundles.Configure(
-            //    LeptonXLiteThemeBundles.Styles.Global,
-            //    bundle =>
-            //    {
-            //        bundle.AddFiles("/global-styles.css");
-            //    }
-            //);
+            //options.Mode = BundlingMode.None;
+            options.StyleBundles.Configure(
+                LeptonXLiteThemeBundles.Styles.Global,
+                bundle =>
+                {
+                    bundle.AddFiles("/global-styles.css");
+                }
+            );
 
-            //options.ScriptBundles.Configure(
-            //    LeptonXLiteThemeBundles.Scripts.Global,
-            //    bundle =>
-            //    {
-            //        bundle.AddFiles("/global-scripts.js");
-            //    }
-            //);
+            options.ScriptBundles.Configure(
+                LeptonXLiteThemeBundles.Scripts.Global,
+                bundle =>
+                {
+                    bundle.AddFiles("/global-scripts.js");
+                }
+            );
         });
     }
 

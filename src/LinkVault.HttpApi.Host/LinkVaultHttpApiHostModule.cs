@@ -3,7 +3,6 @@ using LinkVault.EntityFrameworkCore;
 using LinkVault.HealthChecks;
 using LinkVault.Hubs;
 using LinkVault.MultiTenancy;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Extensions.DependencyInjection;

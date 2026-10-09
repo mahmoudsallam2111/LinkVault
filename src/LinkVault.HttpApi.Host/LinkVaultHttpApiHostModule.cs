@@ -305,4 +305,3 @@ public class LinkVaultHttpApiHostModule : AbpModule
         await context.AddBackgroundWorkerAsync<ReminderNotificationWorker>();
     }
 }
-

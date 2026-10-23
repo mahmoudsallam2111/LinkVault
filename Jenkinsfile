@@ -43,10 +43,22 @@ pipeline {
                                           passwordVariable: 'DOCKERHUB_TOKEN')]) {
           sh '''
             echo "$DOCKERHUB_TOKEN" | docker login -u "$DOCKERHUB_USER" --password-stdin
+
+            # Retry pushes: on a slow connection a layer upload can time out.
+            # Layers that already made it are skipped on the next attempt.
+            push_with_retry() {
+              for attempt in 1 2 3 4; do
+                docker push "$1" && return 0
+                echo "Push of $1 failed (attempt $attempt of 4), retrying in 20s..."
+                sleep 20
+              done
+              return 1
+            }
+
             for img in "$BACKEND_IMAGE" "$FRONTEND_IMAGE"; do
-              docker tag  "$img:$IMAGE_TAG" "$img:latest"
-              docker push "$img:$IMAGE_TAG"
-              docker push "$img:latest"
+              docker tag "$img:$IMAGE_TAG" "$img:latest"
+              push_with_retry "$img:$IMAGE_TAG"
+              push_with_retry "$img:latest"
             done
           '''
         }

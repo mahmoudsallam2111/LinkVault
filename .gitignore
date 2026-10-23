@@ -273,3 +273,5 @@ src/LinkVault.Blazor.Server.Tiered/Logs/*
 # IdentityServer temp files
 tempkey.rsa
 tempkey.jwk
+# Rendered Helm output (contains secrets)
+manifest.yaml

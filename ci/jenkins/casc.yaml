@@ -1,0 +1,62 @@
+# Jenkins Configuration as Code. Values like ${DOCKERHUB_TOKEN} come from .env
+# (see .env.example) and are never stored in this file.
+jenkins:
+  systemMessage: "LinkVault CI"
+  numExecutors: 2
+  securityRealm:
+    local:
+      allowsSignup: false
+      users:
+        - id: "${JENKINS_ADMIN_ID}"
+          password: "${JENKINS_ADMIN_PASSWORD}"
+  authorizationStrategy:
+    loggedInUsersCanDoAnything:
+      allowAnonymousRead: false
+
+unclassified:
+  location:
+    url: "http://localhost:8090/"
+
+credentials:
+  system:
+    domainCredentials:
+      - credentials:
+          - usernamePassword:
+              scope: GLOBAL
+              id: "dockerhub"
+              description: "Docker Hub (push linkvault images)"
+              username: "${DOCKERHUB_USER}"
+              password: "${DOCKERHUB_TOKEN}"
+
+# Same triggers as the Azure pipeline: master and release/*.
+# A single (non-multibranch) job keeps one build counter across branches, so
+# every build gets a unique numeric image tag, like Azure's Build.BuildId did.
+# GitHub can't reach Jenkins on localhost for webhooks, so it polls every 2 minutes.
+jobs:
+  - script: |
+      pipelineJob('linkvault') {
+        description('Builds LinkVault images and pushes them to Docker Hub')
+        properties {
+          pipelineTriggers {
+            triggers {
+              pollSCM {
+                scmpoll_spec('H/2 * * * *')
+              }
+            }
+          }
+        }
+        definition {
+          cpsScm {
+            scm {
+              git {
+                remote {
+                  url('https://github.com/mahmoudsallam2111/LinkVault.git')
+                }
+                branches('*/master', '*/release/*')
+              }
+            }
+            scriptPath('Jenkinsfile')
+            lightweight(false)
+          }
+        }
+      }

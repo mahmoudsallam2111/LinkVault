@@ -10,6 +10,10 @@ services:
     # root so the pipeline can use the mounted Docker socket (fine for a local machine)
     user: root
     restart: unless-stopped
+    # Docker Desktop's DNS couldn't resolve github.com from inside the container
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
     ports:
       - "8090:8080"
     env_file: .env
